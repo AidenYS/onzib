@@ -53,6 +53,41 @@
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(12, 17, 35, 0.7));
     }
 
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .header-actions .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #fee500, #f7d000);
+      color: #111;
+      font-weight: 800;
+      padding: 10px 12px;
+      font-size: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 140ms ease, box-shadow 140ms ease;
+    }
+
+    .header-actions .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    }
+
     header .eyebrow {
       text-transform: uppercase;
       letter-spacing: 0.2em;
@@ -288,10 +323,18 @@
       .tabs { flex-wrap: wrap; position: static; }
       .tabs button { flex: 1 1 calc(50% - 10px); font-size: 14px; }
       .notice { margin: 14px 12px 0; }
+      .header-actions { justify-content: center; }
+      .header-actions .cta-btn { width: 100%; justify-content: center; }
       .cta { flex-direction: column; align-items: flex-start; }
       .cta-btn { width: 100%; justify-content: center; }
       .phone-form { padding: 16px; }
       .phone-form button { width: 100%; }
+    }
+
+    @media (max-width: 560px) {
+      .title-row { flex-wrap: wrap; }
+      .title-row { flex-direction: column; align-items: flex-start; }
+      .header-actions { width: 100%; }
     }
   </style>
 </head>
@@ -299,7 +342,14 @@
   <div class="page">
     <header>
       <div class="eyebrow">제품 상세</div>
-      <h1>통신사 요금제 상세 보기</h1>
+      <div class="title-row">
+        <h1>통신사 요금제 상세 보기</h1>
+        <div class="header-actions">
+          <a class="cta-btn" href="http://pf.kakao.com/_BnpYn/chat" target="_blank" rel="noopener">
+            카카오톡 상담
+          </a>
+        </div>
+      </div>
       <p>"온집" 온집을 채우는 혜택</p>
       <p>인터넷부터 정수기, 가전까지 집안 구석구석 완성해주는 홈패키지 렌탈 브랜드입니다.</p>
       <section class="notice">
