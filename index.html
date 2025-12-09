@@ -271,7 +271,7 @@
     }
 
     .phone-form input {
-      flex: 1 1 220px;
+      flex: 1 1 100%;
       min-width: 0;
       padding: 12px 14px;
       border-radius: 10px;
@@ -285,11 +285,13 @@
 
     .consent {
       flex: 1 1 100%;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       color: var(--text);
       font-size: 14px;
+      justify-content: flex-start;
+      margin-top: 6px;
     }
 
     .consent input[type="checkbox"] {
@@ -327,6 +329,7 @@
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
       transition: transform 140ms ease, box-shadow 140ms ease;
+      align-self: flex-start;
     }
 
     .phone-form button:hover {
