@@ -258,20 +258,19 @@
       border-radius: 14px;
       background: rgba(9, 13, 28, 0.6);
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 12px;
-      align-items: center;
+      align-items: flex-start;
     }
 
     .phone-form label {
-      flex: 1 1 100%;
       color: var(--text);
       font-weight: 700;
       letter-spacing: -0.01em;
     }
 
     .phone-form input {
-      flex: 1 1 100%;
+      width: 100%;
       min-width: 0;
       padding: 12px 14px;
       border-radius: 10px;
@@ -284,7 +283,6 @@
     }
 
     .consent {
-      flex: 1 1 100%;
       display: inline-flex;
       align-items: center;
       gap: 8px;
