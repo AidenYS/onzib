@@ -283,6 +283,20 @@
       transition: border 150ms ease, box-shadow 150ms ease;
     }
 
+    .consent {
+      flex: 1 1 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .consent a {
+      color: #fbbf24;
+      text-decoration: underline;
+    }
+
     .phone-form input:focus {
       border-color: rgba(249, 115, 22, 0.6);
       box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
@@ -389,6 +403,10 @@
       <form class="phone-form" id="callback-form">
         <label for="phone">전화번호 남겨주시면 바로 연락드릴게요.</label>
         <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="예: 010-1234-5678">
+        <label class="consent">
+          <input type="checkbox" id="consent">
+          개인정보 수집·이용에 동의합니다. (<a href="privacy.html" target="_blank" rel="noopener">개인정보 처리방침 보기</a>)
+        </label>
         <button type="submit" id="phone-submit">연락 요청</button>
         <small>개인정보는 상담 응대용으로만 사용 후 즉시 폐기합니다.</small>
       </form>
@@ -444,6 +462,7 @@
     const phoneForm = document.getElementById('callback-form');
     const phoneInput = document.getElementById('phone');
     const phoneSubmit = document.getElementById('phone-submit');
+    const consentInput = document.getElementById('consent');
 
     const sendPhone = async (payload) => {
       try {
@@ -474,6 +493,11 @@
     phoneForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const phone = (phoneInput.value || '').trim();
+      if (!consentInput.checked) {
+        alert('개인정보 수집·이용에 동의해 주세요.');
+        consentInput.focus();
+        return;
+      }
       if (!phone) {
         alert('전화번호를 입력해 주세요.');
         return;
