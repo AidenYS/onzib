@@ -287,14 +287,28 @@
       flex: 1 1 100%;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       color: var(--text);
       font-size: 14px;
+    }
+
+    .consent input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .consent span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .consent a {
       color: #fbbf24;
       text-decoration: underline;
+      font-weight: 700;
     }
 
     .phone-form input:focus {
@@ -405,7 +419,7 @@
         <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="예: 010-1234-5678">
         <label class="consent">
           <input type="checkbox" id="consent">
-          개인정보 수집·이용에 동의합니다. (<a href="privacy.html" target="_blank" rel="noopener">개인정보 처리방침 보기</a>)
+          <span>개인정보 수집·이용에 동의합니다. (<a href="privacy.html" target="_blank" rel="noopener">개인정보 처리방침 보기</a>)</span>
         </label>
         <button type="submit" id="phone-submit">연락 요청</button>
         <small>개인정보는 상담 응대용으로만 사용 후 즉시 폐기합니다.</small>
