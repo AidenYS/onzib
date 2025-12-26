@@ -1,0 +1,397 @@
+:root {
+  --bg: #f5f2ea;
+  --primary: #121212;
+  --accent: #f26f3b;
+  --muted: #5b5b5b;
+  --card: #ffffff;
+  --border: #e3ded6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background: radial-gradient(circle at top, #fff8e8 0%, #f0ece5 45%, #e7e0d7 100%);
+  color: var(--primary);
+}
+
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  background: #fffdf9;
+  box-shadow: 0 14px 50px rgba(0, 0, 0, 0.08);
+}
+
+.hero {
+  position: relative;
+}
+
+.hero img {
+  width: 100%;
+  display: block;
+}
+
+.hero-countdown {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.hero-countdown .time {
+  min-width: 24px;
+  display: inline-block;
+  text-align: center;
+}
+
+.section {
+  padding: 36px 24px;
+}
+
+.section-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.intro h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.intro p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.form-section {
+  background: linear-gradient(120deg, #fff7ec 0%, #fff 60%);
+}
+
+.db_box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+.db_info {
+  margin-bottom: 16px;
+}
+
+.qa {
+  margin-bottom: 16px;
+}
+
+.q {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.select_area {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.select_area label {
+  background: #fff4e6;
+  border: 1px solid #ffd6c0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.select_area input {
+  margin-right: 6px;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.form-table th {
+  text-align: left;
+  padding: 10px 0;
+  width: 80px;
+}
+
+.form-table td {
+  padding: 8px 0;
+}
+
+.form-table input,
+.form-table select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.form-table .center {
+  text-align: center;
+}
+
+.link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.cta {
+  text-align: center;
+  margin: 0;
+}
+
+.db_btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.counter h2,
+.ticker h2 {
+  margin-bottom: 16px;
+}
+
+.count_box {
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.count_box .labels,
+.count_box .values {
+  display: flex;
+  justify-content: space-between;
+}
+
+.count_box span {
+  flex: 1;
+}
+
+.count_box .values {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.ticker-box {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 240px;
+}
+
+.image-section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.image-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.image-stack img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.ticker-track {
+  display: flex;
+  flex-direction: column;
+  animation: ticker var(--ticker-duration, 18s) linear infinite;
+  will-change: transform;
+}
+
+.ticker-item {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+}
+
+.footer {
+  padding: 32px 24px 50px;
+  background: #1b1b1b;
+  color: #e4e4e4;
+  text-align: center;
+  padding-bottom: 130px;
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #1a2b8f;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1100;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.footer-logos {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.logo-block {
+  background: #2d2d2d;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.hidden-frame {
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  border: 0;
+}
+
+/* Floating CTA */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 20px;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
+.sticky-cta__button {
+  width: 100%;
+  max-width: 500px;
+  height: 54px;
+  background: linear-gradient(135deg, #f26f3b, #ff4500);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(242, 111, 59, 0.4);
+  animation: pulse-animation 2s infinite;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sticky-cta__button:active {
+  transform: scale(0.95);
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 10px rgba(242, 111, 59, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(242, 111, 59, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 10px rgba(242, 111, 59, 0.4);
+  }
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+body {
+  padding-bottom: 88px;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 28px 16px;
+  }
+
+  .hero-countdown {
+    right: 12px;
+    bottom: 12px;
+    font-size: 13px;
+  }
+
+  .form-table th {
+    width: 60px;
+  }
+
+  .count_box .labels,
+  .count_box .values {
+    font-size: 12px;
+  }
+
+  .count_box .values {
+    font-size: 18px;
+  }
+
+  .ticker-item {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 6px;
+  }
+
+  .sticky-cta {
+    padding: 10px 15px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .sticky-cta__button {
+    height: 50px;
+    font-size: 1rem;
+  }
+}
