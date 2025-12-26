@@ -34,12 +34,20 @@ function bindInputFilters() {
       input.value = input.value.replace(/[^0-9]/g, "");
     });
   });
+  document.querySelectorAll("form").forEach((form) => {
+    const hp2 = form.querySelector("input[name='HP2']");
+    const hp3 = form.querySelector("input[name='HP3']");
+    if (!hp2 || !hp3) return;
 
-  document.querySelectorAll(".hangulOnly").forEach((input) => {
-    input.addEventListener("input", () => {
-      const regexp = /[a-zA-Z0-9]|[ \[\]{}()<>?|`'~!@#$%^&*\-_=+,.;:\"\\/ㅤ·]/g;
-      if (regexp.test(input.value)) {
-        input.value = input.value.replace(regexp, "");
+    hp2.addEventListener("input", () => {
+      if (hp2.value.length >= 4) {
+        hp3.focus();
+      }
+    });
+
+    hp3.addEventListener("keydown", (event) => {
+      if (event.key === "Backspace" && hp3.value.length === 0) {
+        hp2.focus();
       }
     });
   });
@@ -121,15 +129,6 @@ async function disableButtonAndSubmit(buttonId, formId, timeoutMs) {
 
   button.disabled = true;
   button.textContent = "전송 중...";
-  const payload = buildSheetPayload(form);
-  const ok = await sendWithRetry(payload, 3, 800);
-  if (!ok) {
-    alert("전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
-    button.disabled = false;
-    button.textContent = "비밀지원금 확인하기";
-    return;
-  }
-
   if (toast) {
     toast.classList.add("is-visible");
     toast.setAttribute("aria-hidden", "false");
@@ -137,6 +136,19 @@ async function disableButtonAndSubmit(buttonId, formId, timeoutMs) {
       toast.classList.remove("is-visible");
       toast.setAttribute("aria-hidden", "true");
     }, 3000);
+  }
+
+  const payload = buildSheetPayload(form);
+  const ok = await sendWithRetry(payload, 3, 800);
+  if (!ok) {
+    if (toast) {
+      toast.classList.remove("is-visible");
+      toast.setAttribute("aria-hidden", "true");
+    }
+    alert("전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
+    button.disabled = false;
+    button.textContent = "비밀지원금 확인하기";
+    return;
   }
 
   form.submit();
@@ -157,9 +169,6 @@ async function validateForm(formId, nameId, agreeId, buttonId) {
   }
 
   const name = nameInput.value.trim();
-  const consonantOnly = /^[ㄱ-ㅎ]+$/;
-  const validHangul = /^[가-힣]+$/;
-
   const payChecked = form.querySelector("input[name='pay_cate']:checked");
   const deptChecked = form.querySelector("input[name='dept_cate']:checked");
 
@@ -173,11 +182,6 @@ async function validateForm(formId, nameId, agreeId, buttonId) {
   }
   if (!name) {
     alert("성함을 입력해주세요.");
-    nameInput.focus();
-    return;
-  }
-  if (consonantOnly.test(name) || !validHangul.test(name)) {
-    alert("정확한 성함을 입력해주세요.");
     nameInput.focus();
     return;
   }
