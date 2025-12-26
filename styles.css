@@ -392,6 +392,23 @@ body {
     width: 60px;
   }
 
+  .form-table {
+    table-layout: fixed;
+  }
+
+  .form-table tr:nth-child(2) td:nth-child(2) {
+    width: 64px;
+  }
+
+  .form-table tr:nth-child(2) td.center {
+    width: 10px;
+  }
+
+  .form-table tr:nth-child(2) td:nth-child(4),
+  .form-table tr:nth-child(2) td:nth-child(6) {
+    width: calc((100% - 84px) / 2);
+  }
+
   .form-table select {
     min-width: 64px;
     padding-left: 8px;
