@@ -392,6 +392,19 @@ body {
     width: 60px;
   }
 
+  .form-table select {
+    min-width: 64px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .form-table td input,
+  .form-table td select {
+    font-size: 13px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   .count_box .labels,
   .count_box .values {
     font-size: 12px;
