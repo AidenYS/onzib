@@ -132,10 +132,6 @@ async function disableButtonAndSubmit(buttonId, formId, timeoutMs) {
   if (toast) {
     toast.classList.add("is-visible");
     toast.setAttribute("aria-hidden", "false");
-    setTimeout(() => {
-      toast.classList.remove("is-visible");
-      toast.setAttribute("aria-hidden", "true");
-    }, 3000);
   }
 
   const payload = buildSheetPayload(form);
@@ -224,6 +220,17 @@ function bindFormButtons() {
   });
 }
 
+function bindCompletionPopup() {
+  const popup = document.getElementById("submitToast");
+  const closeBtn = document.getElementById("closePopupBtn");
+  if (!popup || !closeBtn) return;
+
+  closeBtn.addEventListener("click", () => {
+    popup.classList.remove("is-visible");
+    popup.setAttribute("aria-hidden", "true");
+  });
+}
+
 function updateTickerDates() {
   const items = document.querySelectorAll(".ticker-item");
   if (!items.length) return;
@@ -277,6 +284,7 @@ function bindStickyCta() {
 
 bindInputFilters();
 bindFormButtons();
+bindCompletionPopup();
 updateTickerDates();
 setupTicker();
 bindStickyCta();
