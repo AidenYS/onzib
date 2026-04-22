@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>트립픽 — 검증된 국내 여행 정보</title>
+  <meta name="description" content="마이리얼트립 실제 리뷰 기반, 국내 여행 투어·숙소 추천 블로그">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #f8f8f6;
+      color: #222;
+      line-height: 1.7;
+    }
+
+    /* ── 헤더 */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 22px; font-weight: 900; color: #c0392b;
+      text-decoration: none; letter-spacing: -0.5px;
+    }
+    .logo span { color: #222; }
+    nav a {
+      font-size: 15px; color: #555; text-decoration: none;
+      margin-left: 28px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #c0392b; }
+
+    /* ── 히어로 */
+    .hero {
+      background: linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%);
+      color: #fff;
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(231,76,60,0.9);
+      color: #fff; font-size: 13px; font-weight: 700;
+      padding: 5px 16px; border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 42px; font-weight: 900;
+      line-height: 1.25; margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 18px; color: rgba(255,255,255,0.75);
+      max-width: 520px; margin: 0 auto 32px;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 40px;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: 900; color: #f1c40f; }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+    /* ── 카테고리 필터 */
+    .filter-bar {
+      max-width: 1100px; margin: 40px auto 0;
+      padding: 0 24px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 20px; border-radius: 24px;
+      border: 1px solid #ddd; background: #fff;
+      font-size: 14px; font-weight: 500; color: #555;
+      cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: #c0392b; color: #fff; border-color: #c0392b;
+    }
+
+    /* ── 글 그리드 */
+    .posts-section {
+      max-width: 1100px; margin: 32px auto 80px;
+      padding: 0 24px;
+    }
+    .section-title {
+      font-size: 20px; font-weight: 700;
+      margin-bottom: 24px; color: #222;
+    }
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    /* ── 글 카드 */
+    .post-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.13);
+    }
+    .card-thumb {
+      width: 100%; height: 180px;
+      background: linear-gradient(135deg, #1a3a5c, #0d2137);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .card-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .card-thumb svg {
+      width: 100%; height: 100%;
+    }
+    .card-format-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(192,57,43,0.92);
+      color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 12px;
+    }
+    .card-body { padding: 20px; }
+    .card-city {
+      font-size: 12px; color: #c0392b; font-weight: 700;
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .card-title {
+      font-size: 16px; font-weight: 700; line-height: 1.45;
+      margin-bottom: 12px; color: #1a1a1a;
+    }
+    .card-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; color: #999;
+    }
+    .card-date { }
+    .card-arrow {
+      color: #c0392b; font-weight: 700; font-size: 16px;
+    }
+
+    /* ── 푸터 */
+    footer {
+      background: #1a1a1a; color: rgba(255,255,255,0.5);
+      text-align: center; padding: 40px 24px;
+      font-size: 13px; line-height: 2;
+    }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer strong { color: rgba(255,255,255,0.8); }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 28px; }
+      .hero-stats { gap: 24px; }
+      .posts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">트립<span>픽</span></a>
+    <nav>
+      <a href="/">홈</a>
+      <a href="#posts">여행 추천</a>
+      <a href="#hotels">호텔</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 히어로 -->
+<section class="hero">
+  <div class="hero-badge">✈️ 마이리얼트립 파트너 공식 추천</div>
+  <h1>검증된 국내 여행<br>투어 &amp; 숙소 추천</h1>
+  <p>실제 리뷰 수백 건을 분석해 엄선한<br>투어·호텔 정보를 한곳에서</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" id="postCount">0</div>
+      <div class="stat-label">추천 글</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">여행지</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">실제 리뷰 기반</div>
+    </div>
+  </div>
+</section>
+
+<!-- 카테고리 필터 -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterPosts('all')">전체</button>
+  <button class="filter-btn" onclick="filterPosts('ranking')">🏆 랭킹</button>
+  <button class="filter-btn" onclick="filterPosts('hotel')">🏨 호텔</button>
+  <button class="filter-btn" onclick="filterPosts('course')">🗺️ 코스</button>
+  <button class="filter-btn" onclick="filterPosts('deepdive')">🔍 심층분석</button>
+  <button class="filter-btn" onclick="filterPosts('theme')">🎯 테마</button>
+  <button class="filter-btn" onclick="filterPosts('compare')">⚖️ 비교</button>
+</div>
+
+<!-- 글 목록 -->
+<section class="posts-section" id="posts">
+  <div class="section-title">최신 추천 글</div>
+  <div class="posts-grid" id="postsGrid">
+    <!-- site_builder.py가 자동으로 카드 생성 -->
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer>
+  <strong>트립픽 TripPick</strong><br>
+  마이리얼트립 공식 마케팅 파트너 · 실제 리뷰 기반 국내 여행 추천<br>
+  본 사이트의 링크를 통해 구매 시 수수료를 지급받습니다. (공정거래위원회 고시 준수)<br><br>
+  <a href="/">홈</a> · <a href="#posts">추천 글</a>
+</footer>
+
+<script>
+  // 포스트 데이터 (site_builder.py가 자동 주입)
+    const POSTS = [
+  {
+    "slug": "속초-씨마크-호텔-추천-속초-호텔-완벽-가이드",
+    "title": "속초 씨마크 호텔 추천 — 속초 호텔 완벽 가이드",
+    "city": "속초",
+    "format": "hotel",
+    "date": "2026.04.22",
+    "thumbnail": "assets/thumbnails/속초-씨마크-호텔-추천-속초-호텔-완벽-가이드.svg"
+  }
+];
+
+  function renderPosts(posts) {
+    const grid = document.getElementById('postsGrid');
+    document.getElementById('postCount').textContent = POSTS.length;
+
+    if (posts.length === 0) {
+      grid.innerHTML = '<p style="color:#999;grid-column:1/-1">아직 등록된 글이 없습니다.</p>';
+      return;
+    }
+
+    const formatLabel = {
+      ranking: '🏆 랭킹', hotel: '🏨 호텔', course: '🗺️ 코스',
+      deepdive: '🔍 심층분석', theme: '🎯 테마', compare: '⚖️ 비교'
+    };
+
+    grid.innerHTML = posts.map(p => `
+      <a href="posts/${p.slug}.html" class="post-card" data-format="${p.format}">
+        <div class="card-thumb">
+          <img src="${p.thumbnail || ''}" onerror="this.style.display='none'" alt="${p.title}">
+          <div class="card-format-badge">${formatLabel[p.format] || '✈️ 여행'}</div>
+        </div>
+        <div class="card-body">
+          <div class="card-city">${p.city}</div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-meta">
+            <span class="card-date">${p.date}</span>
+            <span class="card-arrow">→</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function filterPosts(format) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    const filtered = format === 'all' ? POSTS : POSTS.filter(p => p.format === format);
+    renderPosts(filtered);
+  }
+
+  renderPosts(POSTS);
+</script>
+</body>
+</html>
