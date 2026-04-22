@@ -127,7 +127,8 @@ def _git_push(commit_msg: str):
 
     # 초기화 여부 확인
     result = subprocess.run(git + ["rev-parse", "--is-inside-work-tree"],
-                            capture_output=True, text=True)
+                            capture_output=True, text=True,
+                            encoding="utf-8", errors="replace")
     if result.returncode != 0:
         # 최초 1회: init + remote 설정
         subprocess.run(git + ["init"], check=True)
@@ -137,32 +138,37 @@ def _git_push(commit_msg: str):
         if not os.path.exists(gitignore):
             with open(gitignore, "w") as f:
                 f.write("__pycache__/\n*.py[cod]\n*.pyc\n.DS_Store\n")
-        subprocess.run(git + ["branch", "-M", "main"], capture_output=True)
+        subprocess.run(git + ["branch", "-M", "main"],
+                       capture_output=True, encoding="utf-8", errors="replace")
 
     # remote URL 최신화 (URL 변경 대비)
     subprocess.run(git + ["remote", "set-url", "origin", _REMOTE_URL],
-                   capture_output=True)
+                   capture_output=True, encoding="utf-8", errors="replace")
 
     # 변경 파일 스테이징 → 커밋 → 푸시
     subprocess.run(git + ["add", "-A"], check=True)
     commit_result = subprocess.run(
         git + ["commit", "-m", commit_msg],
-        capture_output=True, text=True
+        capture_output=True, text=True,
+        encoding="utf-8", errors="replace"
     )
-    if "nothing to commit" in commit_result.stdout:
+    stdout = commit_result.stdout or ""
+    if "nothing to commit" in stdout:
         print("  [Git] 변경사항 없음, push 생략")
         return
 
     push_result = subprocess.run(
         git + ["push", "-u", "origin", "main"],
-        capture_output=True, text=True
+        capture_output=True, text=True,
+        encoding="utf-8", errors="replace"
     )
     if push_result.returncode == 0:
         print(f"  [Git] push 완료 → Netlify 자동 배포 시작")
     else:
         # HTTPS 인증 실패 등 → 메시지만 출력, 에러 raise 안 함
         print(f"  [Git] push 실패 (인증 문제일 수 있음):")
-        print("  " + (push_result.stderr or push_result.stdout)[:300])
+        stderr = push_result.stderr or push_result.stdout or ""
+        print("  " + stderr[:300])
 
 
 def build_post(title: str, city: str, fmt: str,
