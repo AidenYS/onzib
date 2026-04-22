@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a5c"/>
+      <stop offset="60%" style="stop-color:#0d2137"/>
+      <stop offset="100%" style="stop-color:#0a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accentBar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e74c3c"/>
+      <stop offset="100%" style="stop-color:#c0392b"/>
+    </linearGradient>
+    <linearGradient id="badgeBg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#c0392b;stop-opacity:0.95"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="12" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1120" cy="0" r="400" fill="rgba(255,255,255,0.04)"/>
+  <circle cx="1060" cy="730" r="280" fill="rgba(255,255,255,0.03)"/>
+  <text x="960" y="200" font-family="Arial, sans-serif" font-size="130" font-weight="900" fill="rgba(255,255,255,0.03)" text-anchor="middle">속초</text>
+  <rect x="0" y="0" width="8" height="630" fill="url(#accentBar)"/>
+
+  <rect x="80" y="100" width="138" height="46" rx="23" fill="url(#badgeBg)"/>
+  <text x="100" y="131" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="white">🏆 추천 랭킹</text>
+
+  <text x="80" y="210" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="white" filter="url(#shadow)">속초 투어 추천 TOP 5</text>
+  <text x="80" y="290" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="white" filter="url(#shadow)">설악산부터 해변까지 인기 상품</text>
+
+  <text x="80" y="348" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.65)">속초 여행 · 마이리얼트립 실제 상품 기준</text>
+
+  <line x1="80" y1="394" x2="600" y2="394" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <text x="80" y="448" font-family="Arial, sans-serif" font-size="28" fill="#f1c40f">★★★★★</text>
+  <text x="248" y="448" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="rgba(255,255,255,0.9)">5.0점</text>
+  <circle cx="316" cy="438" r="4" fill="rgba(255,255,255,0.3)"/>
+  <text x="334" y="448" font-family="Arial, sans-serif" font-size="22" fill="rgba(255,255,255,0.7)">리뷰 8건</text>
+
+  <text x="1120" y="596" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="rgba(255,255,255,0.4)" text-anchor="middle">마이리얼트립 파트너</text>
+</svg>

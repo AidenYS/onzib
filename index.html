@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -231,7 +232,15 @@
 
 <script>
   // 포스트 데이터 (site_builder.py가 자동 주입)
-    const POSTS = [
+      const POSTS = [
+  {
+    "slug": "속초-투어-추천-TOP-5-설악산부터-해변까지-인기-상품",
+    "title": "속초 투어 추천 TOP 5 — 설악산부터 해변까지 인기 상품",
+    "city": "속초",
+    "format": "ranking",
+    "date": "2026.04.22",
+    "thumbnail": "assets/thumbnails/속초-투어-추천-TOP-5-설악산부터-해변까지-인기-상품.svg"
+  },
   {
     "slug": "속초-씨마크-호텔-추천-속초-호텔-완벽-가이드",
     "title": "속초 씨마크 호텔 추천 — 속초 호텔 완벽 가이드",
@@ -283,5 +292,249 @@
 
   renderPosts(POSTS);
 </script>
+=======
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>온집</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "uryq9of2r0");
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="completion-popup" id="submitToast" role="dialog" aria-live="polite" aria-hidden="true">
+      <div class="popup-card" role="document">
+        <div class="check-icon" aria-hidden="true">✓</div>
+        <h2>상담 신청 완료!</h2>
+        <p>담당자가 곧 연락드려<br>최대 혜택을 안내해 드립니다.</p>
+        <div class="upsell-box">
+          <p class="upsell-tag">추가 혜택 안내</p>
+          <p class="upsell-text">정수기·가전 렌탈도 반값/지원금 혜택이 있어요.</p>
+          <a href="http://onzib.com/" class="upsell-btn">정수기·가전 렌탈 혜택 보러가기</a>
+        </div>
+        <button type="button" class="close-text" id="closePopupBtn">창 닫기</button>
+      </div>
+    </div>
+    <!-- <section class="section counter">
+      <div class="section-inner">
+        <h2>마감까지 남은 시간</h2>
+        <div class="count_box" aria-live="polite">
+          <div class="labels">
+            <span>DAY</span>
+            <span>HOURS</span>
+            <span>MINUTES</span>
+            <span>SECONDS</span>
+          </div>
+          <div class="values">
+            <span id="day">00</span>
+            <span class="colon">:</span>
+            <span id="hour">09</span>
+            <span class="colon">:</span>
+            <span id="minute">58</span>
+            <span class="colon">:</span>
+            <span id="second">01</span>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <header class="hero">
+      <img src="page1.png" alt="제이통신 메인 이미지">
+      <div class="hero-countdown" aria-live="polite">
+        <span class="time" id="hours">09</span>
+        <span class="sep">:</span>
+        <span class="time" id="mins">58</span>
+        <span class="sep">:</span>
+        <span class="time" id="secs">01</span>
+      </div>
+    </header>
+
+    <section class="section intro">
+      <div class="section-inner">
+        <h1>혜택 가득한 인터넷/TV 신청</h1>
+        <p>원하는 통신사와 상품을 선택하고 간편하게 상담 신청하세요.</p>
+      </div>
+    </section>
+
+    <section class="section form-section">
+      <div class="section-inner">
+        <form name="form0" id="form0" class="form" method="post" action="landing_page_update.asp" target="VlineDiet">
+          <input type="hidden" id="l_idkey" name="l_idkey" value="1000012662">
+
+          <div class="db_box">
+            <div class="db_info">
+              <div class="qa">
+                <p class="q">Q. 희망 통신사를 선택해주세요.</p>
+                <div class="select_area">
+                  <label><input type="radio" name="pay_cate" value="SKT">SKT</label>
+                  <label><input type="radio" name="pay_cate" value="LG">LG</label>
+                  <label><input type="radio" name="pay_cate" value="KT">KT</label>
+                </div>
+              </div>
+              <div class="qa">
+                <p class="q">Q. 원하시는 상품을 선택해주세요.</p>
+                <div class="select_area">
+                  <label><input type="radio" name="dept_cate" value="인터넷">인터넷</label>
+                  <label><input type="radio" name="dept_cate" value="인터넷+TV">인터넷+TV</label>
+                </div>
+              </div>
+            </div>
+
+            <table class="form-table">
+              <caption>비밀지원금 확인하기</caption>
+              <tbody>
+                <tr>
+                  <th>이름</th>
+                  <td colspan="5">
+                    <input type="text" id="ST_NM" name="ST_NM" class="hangulOnly" placeholder="성함을 입력해주세요." maxlength="10">
+                  </td>
+                </tr>
+                <tr>
+                  <th>연락처</th>
+                  <td>
+                    <select name="HP1">
+                      <option value="010">010</option>
+                    </select>
+                  </td>
+                  <td class="center">-</td>
+                  <td><input type="tel" name="HP2" id="HP2_0" class="numbersOnly" maxlength="4"></td>
+                  <td class="center">-</td>
+                  <td><input type="tel" name="HP3" id="HP3_0" class="numbersOnly" maxlength="4"></td>
+                </tr>
+                <tr>
+                  <td colspan="6" class="center">
+                    <label><input type="checkbox" id="agree1" name="agree1" value="Y" checked> 개인정보취급방침 동의</label>
+                    <button type="button" class="link" id="privacyBtn1">[보기]</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="cta">
+              <button class="db_btn" type="button" id="btn_complete1">비밀지원금 확인하기</button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+    
+    <section class="section image-section">
+      <div class="section-inner">
+        <div class="image-stack">
+          <img src="page4.png" alt="추가 안내 이미지">
+          <img src="page2.png" alt="추가 안내 이미지">
+          <img src="page3.png" alt="추가 안내 이미지">
+        </div>
+      </div>
+    </section>
+
+    <section class="section form-section">
+      <div class="section-inner">
+        <form name="form1" id="form1" class="form" method="post" action="landing_page_update.asp" target="VlineDiet">
+          <input type="hidden" id="l_idkey2" name="l_idkey" value="1000012662">
+
+          <div class="db_box">
+            <div class="db_info">
+              <div class="qa">
+                <p class="q">Q. 희망 통신사를 선택해주세요.</p>
+                <div class="select_area">
+                  <label><input type="radio" name="pay_cate" value="SKT">SKT</label>
+                  <label><input type="radio" name="pay_cate" value="LG">LG</label>
+                  <label><input type="radio" name="pay_cate" value="KT">KT</label>
+                </div>
+              </div>
+              <div class="qa">
+                <p class="q">Q. 원하시는 상품을 선택해주세요.</p>
+                <div class="select_area">
+                  <label><input type="radio" name="dept_cate" value="인터넷">인터넷</label>
+                  <label><input type="radio" name="dept_cate" value="인터넷+TV">인터넷+TV</label>
+                </div>
+              </div>
+            </div>
+
+            <table class="form-table">
+              <caption>비밀지원금 확인하기</caption>
+              <tbody>
+                <tr>
+                  <th>이름</th>
+                  <td colspan="5">
+                    <input type="text" id="ST_NM2" name="ST_NM" class="hangulOnly" placeholder="성함을 입력해주세요." maxlength="10">
+                  </td>
+                </tr>
+                <tr>
+                  <th>연락처</th>
+                  <td>
+                    <select name="HP1">
+                      <option value="010">010</option>
+                    </select>
+                  </td>
+                  <td class="center">-</td>
+                  <td><input type="tel" name="HP2" id="HP2_1" class="numbersOnly" maxlength="4"></td>
+                  <td class="center">-</td>
+                  <td><input type="tel" name="HP3" id="HP3_1" class="numbersOnly" maxlength="4"></td>
+                </tr>
+                <tr>
+                  <td colspan="6" class="center">
+                    <label><input type="checkbox" id="agree2" name="agree1" value="Y" checked> 개인정보취급방침 동의</label>
+                    <button type="button" class="link" id="privacyBtn2">[보기]</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="cta">
+              <button class="db_btn" type="button" id="btn_complete2">비밀지원금 확인하기</button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section ticker">
+      <div class="section-inner">
+        <h2>실시간 신청 현황</h2>
+        <div class="ticker-box" aria-live="polite">
+          <div class="ticker-track" id="tickerTrack">
+            <div class="ticker-item"><span>2025-12-26</span><span>임**</span><span>접수진행</span><span>입금완료</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>최**</span><span>접수진행</span><span>입금대기</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>장**</span><span>접수진행</span><span>입금대기</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>김**</span><span>설치완료</span><span>입금완료</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>한**</span><span>설치완료</span><span>입금완료</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>주**</span><span>설치완료</span><span>입금완료</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>강**</span><span>접수진행</span><span>입금대기</span></div>
+            <div class="ticker-item"><span>2025-12-26</span><span>여**</span><span>설치완료</span><span>입금완료</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        브랜드명: 온집<br>
+        홈펠릭스ㅣ 대표: 이승수<br>
+        사업자등록번호: 872-75-00325<br>
+        서울특별시 도봉구 마들로859-19
+      </p>
+    </footer>
+  </div>
+
+  <div class="sticky-cta" role="region" aria-label="빠른 신청">
+    <button type="button" class="sticky-cta__button" id="stickyCtaBtn">10초 만에 내 지원금 조회하기</button>
+  </div>
+
+  <iframe name="VlineDiet" class="hidden-frame"></iframe>
+  <script src="script.js"></script>
+>>>>>>> 29966a67a407324dbd93dba13e14c6db181fc213
 </body>
 </html>
