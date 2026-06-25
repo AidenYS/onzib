@@ -1,540 +1,137 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>트립픽 — 검증된 국내 여행 정보</title>
-  <meta name="description" content="마이리얼트립 실제 리뷰 기반, 국내 여행 투어·숙소 추천 블로그">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: #f8f8f6;
-      color: #222;
-      line-height: 1.7;
-    }
-
-    /* ── 헤더 */
-    header {
-      background: #fff;
-      border-bottom: 1px solid #eee;
-      position: sticky; top: 0; z-index: 100;
-    }
-    .header-inner {
-      max-width: 1100px; margin: 0 auto;
-      padding: 0 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-    }
-    .logo {
-      font-size: 22px; font-weight: 900; color: #c0392b;
-      text-decoration: none; letter-spacing: -0.5px;
-    }
-    .logo span { color: #222; }
-    nav a {
-      font-size: 15px; color: #555; text-decoration: none;
-      margin-left: 28px; font-weight: 500;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: #c0392b; }
-
-    /* ── 히어로 */
-    .hero {
-      background: linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%);
-      color: #fff;
-      padding: 72px 24px;
-      text-align: center;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(231,76,60,0.9);
-      color: #fff; font-size: 13px; font-weight: 700;
-      padding: 5px 16px; border-radius: 20px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: 42px; font-weight: 900;
-      line-height: 1.25; margin-bottom: 16px;
-    }
-    .hero p {
-      font-size: 18px; color: rgba(255,255,255,0.75);
-      max-width: 520px; margin: 0 auto 32px;
-    }
-    .hero-stats {
-      display: flex; justify-content: center; gap: 40px;
-    }
-    .stat { text-align: center; }
-    .stat-num { font-size: 28px; font-weight: 900; color: #f1c40f; }
-    .stat-label { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 4px; }
-
-    /* ── 카테고리 필터 */
-    .filter-bar {
-      max-width: 1100px; margin: 40px auto 0;
-      padding: 0 24px;
-      display: flex; gap: 10px; flex-wrap: wrap;
-    }
-    .filter-btn {
-      padding: 8px 20px; border-radius: 24px;
-      border: 1px solid #ddd; background: #fff;
-      font-size: 14px; font-weight: 500; color: #555;
-      cursor: pointer; transition: all 0.2s;
-      font-family: inherit;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: #c0392b; color: #fff; border-color: #c0392b;
-    }
-
-    /* ── 글 그리드 */
-    .posts-section {
-      max-width: 1100px; margin: 32px auto 80px;
-      padding: 0 24px;
-    }
-    .section-title {
-      font-size: 20px; font-weight: 700;
-      margin-bottom: 24px; color: #222;
-    }
-    .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 28px;
-    }
-
-    /* ── 글 카드 */
-    .post-card {
-      background: #fff;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none; color: inherit;
-      display: block;
-    }
-    .post-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.13);
-    }
-    .card-thumb {
-      width: 100%; height: 180px;
-      background: linear-gradient(135deg, #1a3a5c, #0d2137);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-    }
-    .card-thumb img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .card-thumb svg {
-      width: 100%; height: 100%;
-    }
-    .card-format-badge {
-      position: absolute; top: 12px; left: 12px;
-      background: rgba(192,57,43,0.92);
-      color: #fff; font-size: 11px; font-weight: 700;
-      padding: 4px 10px; border-radius: 12px;
-    }
-    .card-body { padding: 20px; }
-    .card-city {
-      font-size: 12px; color: #c0392b; font-weight: 700;
-      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .card-title {
-      font-size: 16px; font-weight: 700; line-height: 1.45;
-      margin-bottom: 12px; color: #1a1a1a;
-    }
-    .card-meta {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 13px; color: #999;
-    }
-    .card-date { }
-    .card-arrow {
-      color: #c0392b; font-weight: 700; font-size: 16px;
-    }
-
-    /* ── 푸터 */
-    footer {
-      background: #1a1a1a; color: rgba(255,255,255,0.5);
-      text-align: center; padding: 40px 24px;
-      font-size: 13px; line-height: 2;
-    }
-    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
-    footer strong { color: rgba(255,255,255,0.8); }
-
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 28px; }
-      .hero-stats { gap: 24px; }
-      .posts-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- 헤더 -->
-<header>
-  <div class="header-inner">
-    <a href="/" class="logo">트립<span>픽</span></a>
-    <nav>
-      <a href="/">홈</a>
-      <a href="#posts">여행 추천</a>
-      <a href="#hotels">호텔</a>
-    </nav>
-  </div>
-</header>
-
-<!-- 히어로 -->
-<section class="hero">
-  <div class="hero-badge">✈️ 마이리얼트립 파트너 공식 추천</div>
-  <h1>검증된 국내 여행<br>투어 &amp; 숙소 추천</h1>
-  <p>실제 리뷰 수백 건을 분석해 엄선한<br>투어·호텔 정보를 한곳에서</p>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num" id="postCount">0</div>
-      <div class="stat-label">추천 글</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">10+</div>
-      <div class="stat-label">여행지</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">실제 리뷰 기반</div>
-    </div>
-  </div>
-</section>
-
-<!-- 카테고리 필터 -->
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="filterPosts('all')">전체</button>
-  <button class="filter-btn" onclick="filterPosts('ranking')">🏆 랭킹</button>
-  <button class="filter-btn" onclick="filterPosts('hotel')">🏨 호텔</button>
-  <button class="filter-btn" onclick="filterPosts('course')">🗺️ 코스</button>
-  <button class="filter-btn" onclick="filterPosts('deepdive')">🔍 심층분석</button>
-  <button class="filter-btn" onclick="filterPosts('theme')">🎯 테마</button>
-  <button class="filter-btn" onclick="filterPosts('compare')">⚖️ 비교</button>
-</div>
-
-<!-- 글 목록 -->
-<section class="posts-section" id="posts">
-  <div class="section-title">최신 추천 글</div>
-  <div class="posts-grid" id="postsGrid">
-    <!-- site_builder.py가 자동으로 카드 생성 -->
-  </div>
-</section>
-
-<!-- 푸터 -->
-<footer>
-  <strong>트립픽 TripPick</strong><br>
-  마이리얼트립 공식 마케팅 파트너 · 실제 리뷰 기반 국내 여행 추천<br>
-  본 사이트의 링크를 통해 구매 시 수수료를 지급받습니다. (공정거래위원회 고시 준수)<br><br>
-  <a href="/">홈</a> · <a href="#posts">추천 글</a>
-</footer>
-
-<script>
-  // 포스트 데이터 (site_builder.py가 자동 주입)
-        const POSTS = [
-  {
-    "slug": "속초-투어-추천-TOP-5-설악산부터-해변까지-인기-상품",
-    "title": "속초 투어 추천 TOP 5 — 설악산부터 해변까지 인기 상품",
-    "city": "속초",
-    "format": "ranking",
-    "date": "2026.04.22",
-    "thumbnail": "assets/thumbnails/속초-투어-추천-TOP-5-설악산부터-해변까지-인기-상품.svg"
-  },
-  {
-    "slug": "속초-씨마크-호텔-추천-속초-호텔-완벽-가이드",
-    "title": "속초 씨마크 호텔 추천 — 속초 호텔 완벽 가이드",
-    "city": "속초",
-    "format": "hotel",
-    "date": "2026.04.22",
-    "thumbnail": "assets/thumbnails/속초-씨마크-호텔-추천-속초-호텔-완벽-가이드.svg"
-  }
-];
-
-  function renderPosts(posts) {
-    const grid = document.getElementById('postsGrid');
-    document.getElementById('postCount').textContent = POSTS.length;
-
-    if (posts.length === 0) {
-      grid.innerHTML = '<p style="color:#999;grid-column:1/-1">아직 등록된 글이 없습니다.</p>';
-      return;
-    }
-
-    const formatLabel = {
-      ranking: '🏆 랭킹', hotel: '🏨 호텔', course: '🗺️ 코스',
-      deepdive: '🔍 심층분석', theme: '🎯 테마', compare: '⚖️ 비교'
-    };
-
-    grid.innerHTML = posts.map(p => `
-      <a href="posts/${p.slug}.html" class="post-card" data-format="${p.format}">
-        <div class="card-thumb">
-          <img src="${p.thumbnail || ''}" onerror="this.style.display='none'" alt="${p.title}">
-          <div class="card-format-badge">${formatLabel[p.format] || '✈️ 여행'}</div>
-        </div>
-        <div class="card-body">
-          <div class="card-city">${p.city}</div>
-          <div class="card-title">${p.title}</div>
-          <div class="card-meta">
-            <span class="card-date">${p.date}</span>
-            <span class="card-arrow">→</span>
-          </div>
-        </div>
-      </a>
-    `).join('');
-  }
-
-  function filterPosts(format) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    const filtered = format === 'all' ? POSTS : POSTS.filter(p => p.format === format);
-    renderPosts(filtered);
-  }
-
-  renderPosts(POSTS);
-</script>
-=======
 <!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>온집</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "uryq9of2r0");
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>혜택비교 상담센터 | 인터넷 휴대폰 렌탈 혜택 비교</title>
+  <meta name="description" content="인터넷, 휴대폰, 렌탈 가입 조건과 상담 전용 혜택을 한 번에 비교하세요.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="wrap">
-    <div class="completion-popup" id="submitToast" role="dialog" aria-live="polite" aria-hidden="true">
-      <div class="popup-card" role="document">
-        <div class="check-icon" aria-hidden="true">✓</div>
-        <h2>상담 신청 완료!</h2>
-        <p>담당자가 곧 연락드려<br>최대 혜택을 안내해 드립니다.</p>
-        <div class="upsell-box">
-          <p class="upsell-tag">추가 혜택 안내</p>
-          <p class="upsell-text">정수기·가전 렌탈도 반값/지원금 혜택이 있어요.</p>
-          <a href="http://onzib.com/" class="upsell-btn">정수기·가전 렌탈 혜택 보러가기</a>
+  <div class="notice-bar" aria-label="상담 혜택 안내">
+    <div class="notice-track">
+      <span>상담 전용 추가 혜택</span>
+      <span>오늘 조건 기준으로 안내</span>
+      <span>가입 전 금액과 사은품 비교</span>
+      <span>상담 전용 추가 혜택</span>
+      <span>오늘 조건 기준으로 안내</span>
+      <span>가입 전 금액과 사은품 비교</span>
+    </div>
+  </div>
+
+  <header class="hero" id="top">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="#top" aria-label="혜택비교 상담센터 홈">
+        <span class="brand-mark">H</span>
+        <span>혜택비교</span>
+      </a>
+      <a class="nav-cta" href="form.html" target="_blank" rel="noopener">상담 신청</a>
+    </nav>
+
+    <div class="hero-inner">
+      <section class="hero-copy">
+        <p class="eyebrow">인터넷 · 휴대폰 · 렌탈 가입 전 확인</p>
+        <h1>내 조건에 맞는<br>혜택을 한 번에<br>비교하세요</h1>
+        <p class="hero-sub">통신사별 사은품, 월요금, 결합할인을 함께 비교해드립니다. 전화 상담은 원하실 때만 진행됩니다.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="form.html" target="_blank" rel="noopener">무료 혜택 비교하기</a>
+          <a class="button secondary" href="#benefits">상담 없이 조건 먼저 보기</a>
         </div>
-        <button type="button" class="close-text" id="closePopupBtn">창 닫기</button>
+        <ul class="trust-strip" aria-label="신뢰 요소">
+          <li>전화 상담은 원할 때만</li>
+          <li>입력 정보 최소화</li>
+          <li>가입 전 조건 확인</li>
+        </ul>
+      </section>
+      <div class="hero-visual" aria-hidden="true">
+        <img src="assets/hero-consultant.png" alt="">
       </div>
     </div>
-    <!-- <section class="section counter">
-      <div class="section-inner">
-        <h2>마감까지 남은 시간</h2>
-        <div class="count_box" aria-live="polite">
-          <div class="labels">
-            <span>DAY</span>
-            <span>HOURS</span>
-            <span>MINUTES</span>
-            <span>SECONDS</span>
-          </div>
-          <div class="values">
-            <span id="day">00</span>
-            <span class="colon">:</span>
-            <span id="hour">09</span>
-            <span class="colon">:</span>
-            <span id="minute">58</span>
-            <span class="colon">:</span>
-            <span id="second">01</span>
-          </div>
-        </div>
-      </div>
-    </section> -->
+  </header>
 
-    <header class="hero">
-      <img src="page1.png" alt="제이통신 메인 이미지">
-      <div class="hero-countdown" aria-live="polite">
-        <span class="time" id="hours">09</span>
-        <span class="sep">:</span>
-        <span class="time" id="mins">58</span>
-        <span class="sep">:</span>
-        <span class="time" id="secs">01</span>
+  <main>
+    <section class="section light" id="benefits">
+      <div class="section-head">
+        <p class="kicker">오늘 상담 고객 기준</p>
+        <h2>한눈에 보는 주요 혜택</h2>
+        <p>상품, 약정, 결합 여부에 따라 실제 안내 금액은 달라질 수 있습니다.</p>
       </div>
-    </header>
-
-    <section class="section intro">
-      <div class="section-inner">
-        <h1>혜택 가득한 인터넷/TV 신청</h1>
-        <p>원하는 통신사와 상품을 선택하고 간편하게 상담 신청하세요.</p>
+      <div class="benefit-grid">
+        <article class="benefit-card"><span>Wi</span><h3>인터넷 + TV</h3><strong>최대 48만원</strong></article>
+        <article class="benefit-card"><span>5G</span><h3>휴대폰 상담</h3><strong>최대 50만원</strong></article>
+        <article class="benefit-card"><span>Re</span><h3>가전 렌탈</h3><strong>최대 30만원</strong></article>
+        <article class="benefit-card"><span>Us</span><h3>유심/통신 변경</h3><strong>최대 30만원</strong></article>
+      </div>
+      <div class="total-box">
+        <b>인터넷 + 렌탈 + 휴대폰 조합 기준</b>
+        <span>최대 128만원 상당 혜택 안내 가능</span>
       </div>
     </section>
 
-    <section class="section form-section">
-      <div class="section-inner">
-        <form name="form0" id="form0" class="form" method="post" action="landing_page_update.asp" target="VlineDiet">
-          <input type="hidden" id="l_idkey" name="l_idkey" value="1000012662">
-
-          <div class="db_box">
-            <div class="db_info">
-              <div class="qa">
-                <p class="q">Q. 희망 통신사를 선택해주세요.</p>
-                <div class="select_area">
-                  <label><input type="radio" name="pay_cate" value="SKT">SKT</label>
-                  <label><input type="radio" name="pay_cate" value="LG">LG</label>
-                  <label><input type="radio" name="pay_cate" value="KT">KT</label>
-                </div>
-              </div>
-              <div class="qa">
-                <p class="q">Q. 원하시는 상품을 선택해주세요.</p>
-                <div class="select_area">
-                  <label><input type="radio" name="dept_cate" value="인터넷">인터넷</label>
-                  <label><input type="radio" name="dept_cate" value="인터넷+TV">인터넷+TV</label>
-                </div>
-              </div>
-            </div>
-
-            <table class="form-table">
-              <caption>비밀지원금 확인하기</caption>
-              <tbody>
-                <tr>
-                  <th>이름</th>
-                  <td colspan="5">
-                    <input type="text" id="ST_NM" name="ST_NM" class="hangulOnly" placeholder="성함을 입력해주세요." maxlength="10">
-                  </td>
-                </tr>
-                <tr>
-                  <th>연락처</th>
-                  <td>
-                    <select name="HP1">
-                      <option value="010">010</option>
-                    </select>
-                  </td>
-                  <td class="center">-</td>
-                  <td><input type="tel" name="HP2" id="HP2_0" class="numbersOnly" maxlength="4"></td>
-                  <td class="center">-</td>
-                  <td><input type="tel" name="HP3" id="HP3_0" class="numbersOnly" maxlength="4"></td>
-                </tr>
-                <tr>
-                  <td colspan="6" class="center">
-                    <label><input type="checkbox" id="agree1" name="agree1" value="Y" checked> 개인정보취급방침 동의</label>
-                    <button type="button" class="link" id="privacyBtn1">[보기]</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <p class="cta">
-              <button class="db_btn" type="button" id="btn_complete1">비밀지원금 확인하기</button>
-            </p>
-          </div>
-        </form>
+    <section class="section split">
+      <div>
+        <p class="kicker">왜 먼저 확인해야 할까요?</p>
+        <h2>같은 가입도 안내 조건은 다를 수 있습니다</h2>
       </div>
-    </section>
-    
-    <section class="section image-section">
-      <div class="section-inner">
-        <div class="image-stack">
-          <img src="page4.png" alt="추가 안내 이미지">
-          <img src="page2.png" alt="추가 안내 이미지">
-          <img src="page3.png" alt="추가 안내 이미지">
-        </div>
+      <div class="reason-list">
+        <p>통신 상품은 요금제, 약정 기간, 가족 결합, 설치 지역, 사은품 선택에 따라 체감 혜택이 달라집니다.</p>
+        <p>상담 전 조건을 비교하면 불필요한 요금제 선택을 줄이고, 받을 수 있는 혜택을 놓치지 않을 수 있습니다.</p>
+        <a class="button primary dark" href="form.html" target="_blank" rel="noopener">내 지원 조건 확인하기</a>
       </div>
     </section>
 
-    <section class="section form-section">
-      <div class="section-inner">
-        <form name="form1" id="form1" class="form" method="post" action="landing_page_update.asp" target="VlineDiet">
-          <input type="hidden" id="l_idkey2" name="l_idkey" value="1000012662">
+    <section class="section promo-band">
+      <p class="kicker">이번 달 상담 전용</p>
+      <h2>추가 혜택은 조건에 따라 달라집니다</h2>
+      <p>예산과 상품별 조건이 달라질 수 있어 상담 신청 후 현재 가능한 혜택을 먼저 확인해 드립니다.</p>
+      <a class="button inverse" href="form.html" target="_blank" rel="noopener">이번 달 혜택 확인하기</a>
+    </section>
 
-          <div class="db_box">
-            <div class="db_info">
-              <div class="qa">
-                <p class="q">Q. 희망 통신사를 선택해주세요.</p>
-                <div class="select_area">
-                  <label><input type="radio" name="pay_cate" value="SKT">SKT</label>
-                  <label><input type="radio" name="pay_cate" value="LG">LG</label>
-                  <label><input type="radio" name="pay_cate" value="KT">KT</label>
-                </div>
-              </div>
-              <div class="qa">
-                <p class="q">Q. 원하시는 상품을 선택해주세요.</p>
-                <div class="select_area">
-                  <label><input type="radio" name="dept_cate" value="인터넷">인터넷</label>
-                  <label><input type="radio" name="dept_cate" value="인터넷+TV">인터넷+TV</label>
-                </div>
-              </div>
-            </div>
-
-            <table class="form-table">
-              <caption>비밀지원금 확인하기</caption>
-              <tbody>
-                <tr>
-                  <th>이름</th>
-                  <td colspan="5">
-                    <input type="text" id="ST_NM2" name="ST_NM" class="hangulOnly" placeholder="성함을 입력해주세요." maxlength="10">
-                  </td>
-                </tr>
-                <tr>
-                  <th>연락처</th>
-                  <td>
-                    <select name="HP1">
-                      <option value="010">010</option>
-                    </select>
-                  </td>
-                  <td class="center">-</td>
-                  <td><input type="tel" name="HP2" id="HP2_1" class="numbersOnly" maxlength="4"></td>
-                  <td class="center">-</td>
-                  <td><input type="tel" name="HP3" id="HP3_1" class="numbersOnly" maxlength="4"></td>
-                </tr>
-                <tr>
-                  <td colspan="6" class="center">
-                    <label><input type="checkbox" id="agree2" name="agree1" value="Y" checked> 개인정보취급방침 동의</label>
-                    <button type="button" class="link" id="privacyBtn2">[보기]</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <p class="cta">
-              <button class="db_btn" type="button" id="btn_complete2">비밀지원금 확인하기</button>
-            </p>
-          </div>
-        </form>
+    <section class="section light">
+      <div class="section-head">
+        <p class="kicker">대표 상품 예시</p>
+        <h2>통신사별 조건 비교</h2>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card"><span class="carrier kt">KT</span><h3>인터넷 베이직 + TV 500M</h3><p>월 납부 예시 <b>38,500원</b></p><strong>최대 45만원 + 추가 혜택</strong><a href="form.html" target="_blank" rel="noopener">KT 조건 확인하기</a></article>
+        <article class="plan-card featured"><span class="carrier lg">LG</span><h3>와이파이 기본 + TV 500M</h3><p>월 납부 예시 <b>35,200원</b></p><strong>최대 47만원 + 추가 혜택</strong><a href="form.html" target="_blank" rel="noopener">LG 조건 확인하기</a></article>
+        <article class="plan-card"><span class="carrier sk">SK</span><h3>기가라이트 + B tv 500M</h3><p>월 납부 예시 <b>38,500원</b></p><strong>최대 48만원 + 추가 혜택</strong><a href="form.html" target="_blank" rel="noopener">SK 조건 확인하기</a></article>
       </div>
     </section>
 
-    <section class="section ticker">
-      <div class="section-inner">
-        <h2>실시간 신청 현황</h2>
-        <div class="ticker-box" aria-live="polite">
-          <div class="ticker-track" id="tickerTrack">
-            <div class="ticker-item"><span>2025-12-26</span><span>임**</span><span>접수진행</span><span>입금완료</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>최**</span><span>접수진행</span><span>입금대기</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>장**</span><span>접수진행</span><span>입금대기</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>김**</span><span>설치완료</span><span>입금완료</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>한**</span><span>설치완료</span><span>입금완료</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>주**</span><span>설치완료</span><span>입금완료</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>강**</span><span>접수진행</span><span>입금대기</span></div>
-            <div class="ticker-item"><span>2025-12-26</span><span>여**</span><span>설치완료</span><span>입금완료</span></div>
-          </div>
-        </div>
+    <section class="section black">
+      <div class="section-head">
+        <p class="kicker">상담센터 운영 기준</p>
+        <h2>가입 전부터 설치까지 꼼꼼하게 안내합니다</h2>
       </div>
+      <ul class="check-list">
+        <li>월 납부금과 사은품 조건을 함께 비교</li>
+        <li>가족 결합과 약정 조건 확인</li>
+        <li>설치 가능 지역과 일정 안내</li>
+        <li>상담 후 진행 여부 선택 가능</li>
+      </ul>
     </section>
 
-    <footer class="footer">
-      <p>
-        브랜드명: 온집<br>
-        홈펠릭스ㅣ 대표: 이승수<br>
-        사업자등록번호: 872-75-00325<br>
-        서울특별시 도봉구 마들로859-19
-      </p>
-    </footer>
-  </div>
+    <section class="section light faq">
+      <div class="section-head">
+        <p class="kicker">자주 묻는 질문</p>
+        <h2>상담 전에 많이 확인하는 내용</h2>
+      </div>
+      <details open><summary>최대 128만원 혜택이 항상 가능한가요?</summary><p>아닙니다. 인터넷, 휴대폰, 렌탈 조합과 상품 조건이 맞을 때 가능한 예시이며 실제 혜택은 상담 시 확인됩니다.</p></details>
+      <details><summary>상담만 받고 가입하지 않아도 되나요?</summary><p>가능합니다. 조건과 혜택을 먼저 확인한 뒤 진행 여부를 결정하실 수 있습니다.</p></details>
+      <details><summary>설치 일정도 같이 안내되나요?</summary><p>네. 상담 후 신청을 원하시면 설치 가능 지역과 일정을 함께 확인해 드립니다.</p></details>
+    </section>
 
-  <div class="sticky-cta" role="region" aria-label="빠른 신청">
-    <button type="button" class="sticky-cta__button" id="stickyCtaBtn">10초 만에 내 지원금 조회하기</button>
-  </div>
+  </main>
 
-  <iframe name="VlineDiet" class="hidden-frame"></iframe>
+  <footer class="footer">
+    <p>혜택비교 상담센터</p>
+    <p>본 페이지는 신규 제작된 예시 랜딩페이지입니다. 실제 광고 집행 전 상품 조건, 고지 문구, 개인정보 처리방침을 검수하세요.</p>
+  </footer>
+
   <script src="script.js"></script>
->>>>>>> 29966a67a407324dbd93dba13e14c6db181fc213
 </body>
 </html>
