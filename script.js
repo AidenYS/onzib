@@ -1,7 +1,7 @@
 const form = document.querySelector("#consultForm");
 const message = document.querySelector("#formMessage");
 const closeButton = document.querySelector("#closeButton");
-const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbydHIwzsy7bA40udLCaT4ZEF0YSJ-mx-Gx-UNZwDD0ltWRS1NkdPw7vLPSX968xziM/exec";
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbx2mND489TCQmGqu3Illssyu-uIET8oePEW_dAWXmlk9s1f3TqW7EKhE3ymOI1Kwj6I/exec";
 
 closeButton?.addEventListener("click", () => {
   if (window.opener) {
