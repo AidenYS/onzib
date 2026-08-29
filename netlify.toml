@@ -2,6 +2,16 @@
   publish = "."
 
 [[redirects]]
+  from = "/merits"
+  to   = "/merit_partners/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/merits/*"
+  to   = "/merit_partners/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to   = "/index.html"
   status = 200
