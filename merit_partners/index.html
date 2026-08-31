@@ -7,6 +7,18 @@
 <title>메리츠 파트너스 무료 신청</title>
 <meta property="og:title" content="메리츠 파트너스 무료 신청">
 <meta property="og:description" content="퇴근하고 집에서 월수입 150, 선착순 무료 모집">
+<!-- Meta Pixel (메리츠파트너스) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4172826619692129');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4172826619692129&ev=PageView&noscript=1"/></noscript>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
 (function(c,l,a,r,i,t,y){
@@ -194,5 +206,23 @@
 })();
 </script>
 
+
+<script>
+/* 메리츠 지원 페이지로 나가는 클릭을 전환으로 기록 */
+(function () {
+  var fired = false;
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href*="meritzpartners.com"]');
+    if (!a || fired) return;
+    fired = true;                       /* 중복 집계 방지 */
+    setTimeout(function () { fired = false; }, 1500);
+    if (window.fbq) fbq('track', 'Lead', {
+      content_name: '메리츠 파트너스 지원 클릭',
+      content_category: '보험설계사 모집'
+    });
+    if (window.clarity) clarity('set', 'cta_click', 'meritz_apply');
+  }, true);
+})();
+</script>
 </body>
 </html>
