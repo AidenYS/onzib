@@ -122,11 +122,6 @@
                     color:#c2703f;margin-top:2px;letter-spacing:-.2px}
   .supline b{font-size:19px;font-weight:900;color:var(--orange);letter-spacing:-.8px;font-variant-numeric:tabular-nums}
 
-  /* 원하는 제품이 없을 때 */
-  .nofind{margin-top:16px;padding:14px 13px 12px;border-radius:12px;
-          background:#f8fafc;border:1px dashed #cbd5e1}
-  .nf-t{font-size:13.5px;font-weight:900;letter-spacing:-.4px}
-  .nf-s{font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.55;margin-top:4px;letter-spacing:-.3px}
   .nf-s b{color:var(--orange);font-weight:800}
   .nf-row{display:grid;grid-template-columns:1fr 88px;gap:7px;margin-top:10px}
   .nf-row input{height:44px;border:1.5px solid var(--line);border-radius:10px;padding:0 11px;
@@ -443,6 +438,14 @@
   .dbox b{display:block;font-size:14.5px;font-weight:900;color:#03c75a;letter-spacing:-.4px}
   .dbox span{display:block;font-size:11.5px;color:#4b5563;font-weight:700;margin-top:3px}
 </style>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "uryq9of2r0");
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -531,17 +534,6 @@
       <div class="supline">
         <span class="k">💰 이 조건 현금지원금<i id="supNote"></i></span>
         <b id="calcSup">--원</b>
-      </div>
-
-      <!-- 원하는 제품이 목록에 없을 때 -->
-      <div class="nofind">
-        <p class="nf-t">찾으시는 제품이 없으신가요?</p>
-        <p class="nf-s">코웨이 전 모델 취급합니다. 제품명을 남겨주시면 <b>렌탈료와 지원금을 확인해 안내</b>해 드릴게요.</p>
-        <div class="nf-row">
-          <input type="text" id="nfProd" placeholder="예: 아이콘 얼음 맥스, 노블 스탠드…">
-          <button type="button" id="nfAsk">문의하기</button>
-        </div>
-        <button type="button" class="nf-alt" id="nfUnsure">제품명을 모르겠어요 · 상담사에게 물어볼래요 →</button>
       </div>
 
       <p class="note">
@@ -674,12 +666,11 @@
       </div>
 
       <!-- 제품 문의 전용: 남기신 제품명 확인 -->
-      <div class="msum" id="mAskWrap" style="display:none">
-        <div class="msum-hd"><b>문의하실 제품</b></div>
-        <div class="msum-row"><span>제품명</span><b id="mAskProd">-</b></div>
-        <p class="msum-note" style="text-align:left;margin-top:6px">
-          코웨이 전 모델을 취급합니다. 확인 후 <b>렌탈료·현금지원금·적용 가능한 프로모션</b>을 안내해 드릴게요.
-        </p>
+      <div class="mfield" id="mAskWrap" style="display:none">
+        <label>찾으시는 제품 <span class="lb2">선택 입력</span></label>
+        <input type="text" id="mAskProd" placeholder="예: 아이콘 얼음 맥스, 노블 스탠드…">
+        <p class="mhint">코웨이 <b>전 모델</b>을 취급합니다. 제품명을 모르시면 비워두셔도 돼요 —
+          사용 인원·설치 위치만 들으면 상담사가 맞는 모델을 찾아드립니다.</p>
       </div>
 
       <!-- 즉시신청 전용: 프로모션 (계산기와 동일) -->
@@ -937,7 +928,16 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   });
   sel.appendChild(gTop);
   sel.appendChild(gRest);
+  /* 목록에 없는 제품 — 선택 시 문의 모달 */
+  var gAsk = document.createElement("optgroup");
+  gAsk.label = "─────────";
+  var oAsk = document.createElement("option");
+  oAsk.value = "ask";
+  oAsk.textContent = "＋ 찾는 제품이 없어요 (직접 문의)";
+  gAsk.appendChild(oAsk);
+  sel.appendChild(gAsk);
   sel.value = 0; /* 아이콘3 냉온 — 코웨이 정수기 누적 판매 1위 */
+  var lastProd = "0";
 
   /* 제품별 관리방식 옵션 구성 (저렴한 순 → 첫 항목이 기본) */
   var buildCycles = function () {
@@ -1013,7 +1013,15 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   /* 반값 ↔ 타사보상 중복 불가 (제휴카드와는 중복 가능) */
   half.addEventListener("change", function () { if (half.checked) tasa.checked = false; update(); });
   tasa.addEventListener("change", function () { if (tasa.checked) half.checked = false; update(); });
-  sel.addEventListener("change", function () { buildCycles(); update(); });
+  sel.addEventListener("change", function () {
+    if (sel.value === "ask") {
+      sel.value = lastProd;                 /* 계산기는 직전 제품 유지 */
+      if (window.openAskModal) window.openAskModal();
+      return;
+    }
+    lastProd = sel.value;
+    buildCycles(); update();
+  });
   termSel.addEventListener("change", update);
   cycleSel.addEventListener("change", update);
   chk.addEventListener("change", update);
@@ -1270,9 +1278,7 @@ function sendLead(payload, onOk, onFail) {
     elx("mTermWrap").style.display  = instant ? "" : "none";
     elx("mPromoWrap").style.display = instant ? "" : "none";
     elx("mAskWrap").style.display   = ask ? "" : "none";
-    if (ask) {
-      elx("mAskProd").textContent = askProduct || "제품명 미정 — 상담사 안내 요청";
-    }
+    if (ask) elx("mAskProd").value = askProduct || "";
 
     elx("mKicker").textContent = instant ? "즉시신청 · 네이버페이 30,000원"
                                : (ask ? "제품 문의" : "이벤트 신청");
@@ -1304,17 +1310,8 @@ function sendLead(payload, onOk, onFail) {
   Array.prototype.forEach.call(document.querySelectorAll(".cta-main"), function (a) {
     a.addEventListener("click", function (e) { e.preventDefault(); open("instant"); });
   });
-  /* 목록에 없는 제품 문의 */
-  var nfProd = elx("nfProd");
-  elx("nfAsk").addEventListener("click", function () {
-    var v = nfProd.value.trim();
-    if (!v) { nfProd.focus(); nfProd.placeholder = "제품명을 입력해주세요"; return; }
-    open("ask", v);
-  });
-  nfProd.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") { e.preventDefault(); elx("nfAsk").click(); }
-  });
-  elx("nfUnsure").addEventListener("click", function () { open("ask", ""); });
+  /* 제품 선택 드롭다운의 "찾는 제품이 없어요"에서 호출 */
+  window.openAskModal = function () { open("ask", ""); };
 
   Array.prototype.forEach.call(modal.querySelectorAll("[data-close]"), function (b) {
     b.addEventListener("click", close);
@@ -1470,7 +1467,9 @@ function sendLead(payload, onOk, onFail) {
       성명: name,
       연락처: "010-" + t2.value + "-" + t3.value,
       희망제품: instant ? c.name + " (" + c.code + ")"
-                : (mode === "ask" ? (askProduct || "제품명 미정 · 상담사 안내 요청") : ""),
+                : (mode === "ask"
+                    ? (elx("mAskProd").value.trim() || "제품명 미정 · 상담사 안내 요청")
+                    : ""),
       약정기간: instant ? (c.term / 12) + "년" : "",
       관리방식: instant ? c.cycleLabel : "",
       반값할인: instant ? (c.half ? "Y" : "N") : "",
