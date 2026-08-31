@@ -1026,6 +1026,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   half.addEventListener("change", function () { if (half.checked) tasa.checked = false; update(); });
   tasa.addEventListener("change", function () { if (tasa.checked) half.checked = false; update(); });
   sel.addEventListener("change", function () {
+    step("1_계산기조작");
     if (sel.value === "ask") {
       sel.value = lastProd;                 /* 계산기는 직전 제품 유지 */
       if (window.openAskModal) window.openAskModal();
@@ -1034,9 +1035,9 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     lastProd = sel.value;
     buildCycles(); update();
   });
-  termSel.addEventListener("change", update);
-  cycleSel.addEventListener("change", update);
-  chk.addEventListener("change", update);
+  termSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
+  cycleSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
+  chk.addEventListener("change", function () { step("1_계산기조작"); update(); });
 
   buildCycles();
   update();
@@ -1168,6 +1169,15 @@ var CARD_DATA = [
   };
   setTimeout(feed, 3000);
 })();
+
+/* ══════════ 이탈 지점 추적 ══════════
+   단계 도달만 기록한다. 입력한 값(이름·연락처)은 절대 보내지 않는다. */
+var funnelSeen = {};
+function step(name) {
+  if (funnelSeen[name]) return;      /* 세션당 1회 */
+  funnelSeen[name] = 1;
+  try { if (window.clarity) clarity("set", "퍼널", name); } catch (e) {}
+}
 
 /* ══════════ 리드 전송 (구글시트) ══════════
    ⚠️ 배포 후 아래 SHEET_ENDPOINT를 본인 /exec 주소로 교체하세요.
@@ -1302,6 +1312,9 @@ function sendLead(payload, onOk, onFail) {
                     : (ask ? "조건 확인 요청하기" : "이벤트 신청하기");
     btn.classList.toggle("plain", !instant);
     if (instant) fillSummary();
+
+    step("2_모달열림");
+    step(instant ? "2a_즉시신청" : (ask ? "2c_제품문의" : "2b_이벤트만"));
 
     step1.hidden = false; step2.hidden = true; step3.hidden = true;
     elx("mErr").textContent = ""; elx("mErr2").textContent = "";
@@ -1441,6 +1454,11 @@ function sendLead(payload, onOk, onFail) {
   var t2 = elx("fT2"), t3 = elx("fT3");
   t2.addEventListener("input", function () { if (t2.value.length === 4) t3.focus(); });
 
+  /* 어느 칸까지 갔는지 (값이 아니라 도달 여부만) */
+  elx("fName").addEventListener("input", function () { step("3_성함입력"); });
+  t2.addEventListener("input", function () { step("4_연락처입력"); });
+  elx("agA").addEventListener("change", function () { step("5_동의체크"); });
+
   /* 제출 */
   var leadId = "";   /* 1차 접수 식별자 — 2차(추가정보)에서 같은 행을 찾는 키 */
 
@@ -1501,15 +1519,17 @@ function sendLead(payload, onOk, onFail) {
 
     sendLead(payload, function () {
       btn.disabled = false; btn.textContent = label;
+      step("6_접수완료");
       /* 메타 전환 — 리드 접수 */
       if (window.fbq) fbq('track', 'Lead', {
         content_name: payload["접수유형"],
         content_category: '정수기 렌탈'
       });
       /* 즉시신청만 추가정보 단계로, 나머지는 바로 완료 */
-      if (instant) goStep(2); else showDone();
+      if (instant) { step("7_추가정보화면"); goStep(2); } else showDone();
     }, function () {
       btn.disabled = false; btn.textContent = label;
+      step("X_전송실패");
       err.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
     });
   });
@@ -1541,6 +1561,7 @@ function sendLead(payload, onOk, onFail) {
       건물유형: ad.bld
     }, function () {
       btn.disabled = false; btn.textContent = label;
+      step("8_추가정보완료");
       if (window.fbq) fbq('track', 'CompleteRegistration', {
         content_name: '추가정보 입력 완료', content_category: '정수기 렌탈'
       });
@@ -1553,7 +1574,7 @@ function sendLead(payload, onOk, onFail) {
   });
 
   /* 건너뛰기 — 1차 접수는 이미 저장되어 있으므로 그대로 완료 처리 */
-  elx("mSkip").addEventListener("click", showDone);
+  elx("mSkip").addEventListener("click", function () { step("8x_추가정보건너뜀"); showDone(); });
 })();
 
 /* ── 하단 고정 CTA: 본문 버튼이 보이면 숨김 ── */
