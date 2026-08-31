@@ -236,6 +236,17 @@
   @keyframes newrow{0%{background:#fefce8}100%{background:transparent}}
   .fnote{font-size:10px;color:#9aa1ac;font-weight:600;margin-top:9px;text-align:center;letter-spacing:-.2px}
 
+  /* ── 후기 ── */
+  .revs{padding:28px 18px 34px;background:var(--bg)}
+  .rvttl{font-size:18px;font-weight:900;letter-spacing:-.7px;text-align:center;margin-bottom:14px}
+  .rv{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 15px 13px;margin-bottom:10px}
+  .rv:last-child{margin-bottom:0}
+  .rh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .rh b{font-size:13px;font-weight:900;letter-spacing:-.4px}
+  .rh span{font-size:11.5px;color:#f59e0b;font-weight:800;letter-spacing:1px;flex:none}
+  .rv p{margin-top:8px;font-size:13px;color:#374151;font-weight:600;line-height:1.62;letter-spacing:-.3px}
+  .rv p.tag{margin-top:9px;font-size:10.5px;color:#9aa1ac;font-weight:700}
+
   /* ── 하단 고정 CTA ── */
   #sticky{
     position:fixed;left:50%;transform:translateX(-50%);bottom:0;
@@ -556,6 +567,27 @@
       <tbody id="feedBody"></tbody>
     </table>
     <p class="fnote">※ 개인정보 보호를 위해 이름은 일부만 표시됩니다.</p>
+  </div>
+
+  <!-- 6. 후기 -->
+  <!-- TODO(CEO): 실제 수집 후기로 교체 — 임의 작성본 게시 금지 -->
+  <div class="revs">
+    <h3 class="rvttl">먼저 설치한 분들의 이야기</h3>
+    <div class="rv">
+      <div class="rh"><b>김*연님 · 얼음정수기</b><span>★★★★★</span></div>
+      <p>여름에 얼음 사러 다니는 게 일이었는데 이제 버튼만 누르면 끝이에요. 카드 조건도 상담 때 미리 다 알려줘서 좋았어요.</p>
+      <p class="tag">설치 지역: 경기 · 아이콘 얼음 미니</p>
+    </div>
+    <div class="rv">
+      <div class="rh"><b>박*수님 · 냉온정수기</b><span>★★★★★</span></div>
+      <p>다른 데는 0원이라더니 조건이 붙던데, 여긴 처음부터 실적 조건을 설명해줘서 신뢰가 갔습니다.</p>
+      <p class="tag">설치 지역: 서울 · 아이콘3 냉온</p>
+    </div>
+    <div class="rv">
+      <div class="rh"><b>이*정님 · 냉정수기</b><span>★★★★☆</span></div>
+      <p>설치 기사님이 꼼꼼하게 설명해주시고, 첫 달부터 카드 할인 적용돼서 만족합니다.</p>
+      <p class="tag">설치 지역: 인천 · 아이콘2 냉정</p>
+    </div>
   </div>
 
   <!-- 하단 고정 CTA -->
