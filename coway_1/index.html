@@ -385,6 +385,19 @@
   .merr{font-size:12px;font-weight:800;color:var(--red);text-align:center;margin-top:9px;min-height:16px}
   .mfoot{font-size:10px;color:#aeb4bd;font-weight:600;line-height:1.65;margin-top:12px;text-align:center}
 
+  /* 접수 후 추가정보 단계 */
+  .prog{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+  .prog span{font-size:11px;font-weight:800;letter-spacing:-.3px;padding:5px 11px;border-radius:20px}
+  .prog span.done{background:#dcfce7;color:#03c75a}
+  .prog span.now{background:#111827;color:#fff}
+  .prog i{flex:1;height:2px;background:var(--line);border-radius:2px}
+  .mtitle em{font-style:normal;color:#03c75a}
+  .mlead{font-size:12.5px;color:var(--muted);font-weight:700;line-height:1.6;
+         margin-top:8px;letter-spacing:-.3px;background:#f8fafc;border-radius:10px;padding:11px 12px}
+  .mskip{display:block;width:100%;margin-top:11px;padding:11px;border:0;background:none;
+         color:#9aa1ac;font-family:inherit;font-size:12.5px;font-weight:700;
+         text-decoration:underline;cursor:pointer;letter-spacing:-.3px}
+
   /* 완료 화면 */
   .done{text-align:center;padding:14px 0 4px}
   .dchk{width:56px;height:56px;margin:0 auto;border-radius:50%;background:#03c75a;color:#fff;
@@ -616,43 +629,9 @@
         <p class="mhint" id="mPromoHint"></p>
       </div>
 
-      <!-- 즉시신청 전용: 설치 주소 -->
-      <div class="mfield" id="mPlaceWrap">
-        <label>설치 주소</label>
-        <div class="addrtop">
-          <input type="text" id="fZip" placeholder="우편번호" readonly>
-          <button type="button" class="addrbtn" id="btnAddr">주소 검색</button>
-        </div>
-        <input type="text" id="fAddr1" class="addrin" placeholder="주소 검색 버튼을 눌러주세요" readonly>
-        <input type="text" id="fAddr2" class="addrin" placeholder="상세주소 (동·호수)">
-        <p class="mhint" id="addrHint">설치 가능 지역 확인과 방문 일정 조율에 사용됩니다</p>
-
-        <!-- 카카오(다음) 우편번호 embed 레이어 -->
-        <div class="addrlayer" id="addrLayer">
-          <div class="albar">
-            <b>주소 검색</b>
-            <button type="button" class="alx" id="addrClose" aria-label="닫기">✕</button>
-          </div>
-          <div class="albody" id="addrBody"></div>
-        </div>
-      </div>
-
       <div class="mfield">
         <label>성함</label>
         <input type="text" id="fName" placeholder="성함을 입력해주세요" autocomplete="name">
-      </div>
-
-      <!-- 즉시신청 전용: 생년월일 · 성별 -->
-      <div class="mfield" id="mBirthWrap">
-        <label>생년월일 · 성별</label>
-        <div class="bdrow">
-          <input type="tel" id="fBirth" placeholder="19900101" maxlength="8" inputmode="numeric">
-          <div class="pills p2" id="mSex">
-            <button type="button" data-v="남">남</button>
-            <button type="button" data-v="여">여</button>
-          </div>
-        </div>
-        <p class="mhint">렌탈 접수 시 필요한 정보입니다 · <b>주민등록번호는 받지 않습니다</b></p>
       </div>
       <div class="mfield">
         <label>연락처</label>
@@ -703,8 +682,56 @@
       </p>
     </div>
 
-    <!-- STEP 2 : 완료 -->
+    <!-- STEP 2 : 접수 후 추가정보 (즉시신청 전용) -->
     <div class="mstep" id="step2" hidden>
+      <div class="prog">
+        <span class="done">✓ 신청 접수</span>
+        <i></i>
+        <span class="now">추가 정보</span>
+      </div>
+      <p class="mkicker" style="color:#03c75a">거의 다 됐어요</p>
+      <h3 class="mtitle">네이버페이 <em>30,000원</em><br>받으실 정보만 남았어요</h3>
+      <p class="mlead">신청은 이미 접수됐습니다. 아래 3가지는 <b>설치 가능 지역 확인</b>과 <b>포인트 지급 안내</b>에만 사용됩니다.</p>
+
+      <div class="mfield">
+        <label>설치 주소</label>
+        <div class="addrtop">
+          <input type="text" id="fZip" placeholder="우편번호" readonly>
+          <button type="button" class="addrbtn" id="btnAddr">주소 검색</button>
+        </div>
+        <input type="text" id="fAddr1" class="addrin" placeholder="주소 검색 버튼을 눌러주세요" readonly>
+        <input type="text" id="fAddr2" class="addrin" placeholder="상세주소 (동·호수)">
+        <p class="mhint" id="addrHint">설치 가능 지역 확인과 방문 일정 조율에 사용됩니다</p>
+
+        <!-- 카카오(다음) 우편번호 embed 레이어 -->
+        <div class="addrlayer" id="addrLayer">
+          <div class="albar">
+            <b>주소 검색</b>
+            <button type="button" class="alx" id="addrClose" aria-label="닫기">✕</button>
+          </div>
+          <div class="albody" id="addrBody"></div>
+        </div>
+      </div>
+
+      <div class="mfield">
+        <label>생년월일 · 성별</label>
+        <div class="bdrow">
+          <input type="tel" id="fBirth" placeholder="19900101" maxlength="8" inputmode="numeric">
+          <div class="pills p2" id="mSex">
+            <button type="button" data-v="남">남</button>
+            <button type="button" data-v="여">여</button>
+          </div>
+        </div>
+        <p class="mhint">렌탈 접수 시 필요한 정보입니다 · <b>주민등록번호는 받지 않습니다</b></p>
+      </div>
+
+      <button type="button" class="msubmit" id="mSubmit2">입력 완료하고 30,000원 받기</button>
+      <p class="merr" id="mErr2"></p>
+      <button type="button" class="mskip" id="mSkip">나중에 상담원에게 알려줄게요 →</button>
+    </div>
+
+    <!-- STEP 3 : 완료 -->
+    <div class="mstep" id="step3" hidden>
       <div class="done">
         <div class="dchk">✓</div>
         <h3>신청이 접수되었습니다</h3>
@@ -1093,7 +1120,7 @@ function sendLead(payload, onOk, onFail) {
 /* ══════════ 신청 모달 ══════════ */
 (function () {
   var modal = document.getElementById("modal");
-  var step1 = document.getElementById("step1"), step2 = document.getElementById("step2");
+  var step1 = document.getElementById("step1"), step2 = document.getElementById("step2"), step3 = document.getElementById("step3");
   var elx = function (id) { return document.getElementById(id); };
   var mode = "quick";   /* quick = 이벤트만 · instant = 즉시신청 */
   var NPAY = 30000;     /* 네이버페이 포인트 — 현금 지원금과 별도로 추가 지급 */
@@ -1178,8 +1205,6 @@ function sendLead(payload, onOk, onFail) {
     elx("mSum").style.display      = instant ? "" : "none";
     elx("mTermWrap").style.display  = instant ? "" : "none";
     elx("mPromoWrap").style.display = instant ? "" : "none";
-    elx("mPlaceWrap").style.display = instant ? "" : "none";
-    elx("mBirthWrap").style.display = instant ? "" : "none";
     elx("mKicker").textContent = instant ? "즉시신청 · 네이버페이 30,000원" : "이벤트 신청";
     elx("mTitle").innerHTML    = instant
       ? "이 조건으로 신청하고<br>네이버페이 받기"
@@ -1189,8 +1214,8 @@ function sendLead(payload, onOk, onFail) {
     btn.classList.toggle("plain", !instant);
     if (instant) fillSummary();
 
-    step1.hidden = false; step2.hidden = true;
-    elx("mErr").textContent = "";
+    step1.hidden = false; step2.hidden = true; step3.hidden = true;
+    elx("mErr").textContent = ""; elx("mErr2").textContent = "";
     modal.classList.add("on");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -1325,67 +1350,107 @@ function sendLead(payload, onOk, onFail) {
   t2.addEventListener("input", function () { if (t2.value.length === 4) t3.focus(); });
 
   /* 제출 */
+  var leadId = "";   /* 1차 접수 식별자 — 2차(추가정보)에서 같은 행을 찾는 키 */
+
+  var goStep = function (n) {
+    step1.hidden = n !== 1;
+    step2.hidden = n !== 2;
+    step3.hidden = n !== 3;
+    modal.querySelector(".msheet").scrollTop = 0;
+  };
+
+  var showDone = function () {
+    elx("dSub").textContent = mode === "instant"
+      ? "선택하신 조건 그대로 안내드릴게요"
+      : "담당자가 곧 연락드릴게요";
+    elx("dNpay").style.display = mode === "instant" ? "" : "none";
+    goStep(3);
+  };
+
+  /* ── 1차 제출: 약정·프로모션·성함·연락처만 ── */
   elx("mSubmit").addEventListener("click", function () {
     var err = elx("mErr");
     var name = elx("fName").value.trim();
     var instant = mode === "instant";
-    var birth = elx("fBirth").value.trim();
+
     if (!name) return (err.textContent = "성함을 입력해주세요");
     if (t2.value.length !== 4 || t3.value.length !== 4) return (err.textContent = "연락처를 정확히 입력해주세요");
-    var ad = getAddr();
-    if (instant) {
-      if (!ad.a1) return (err.textContent = "설치 주소를 검색해주세요");
-      if (!ad.a2) return (err.textContent = "상세주소(동·호수)를 입력해주세요");
-      if (!/^(19|20)\d{6}$/.test(birth)) return (err.textContent = "생년월일 8자리를 정확히 입력해주세요 (예: 19900101)");
-      if (!getSex()) return (err.textContent = "성별을 선택해주세요");
-    }
     if (!elx("agA").checked || !elx("agB").checked) return (err.textContent = "필수 동의 항목에 체크해주세요");
     err.textContent = "";
 
     var c = readCalc();
+    leadId = String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8);
+
     var payload = {
-      접수유형: mode === "instant" ? "즉시신청(네이버페이)" : "이벤트 신청",
+      접수ID: leadId,
+      접수유형: instant ? "즉시신청(네이버페이)" : "이벤트 신청",
       성명: name,
       연락처: "010-" + t2.value + "-" + t3.value,
-      생년월일: instant ? birth : "",
-      성별: instant ? getSex() : "",
-      우편번호: instant ? ad.zip : "",
-      설치주소: instant ? ad.a1 : "",
-      상세주소: instant ? ad.a2 : "",
-      건물유형: instant ? ad.bld : "",
-      희망제품: mode === "instant" ? c.name + " (" + c.code + ")" : "",
-      약정기간: mode === "instant" ? (c.term / 12) + "년" : "",
-      관리방식: mode === "instant" ? c.cycleLabel : "",
-      반값할인: mode === "instant" ? (c.half ? "Y" : "N") : "",
-      타사보상: mode === "instant" ? (c.tasa ? "Y" : "N") : "",
-      제휴카드할인: mode === "instant" ? (c.card ? "Y" : "N") : "",
-      예상월납부액: mode === "instant" ? c.pay : "",
-      현금지원금: mode === "instant" ? c.sup : "",
-      네이버페이: mode === "instant" ? 30000 : 0,
-      광고수신동의: elx("agC").checked ? "Y" : "N"
+      희망제품: instant ? c.name + " (" + c.code + ")" : "",
+      약정기간: instant ? (c.term / 12) + "년" : "",
+      관리방식: instant ? c.cycleLabel : "",
+      반값할인: instant ? (c.half ? "Y" : "N") : "",
+      타사보상: instant ? (c.tasa ? "Y" : "N") : "",
+      제휴카드할인: instant ? (c.card ? "Y" : "N") : "",
+      예상월납부액: instant ? c.pay : "",
+      현금지원금: instant ? c.sup : "",
+      네이버페이: instant ? 30000 : 0,
+      광고수신동의: elx("agC").checked ? "Y" : "N",
+      유입경로: location.href,
+      기기정보: navigator.userAgent
     };
-    payload["유입경로"] = location.href;
-    payload["기기정보"] = navigator.userAgent;
 
     var btn = elx("mSubmit");
     var label = btn.textContent;
-    btn.disabled = true; btn.textContent = "전송 중...";
+    btn.disabled = true; btn.textContent = "접수 중...";
 
-    var showDone = function () {
-      elx("dSub").textContent = mode === "instant"
-        ? "선택하신 조건 그대로 안내드릴게요"
-        : "담당자가 곧 연락드릴게요";
-      elx("dNpay").style.display = mode === "instant" ? "" : "none";
-      step1.hidden = true; step2.hidden = false;
-      modal.querySelector(".msheet").scrollTop = 0;
+    sendLead(payload, function () {
       btn.disabled = false; btn.textContent = label;
-    };
-
-    sendLead(payload, showDone, function () {
+      /* 즉시신청은 추가정보 단계로, 이벤트만 신청은 바로 완료 */
+      if (instant) goStep(2); else showDone();
+    }, function () {
       btn.disabled = false; btn.textContent = label;
       err.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
     });
   });
+
+  /* ── 2차 제출: 주소 · 생년월일 · 성별 (이미 접수된 행을 보완) ── */
+  elx("mSubmit2").addEventListener("click", function () {
+    var err = elx("mErr2");
+    var birth = elx("fBirth").value.trim();
+    var ad = getAddr();
+
+    if (!ad.a1) return (err.textContent = "설치 주소를 검색해주세요");
+    if (!ad.a2) return (err.textContent = "상세주소(동·호수)를 입력해주세요");
+    if (!/^(19|20)\d{6}$/.test(birth)) return (err.textContent = "생년월일 8자리를 정확히 입력해주세요 (예: 19900101)");
+    if (!getSex()) return (err.textContent = "성별을 선택해주세요");
+    err.textContent = "";
+
+    var btn = elx("mSubmit2");
+    var label = btn.textContent;
+    btn.disabled = true; btn.textContent = "저장 중...";
+
+    sendLead({
+      액션: "보완",
+      접수ID: leadId,
+      생년월일: birth,
+      성별: getSex(),
+      우편번호: ad.zip,
+      설치주소: ad.a1,
+      상세주소: ad.a2,
+      건물유형: ad.bld
+    }, function () {
+      btn.disabled = false; btn.textContent = label;
+      showDone();
+    }, function () {
+      btn.disabled = false; btn.textContent = label;
+      /* 2차 실패해도 1차 접수는 이미 저장됨 — 막지 않는다 */
+      showDone();
+    });
+  });
+
+  /* 건너뛰기 — 1차 접수는 이미 저장되어 있으므로 그대로 완료 처리 */
+  elx("mSkip").addEventListener("click", showDone);
 })();
 
 /* ── 하단 고정 CTA: 본문 버튼이 보이면 숨김 ── */
