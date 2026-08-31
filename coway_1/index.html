@@ -102,9 +102,6 @@
   .tgl input{width:17px;height:17px;flex:none;accent-color:var(--orange);cursor:pointer}
   .tgl label{font-size:13px;font-weight:700;letter-spacing:-.3px;cursor:pointer}
   .tglnote{font-size:11px;color:var(--muted);font-weight:600;margin-top:3px;padding-left:25px;letter-spacing:-.2px}
-  .cardnote:not(:empty){color:#c2703f;background:#fff8f5;border-radius:8px;
-                        padding:7px 9px;margin-left:25px;margin-top:5px;line-height:1.55}
-  .cardnote b{font-weight:900}
 
   .out{
     margin-top:16px;padding:16px 15px;border-radius:12px;
@@ -513,7 +510,6 @@
         <label for="calcCard">제휴카드 할인 적용 (매월 <b>최대</b> −24,000원)</label>
       </div>
       <p class="tglnote">신한·우리카드 신규발급 · 전월실적 30만원 이상 기준</p>
-      <p class="tglnote cardnote" id="cardNote"></p>
 
       <div class="tgl">
         <input type="checkbox" id="calcHalf">
@@ -923,7 +919,6 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   var out     = document.getElementById("calcOut");
   var supOut  = document.getElementById("calcSup");
   var supNote = document.getElementById("supNote");
-  var cardNote = document.getElementById("cardNote");
   var halfNote= document.getElementById("halfNote");
   var halfM   = document.getElementById("halfM");
   var halfAfter=document.getElementById("halfAfter");
@@ -978,14 +973,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     if (half.checked) base = Math.round(rent / 2);
     else if (tasa.checked) base = Math.round(rent * 0.9 / 10) * 10;
     var cardUsed = chk.checked ? Math.min(CARD_DC, base) : 0;
-    var cardLost = chk.checked ? CARD_DC - cardUsed : 0;
     var v = base - cardUsed;
-
-    cardNote.innerHTML = !chk.checked ? ""
-      : (cardLost > 0
-          ? "이번 조건에선 청구액이 " + won(base) + "원이라 <b>카드할인이 " + won(cardUsed)
-            + "원까지만</b> 적용돼요 (한도 24,000원 중 " + won(cardLost) + "원 미사용)"
-          : "카드할인 <b>" + won(cardUsed) + "원</b> 전액 적용");
 
     out.innerHTML = won(v) + "<span>원</span>";
     var sup = supOf(p.code, termSel.value, half.checked);
