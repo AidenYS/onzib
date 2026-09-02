@@ -150,6 +150,18 @@
   .sticky button:active{background:#d43f10}
   .sticky p{text-align:center;font-size:11.5px;color:var(--muted);margin:6px 0 0}
 </style>
+<!-- Meta Pixel — 디비센스 발급본 (이사방 캠페인) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1555805032899363');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1555805032899363&ev=PageView&noscript=1"/></noscript>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
 (function(c,l,a,r,i,t,y){
@@ -236,7 +248,7 @@ try{ clarity("set","페이지","24bang"); }catch(e){}
     <p class="sub">1분이면 끝납니다</p>
     <div class="frame">
       <iframe
-        src="https://dbsense.kr/js/form/iframe.php?c12=0&width=800&cid=u3s5u1tygb&sid=u3s5&form=my2form40b&c13=0&c14=0&c10=8&c11=8&ver=1&c1=0&c2=0&c3=0&c4=0&btn=&autoHeight=485"
+        src="https://dbsense.kr/js/form/iframe.php?ver=1&cid=u3s5u1tygb&form=my2form40b&c1=0&c2=0&c3=0&c4=0&btn=&autoHeight=485"
         height="485" frameborder="0" scrolling="no"
         title="무료 방문견적 신청"></iframe>
     </div>
@@ -340,6 +352,32 @@ try{ clarity("set","페이지","24bang"); }catch(e){}
       es.forEach(function (e) { sticky.classList.toggle('hide', e.isIntersecting); });
     }, { threshold: 0.2 }).observe(apply);
   }
+})();
+</script>
+<script>
+/* 접수 완료 추적
+   디비센스 입력폼(iframe)이 접수가 끝나면 부모창으로
+   { cmd: 'facebookConversion' } 을 postMessage 로 보낸다.
+
+   · 출처 검사 : dbsense.kr 에서 온 메시지만 받는다.
+                아무 스크립트나 전환을 위조하지 못하도록.
+   · 중복 방지 : 메시지가 두 번 와도 한 번만 쏜다.
+   · Lead 도 함께 발송 : 디비센스 기본 코드는 CompleteRegistration 만 보낸다.
+                        메타 캠페인을 '잠재 고객'으로 잡으면 Lead 가 없어
+                        최적화가 안 걸리므로 둘 다 쏜다. */
+(function () {
+  var sent = false;
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.cmd !== 'facebookConversion') return;
+    if (String(e.origin).indexOf('dbsense.kr') === -1) return;
+    if (sent) return;
+    sent = true;
+    try {
+      fbq('track', 'Lead',   { content_name: '이사방 방문견적' });
+      fbq('track', 'CompleteRegistration', { content_name: '이사방 방문견적' });
+    } catch (err) {}
+    try { clarity('set', '퍼널', '접수완료'); } catch (err) {}
+  });
 })();
 </script>
 </body>
