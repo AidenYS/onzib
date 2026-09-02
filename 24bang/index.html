@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>이사방이 검증한 2매칭 무료 비교견적</title>
+<!--
+  ══════════════════════════════════════════════════════════
+  이사방 랜딩 v3 · 단순형 (v2에서 상단 배너만 교체)
+  ──────────────────────────────────────────────────────────
+  구성 :  배너 → 인증·수상 → 약속 → 입력폼 → 신청현황 → 작업현장 → 이용후기
+  · 접수는 디비센스 공식 입력폼(iframe) — 정산 경로 일치
+  · 금지 모델(서경석) / AI 생성 이미지 미사용
+  · 배너 : img/banner-v3.png (원본 스크린샷에서 여백 제거, 573x417)
+           v2 는 img/banner.png "2곳 견적 드립니다" 사용
+  · img/work1~7.jpg, review-door/-pack.jpg = 광고주 배포 공식 작업사진에서 선별·크롭
+      ⚠ 사진 선정 기준 2가지 (교체 시 반드시 지킬 것)
+        1) 유니폼 '서경석과 함께 이사방' 문구가 보이는 컷 금지
+        2) 트럭 대표번호 1544-3354 가 보이는 컷 금지 → 폼 우회 전화 = 정산 누락
+  · img/logo.png 은 로고만 잘라둔 예비 파일 — 현재 미사용
+  ══════════════════════════════════════════════════════════
+-->
+<style>
+  :root{
+    --navy:#1a3a8f; --ink:#14213d; --orange:#f4531f;
+    --line:#e3e8ef; --bg:#f5f7fa; --muted:#6b7482; --ok:#0f9d58;
+    --amber:#f6821f;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6;
+    word-break:keep-all; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:520px;margin:0 auto;background:#fff;min-height:100vh;
+        box-shadow:0 0 40px rgba(0,0,0,.06);padding-bottom:96px}
+
+  /* ══ 1. 배너 ══ */
+  .banner{margin:14px;border:2px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+  .banner img{display:block;width:100%;height:auto}
+
+  /* ══ 1-2. 인증·수상 ══ */
+  .cert{margin:0 14px 16px;border:1.5px solid #d7dde6;border-radius:14px;background:#fff;
+        padding:15px 10px 14px;box-shadow:0 2px 8px rgba(20,33,61,.05)}
+  .cert-hd{text-align:center;font-size:12px;font-weight:800;color:var(--muted);
+           margin:0 0 13px;letter-spacing:-.2px}
+  .cert-g{display:grid;grid-template-columns:1fr 1fr;gap:15px 6px}
+  .cert-g>div{text-align:center}
+  .cert-g img{display:block;width:56px;height:56px;margin:0 auto 6px}
+  .cert-g p{margin:0;font-size:11.5px;font-weight:700;color:var(--ink);
+            line-height:1.35;letter-spacing:-.3px}
+  .cert-g p span{display:block;font-size:10px;font-weight:600;color:#98a2b0;margin-top:2px}
+
+  /* ══ 2. 약속 ══ */
+  .pr{margin:0 14px 16px}
+  .pr-hd{text-align:center;margin:0 0 13px}
+  .pr-hd b{font-size:21.5px;font-weight:900;letter-spacing:-.6px;color:var(--ink)}
+  .pr-hd span{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+  .pr-list{display:flex;flex-direction:column;gap:10px}
+  .pc{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+      border-radius:14px;padding:15px 14px;box-shadow:0 2px 8px rgba(20,33,61,.05)}
+  .pc .bg{flex-shrink:0;width:52px;height:52px;border-radius:13px;display:flex;
+          flex-direction:column;align-items:center;justify-content:center;color:#fff;line-height:1.1}
+  .pc .bg b{font-size:17px;font-weight:900;letter-spacing:-.5px}
+  .pc .bg i{font-style:normal;font-size:9.5px;font-weight:700;opacity:.9;margin-top:1px}
+  .pc .bg.c1{background:linear-gradient(140deg,#12b76a,#0e9553)}
+  .pc .bg.c2{background:linear-gradient(140deg,#f6821f,#e35d0a)}
+  .pc .bg.c3{background:linear-gradient(140deg,#3b7ff0,#1a4fc4)}
+  .pc .tx{min-width:0}
+  .pc h3{font-size:15px;font-weight:800;margin:2px 0 4px;letter-spacing:-.4px;color:var(--ink)}
+  .pc p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.55}
+  .pc .chip{display:inline-block;font-size:10px;font-weight:800;color:#1a4fc4;
+            background:#e8effc;border-radius:4px;padding:2px 6px;letter-spacing:-.2px}
+  .pc .chip+h3{margin-top:5px}
+
+  /* ══ 3. 입력폼 ══ */
+  .apply{background:var(--navy);padding:24px 14px 26px}
+  .apply h2{color:#fff;text-align:center;font-size:21px;font-weight:800;
+            letter-spacing:-.5px;margin:0 0 4px}
+  .apply .sub{color:#b6c6e8;text-align:center;font-size:13.5px;margin:0 0 15px}
+  .frame{background:#fff;border-radius:16px;overflow:hidden}
+  .frame iframe{display:block;width:100%;border:0}
+  .apply .after{text-align:center;font-size:12px;color:#b6c6e8;margin:13px 0 0;line-height:1.6}
+
+  /* ══ 4. 신청현황 ══ */
+  .live{background:var(--bg);padding:22px 14px 26px}
+  .live .hd{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:11px}
+  .live .dot{width:8px;height:8px;border-radius:50%;background:#e5342a;animation:blink 1.2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .live .hd b{font-size:15px;font-weight:800;letter-spacing:-.3px}
+  .live .frame{border:1px solid var(--line)}
+
+  /* ══ 5. 작업 현장 ══ */
+  .wk{padding:22px 0 26px;background:#fff;border-top:1px solid var(--line)}
+  .wk-hd{text-align:center;margin:0 0 4px}
+  .wk-hd b{font-size:19px;font-weight:900;letter-spacing:-.5px}
+  .wk-sub{text-align:center;font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .wk-strip{display:flex;gap:9px;overflow-x:auto;padding:0 14px 4px;
+            /* mandatory 는 마지막 장이 끝까지 안 붙는 일이 생겨 proximity 로 둔다 */
+            scroll-snap-type:x proximity;scroll-padding-left:14px;
+            overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  .wk-strip::-webkit-scrollbar{height:0}
+  /* flex 스크롤 컨테이너는 브라우저에 따라 오른쪽 padding 을 무시한다.
+     마지막 장 뒤에 여백을 만들어 주는 스페이서. */
+  .wk-strip::after{content:"";flex:0 0 5px}
+  .wk-strip figure{flex:0 0 66%;max-width:230px;margin:0;scroll-snap-align:start}
+  .wk-strip img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
+                border-radius:11px;background:#e9edf3}
+  .wk-strip figcaption{font-size:11.5px;font-weight:700;color:#4a5568;
+                       margin-top:6px;text-align:center;letter-spacing:-.2px}
+
+  /* ══ 6. 이용후기 ══ */
+  .rv{background:var(--orange);padding:22px 12px 26px}
+  .rv-hd{text-align:center;color:#fff;font-size:19px;font-weight:900;
+         letter-spacing:-.5px;margin:0 0 14px}
+  .rc{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:11px;position:relative}
+  .rc:last-child{margin-bottom:0}
+  /* 후기 사진 — 좌우로 넘기는 스트립 */
+  .rc .ph{position:relative;background:#e9edf3;aspect-ratio:16/10;
+          display:flex;overflow-x:auto;overscroll-behavior-x:contain;
+          scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .rc .ph::-webkit-scrollbar{height:0}
+  .rc .ph img{flex:0 0 100%;display:block;width:100%;height:100%;
+              object-fit:cover;scroll-snap-align:center}
+  /* .ph 는 스크롤 컨테이너라 그 안에 절대배치하면 사진과 같이 밀린다.
+     래퍼(.phw)를 기준으로 고정한다. */
+  .rc .phw{position:relative}
+  .rc .swipe{position:absolute;right:9px;bottom:9px;z-index:2;pointer-events:none;
+             background:rgba(17,24,39,.62);color:#fff;font-size:10.5px;font-weight:700;
+             border-radius:20px;padding:4px 9px;letter-spacing:-.2px;
+             backdrop-filter:blur(3px)}
+  .rc .bd{padding:13px 14px 15px}
+  .rc h3{font-size:16px;font-weight:900;color:var(--navy);letter-spacing:-.5px;
+         margin:0 0 7px;display:flex;gap:6px;align-items:center}
+  .rc h3 em{font-style:normal;font-size:14px;opacity:.5}
+  .rc .txt{font-size:12.5px;color:#4a5568;line-height:1.7;margin:0;white-space:pre-line}
+
+  footer{background:#eef1f6;padding:22px 20px 28px;font-size:11.5px;color:#78828f;line-height:1.7}
+  footer b{color:#5a6577}
+
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.97);
+          border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+          transition:transform .25s ease}
+  .sticky.hide{transform:translateY(115%)}
+  .sticky .in{max-width:520px;margin:0 auto}
+  .sticky button{width:100%;height:54px;border:0;border-radius:13px;background:var(--orange);color:#fff;
+                 font-family:inherit;font-size:16.5px;font-weight:800;cursor:pointer}
+  .sticky button:active{background:#d43f10}
+  .sticky p{text-align:center;font-size:11.5px;color:var(--muted);margin:6px 0 0}
+</style>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "uryq9of2r0");
+try{ clarity("set","페이지","24bang"); }catch(e){}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. 배너 -->
+  <div class="banner">
+    <img src="/24bang/img/banner-v3.png" width="573" height="417"
+         alt="이사방이 검증한 2매칭 무료 비교견적">
+  </div>
+
+  <!-- 1-2. 인증·수상
+       img/cert1~4.png = 이사방 공식 인증 배지 4종을 원본에서 잘라낸 것.
+       괄호 안 기관·연도는 배지에 새겨진 값 그대로 (검수 대응용, 임의 삭제 금지). -->
+  <div class="cert">
+    <p class="cert-hd">이사방이 받은 인증 · 수상</p>
+    <div class="cert-g">
+      <div>
+        <img src="/24bang/img/cert1.png" width="56" height="56" alt="ISO 9001 인증 마크">
+        <p>ISO 서비스 품질인증<span>ISO 9001 · kfq</span></p>
+      </div>
+      <div>
+        <img src="/24bang/img/cert2.png" width="56" height="56" alt="대한민국 소비자만족도 1위 메달">
+        <p>대한민국 소비자만족도 1위<span>KCSA 2023</span></p>
+      </div>
+      <div>
+        <img src="/24bang/img/cert3.png" width="56" height="56" alt="프리미엄 브랜드 대상 메달">
+        <p>프리미엄 브랜드 대상<span>포장이사 부문 · 2017</span></p>
+      </div>
+      <div>
+        <img src="/24bang/img/cert4.png" width="56" height="56" alt="한국소비자 만족지수 1위 메달">
+        <p>한국소비자 만족지수 1위<span>포장이사 부문 · KSCI</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 약속 -->
+  <div class="pr">
+    <p class="pr-hd"><b>이사방이 지키는 약속</b>
+      <span>신청 전에 꼭 확인하세요</span></p>
+    <div class="pr-list">
+
+      <div class="pc">
+        <div class="bg c1"><b>0원</b><i>방문견적</i></div>
+        <div class="tx">
+          <h3>방문견적은 무료입니다</h3>
+          <p>전문가가 직접 방문해 짐의 양과 작업 조건을 확인하고 견적을 안내해 드립니다.</p>
+        </div>
+      </div>
+
+      <div class="pc">
+        <div class="bg c2"><b>정찰</b><i>추가요금 X</i></div>
+        <div class="tx">
+          <h3>당일 추가요금을 요구하지 않습니다</h3>
+          <p>견적서에 적힌 금액 그대로 진행합니다.</p>
+        </div>
+      </div>
+
+      <div class="pc">
+        <div class="bg c3"><b>2곳</b><i>우수지점</i></div>
+        <div class="tx">
+          <span class="chip">✓ 이사방이 검증한 지점</span>
+          <h3>검증된 2곳에서만 연락드립니다</h3>
+          <p>지역별 우수지점 2곳만 연결해 드립니다.
+             아무 업체에나 번호가 넘어가지 않으니 수십 통의 전화에 시달릴 일이 없습니다.</p>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- 3. 입력폼 -->
+  <div class="apply" id="apply">
+    <h2>무료 방문견적 신청</h2>
+    <p class="sub">1분이면 끝납니다</p>
+    <div class="frame">
+      <iframe
+        src="https://dbsense.kr/js/form/iframe.php?c12=0&width=800&cid=u3s5u1tygb&sid=u3s5&form=my2form40b&c13=0&c14=0&c10=8&c11=8&ver=1&c1=0&c2=0&c3=0&c4=0&btn=&autoHeight=485"
+        height="485" frameborder="0" scrolling="no"
+        title="무료 방문견적 신청"></iframe>
+    </div>
+    <p class="after">신청 후 지역별 우수지점 2곳에서 순차적으로 연락드립니다.<br>
+      방문 일정은 통화로 조율해 드립니다.</p>
+  </div>
+
+  <!-- 4. 신청현황 -->
+  <div class="live">
+    <div class="hd"><span class="dot"></span><b>실시간 신청 현황</b></div>
+    <div class="frame">
+      <iframe
+        src="https://dbsense.kr/js/form/live_list.html?cid=u3s5u1tygb&c11=8&c12=0&c13=0&c14=0&width=800"
+        height="300" frameborder="0" scrolling="no" loading="lazy"
+        title="실시간 신청 현황"></iframe>
+    </div>
+  </div>
+
+  <!-- 5. 작업 현장
+       전부 광고주(디비센스)가 배포한 이사방 공식 작업사진.
+       선정 기준 2가지 —
+         · 유니폼의 '서경석과 함께 이사방' 문구가 안 보이는 컷만 사용
+           (브리프 금지사항 : 모델 서경석 사용 불가)
+         · 트럭 차체의 대표번호 1544-3354 가 안 나오는 컷만 사용
+           (번호 노출 시 폼을 안 거치고 직접 전화 → 정산 누락) -->
+  <div class="wk">
+    <p class="wk-hd"><b>실제 이사방 작업 현장</b></p>
+    <p class="wk-sub">옆으로 넘겨서 보세요</p>
+    <div class="wk-strip">
+      <figure><img src="/24bang/img/work1.jpg" loading="lazy" alt="이삿짐을 실은 트럭 적재함">
+        <figcaption>전용 박스로 적재</figcaption></figure>
+      <figure><img src="/24bang/img/work2.jpg" loading="lazy" alt="거실에 소파를 설치하는 작업자">
+        <figcaption>가구 배치까지</figcaption></figure>
+      <figure><img src="/24bang/img/work3.jpg" loading="lazy" alt="전용 커버로 포장한 매트리스">
+        <figcaption>매트리스 전용 커버</figcaption></figure>
+      <figure><img src="/24bang/img/work4.jpg" loading="lazy" alt="주방에서 냉장고를 다루는 작업자">
+        <figcaption>가전 설치</figcaption></figure>
+      <figure><img src="/24bang/img/work5.jpg" loading="lazy" alt="장롱 내부를 닦는 작업자">
+        <figcaption>수납장 청소</figcaption></figure>
+      <figure><img src="/24bang/img/work6.jpg" loading="lazy" alt="이사 후 바닥을 청소하는 작업자">
+        <figcaption>배치 전 바닥 청소</figcaption></figure>
+      <figure><img src="/24bang/img/work7.jpg" loading="lazy" alt="정리를 마친 옷장">
+        <figcaption>옷장 정리 완료</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- 6. 이용후기 -->
+  <div class="rv">
+    <p class="rv-hd">이사방 이용후기</p>
+      <!-- 후기 2 ─ 네이버 블로그 '랄라' (내돈내산) -->
+      <div class="rc">
+        <div class="phw">
+        <div class="ph">
+          <!-- 후기 사진 2장. 둘 다 이사방 공식 현장사진에서 선별.
+               유니폼의 '서경석과 함께 이사방' 문구 · 트럭 대표번호 노출 없음.
+                 1) 작업현장4/48.jpg     냉장고 문짝 분리
+                    → 후기 본문 '문짝만 떼서 옮기고 다시 조립' 대목과 맞춘 컷
+                 2) 작업현장3/도.주방20.jpg  에어캡으로 그릇 포장 -->
+          <img src="/24bang/img/review-door.jpg" alt="">
+          <img src="/24bang/img/review-pack.jpg" alt="">
+        </div>
+        <span class="swipe">사진 2장 · 옆으로 밀기</span>
+        </div>
+        <div class="bd">
+          <h3><em>💬</em>추가 금액 없음을 계약서에 기입해 주셨다</h3>
+          <p class="txt">“견적이 다른 이사업체보다 조금 비싼 편이었지만 이건 다른 업체가 낸 견적보다 작업 인원이 1명 늘어나서였던 것 같다.”
+
+“추가 금액 없음을 계약서에 기입해 주시기도 하셨고 (…) 선 계약금은 없었다.”
+
+“문자에는 7시 10분에 도착하신다고 했지만 (…) 정말로 정확히 7시 10분에 오셨다. 견적을 볼 때도 약속한 시간에 맞춰 오신 걸 보면 시간 약속에 철저하신 편인 것 같았다.”
+
+“이사 자체에 엄청 걱정이 많았는데, 매우 만족했다. (…) 하지만 모든 건 케바케니 참고만 해주시길^^”</p>
+        </div>
+      </div>
+
+  </div>
+
+  <footer>
+    개인정보의 수집·이용 및 제3자 제공에 관한 사항은 신청 폼 내 동의 항목을 따릅니다.<br>
+    수집된 정보는 이사 견적 상담 및 방문 일정 조율 목적으로만 이용되며,
+    지역별 제휴 이사업체에 제공됩니다.
+  </footer>
+</div>
+
+<div class="sticky" id="sticky">
+  <div class="in">
+    <button type="button" id="ctaBtn">무료 방문견적 받기</button>
+    <p>신청 1분 · 비용 0원 · 검증된 2곳 비교</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var apply = document.getElementById('apply');
+  var sticky = document.getElementById('sticky');
+  document.getElementById('ctaBtn').addEventListener('click', function () {
+    apply.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { sticky.classList.toggle('hide', e.isIntersecting); });
+    }, { threshold: 0.2 }).observe(apply);
+  }
+})();
+</script>
+</body>
+</html>

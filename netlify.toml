@@ -52,6 +52,11 @@
   status = 200
 
 [[redirects]]
+  from = "/24bang"
+  to   = "/24bang/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to   = "/index.html"
   status = 200
