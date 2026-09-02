@@ -41,6 +41,16 @@
   .banner{margin:14px;border:2px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
   .banner img{display:block;width:100%;height:auto}
 
+  /* ══ 1-1. 후크 카피 ══ */
+  .hook{margin:0 14px 16px;text-align:center}
+  .hook .q{margin:0;font-size:13px;color:var(--muted);font-weight:600;letter-spacing:-.3px}
+  .hook .q s{text-decoration:none;border-bottom:1.5px dotted #c3cad4;padding-bottom:1px}
+  .hook .a{margin:7px 0 0;font-size:17.5px;font-weight:900;letter-spacing:-.7px;
+           color:var(--ink);line-height:1.35}
+  .hook .a b{color:var(--orange)}
+  .hook .a i{font-style:normal;display:block;font-size:11.5px;font-weight:700;
+             color:var(--muted);letter-spacing:-.2px;margin-top:6px}
+
   /* ══ 1-2. 인증·수상 ══ */
   .cert{margin:0 14px 16px;border:1.5px solid #d7dde6;border-radius:14px;background:#fff;
         padding:15px 10px 14px;box-shadow:0 2px 8px rgba(20,33,61,.05)}
@@ -179,6 +189,16 @@ try{ clarity("set","페이지","24bang"); }catch(e){}
   <div class="banner">
     <img src="/24bang/img/banner-v3.png" width="573" height="417"
          alt="이사방이 검증한 2매칭 무료 비교견적">
+  </div>
+
+  <!-- 1-1. 후크 카피
+       "우수지점 2곳 선별"(브리프)을 고객 언어로 옮긴 것.
+       ⚠ '최저가' '가장 싸다' 같은 최상급은 전 업체 가격 비교 근거가 있어야
+         쓸 수 있다. 근거가 없으므로 쓰지 않는다. -->
+  <div class="hook">
+    <p class="q"><s>싼 곳은 불안하고, 잘하는 곳은 비쌉니다</s></p>
+    <p class="a">이사방은 <b>둘 다 통과한 2곳</b>만 연결합니다
+      <i>실력으로 한 번, 가격으로 또 한 번 거른 지역 우수지점</i></p>
   </div>
 
   <!-- 1-2. 인증·수상
