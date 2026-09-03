@@ -42,6 +42,16 @@
   status = 200
 
 [[redirects]]
+  from = "/coway-4"
+  to   = "/coway_4/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/coway-4/*"
+  to   = "/coway_4/index.html"
+  status = 200
+
+[[redirects]]
   from = "/care-1"
   to   = "/care_1/index.html"
   status = 200
