@@ -569,16 +569,19 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
       </div>
 
       <div class="fld">
-        <div class="tgl">
-          <input type="checkbox" id="calcHalf" checked>
-          <label for="calcHalf">반값할인 프로모션 (렌탈료 50%)</label>
-        </div>
+        <!-- 제휴카드를 맨 위로. 셋 중 유일하게 조건 없이 누구나 받는 할인이고
+             기본으로 켜져 있으므로, 첫 줄에 두는 편이 순서와 상태가 맞는다.
+             coway-1~4 도 이 순서다. -->
         <div class="tgl">
           <input type="checkbox" id="calcCard" checked>
           <label for="calcCard">제휴카드 할인 적용</label>
         </div>
         <p class="tglnote">신한·우리 제휴카드 기준 월 24,000원 · 전월실적 30만원 이상<br>
           할인액은 카드사·실적 구간에 따라 8,000원~26,000원으로 다릅니다</p>
+        <div class="tgl">
+          <input type="checkbox" id="calcHalf" checked>
+          <label for="calcHalf">반값할인 프로모션 (렌탈료 50%)</label>
+        </div>
         <div class="tgl">
           <input type="checkbox" id="calcTasa">
           <label for="calcTasa">타사보상 할인 (약 10% · 타사 렌탈 이용 중)</label>
