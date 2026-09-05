@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>강남스마일안과 · 뉴 스마일라식 할인 이벤트</title>
+<meta name="description" content="4년 연속 뉴스마일라식 최다 수술. 본 예약링크로만 적용되는 정밀검사 지원 · 우대가 최대적용 · 당일수술 추가할인 혜택을 확인하세요.">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:type" content="website">
+<meta property="og:title" content="강남스마일안과 · 뉴 스마일라식 할인 이벤트">
+<meta property="og:description" content="눈 앞에 신세계가 펼쳐질 것입니다. 본 예약링크 전용 특별혜택.">
+<meta property="og:image" content="/smile/img/e1.jpg">
+<style>
+  :root{
+    --ink:#111418; --muted:#6b7280; --line:#e5e7eb;
+    --red:#e8194b; --deep:#12161c; --bg:#fff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{background:#f3f4f6;color:var(--ink);
+       font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",
+                   system-ui,-apple-system,sans-serif;
+       line-height:1.5;-webkit-font-smoothing:antialiased}
+  img{border:0}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+  /* 본문 폭. 소재가 860px 기준이라 그 이상은 늘리지 않는다. */
+  .wrap{max-width:860px;margin:0 auto;background:var(--bg);
+        box-shadow:0 0 40px rgba(0,0,0,.06);
+        padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+
+  /* ── 상단 고지 바 ────────────────────────────────────────
+     "몇 명이 보고 있습니다" 자리를 혜택 한정 고지로 바꿨다.
+     사람 수를 지어내지 않으면서도 이 페이지에서 끝내야 할 이유가 된다. */
+  .topbar{display:flex;align-items:center;justify-content:center;gap:7px;
+          background:var(--deep);color:#fff;padding:10px 14px;
+          font-size:12.5px;font-weight:700;letter-spacing:-.4px;text-align:center}
+  .topbar i{width:6px;height:6px;border-radius:50%;background:#ff5b7f;
+            flex:0 0 auto;animation:blip 2.4s ease-in-out infinite}
+  @keyframes blip{0%,100%{opacity:1}50%{opacity:.25}}
+  .topbar b{color:#ffd166;font-weight:800}
+
+  /* ── 히어로 : 흐린 시야가 천천히 선명해진다 ───────────────
+     e3(가장 흐림)를 바닥에 깔고 e2·e1 을 그 위에서 교차 페이드한다.
+     22초 한 바퀴, 한 번 바뀌는 데 3초 이상 — 깜박임이 아니라
+     "서서히 초점이 잡히는" 속도다. 선명한 상태와 흐린 상태를
+     각각 몇 초씩 머무르게 해서 눈이 따라가느라 피로해지지 않게 했다. */
+  .hero{position:relative;overflow:hidden;background:#dfe6ec}
+  .eyes{position:relative}
+  .eyes img{display:block;width:100%;height:auto}
+  .eyes .l2,.eyes .l1{position:absolute;inset:0;height:100%;
+                      object-fit:cover;opacity:0;will-change:opacity}
+  @keyframes seeMid  {0%,14%{opacity:0} 30%,74%{opacity:1} 90%,100%{opacity:0}}
+  @keyframes seeClear{0%,26%{opacity:0} 44%,60%{opacity:1} 74%,100%{opacity:0}}
+  .eyes .l2{animation:seeMid   22s ease-in-out infinite}
+  .eyes .l1{animation:seeClear 22s ease-in-out infinite}
+
+  /* 글자가 놓이는 위쪽만 하얗게 눌러 준다.
+     길게 덮으면 시력표까지 흐려져 초점이 잡히는 게 안 보인다.
+     글자 줄에서 끊고 시력표 위에서는 걷히도록 32% 로만 깐다. */
+  .hero .scrim{position:absolute;left:0;right:0;top:0;height:32%;pointer-events:none;
+       background:linear-gradient(180deg,rgba(255,255,255,.97) 0%,
+                                  rgba(255,255,255,.90) 42%,
+                                  rgba(255,255,255,.50) 72%,
+                                  rgba(255,255,255,0) 100%)}
+  .hero .head{position:absolute;left:50%;top:4.5%;transform:translateX(-50%);
+              width:74%;max-width:620px;height:auto}
+
+  @media (prefers-reduced-motion:reduce){
+    .eyes .l2,.eyes .l1{animation:none}
+    .eyes .l1{opacity:1}                 /* 움직임을 끄면 선명한 장면으로 고정 */
+    .topbar i{animation:none}
+  }
+
+  /* ── 본문 이미지 : 흰 줄에서 잘라 이어 붙였다 ────────────── */
+  .strip{display:block;font-size:0;background:#fff}
+  .strip img{display:block;width:100%;height:auto;vertical-align:top}
+
+  /* ── 신청 폼 ─────────────────────────────────────────────*/
+  .form{padding:30px 18px 34px;background:#fff;border-top:1px solid var(--line)}
+  .form h2{font-size:21px;font-weight:900;letter-spacing:-.8px;text-align:center}
+  .form .lead{margin-top:9px;text-align:center;font-size:13.5px;color:var(--muted);
+              letter-spacing:-.3px;line-height:1.6}
+  .form .box{margin-top:18px;padding:16px 14px;border:1.5px solid var(--line);
+             border-radius:14px;background:#fafbfc;min-height:180px}
+
+  /* ── 하단 고정 버튼 ──────────────────────────────────────*/
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:20;
+       padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+       background:rgba(255,255,255,.94);backdrop-filter:blur(8px);
+       border-top:1px solid var(--line);transition:transform .25s ease}
+  .bar.hide{transform:translateY(120%)}
+  .bar .in{max-width:860px;margin:0 auto}
+  .bar button{width:100%;padding:15px;border-radius:12px;background:var(--red);
+              color:#fff;font-size:16px;font-weight:900;letter-spacing:-.5px;
+              box-shadow:0 6px 18px rgba(232,25,75,.3)}
+  .bar button:active{transform:translateY(1px)}
+
+  footer{padding:22px 18px 30px;background:var(--deep);color:#8b93a1;
+         font-size:11.5px;line-height:1.75;letter-spacing:-.2px}
+  footer b{display:block;color:#fff;font-size:13px;font-weight:800;margin-bottom:7px}
+  footer p+p{margin-top:7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="topbar"><i></i><span>본 혜택은 <b>이 페이지에만</b> 적용됩니다</span></p>
+
+  <!-- 1. 히어로 : 헤드라인 뒤에서 시야가 흐림 ↔ 선명 으로 천천히 오간다 -->
+  <section class="hero">
+    <div class="eyes">
+      <img src="/smile/img/e3.jpg" width="860" height="1097"
+           alt="시력이 흐려 잘 보이지 않는 시야" fetchpriority="high">
+      <img class="l2" src="/smile/img/e2.jpg" width="860" height="1097" alt="" aria-hidden="true">
+      <img class="l1" src="/smile/img/e1.jpg" width="860" height="1097" alt="" aria-hidden="true">
+    </div>
+    <span class="scrim"></span>
+    <img class="head" src="/smile/img/headline.png" width="620" height="220"
+         alt="눈 앞에 신세계가 펼쳐질 것입니다">
+  </section>
+
+  <!-- 2. 본문 앞부분 -->
+  <div class="strip">
+    <img src="/smile/img/s1.jpg" width="860" height="1690" alt="하루가 아닌 단 5분, 흐릿한 세상과 작별하세요 — 뉴 스마일라식 할인 이벤트">
+    <img src="/smile/img/s2.jpg" width="860" height="1500" alt="본 예약링크 특별혜택 : 70여가지 정밀검사 지원 · 우대가 최대적용 · 당일수술 추가할인 · ATOS 정품 인증 카드" loading="lazy">
+    <img src="/smile/img/s3.jpg" width="860" height="1500" alt="5세대 시력교정술 차세대 스마일라식 — 단 2mm 각막 미세절개" loading="lazy">
+    <img src="/smile/img/s4.jpg" width="860" height="1660" alt="POINT 1 검증된 의료진 · POINT 2 고급 첨단 장비 SCHWIND ATOS" loading="lazy">
+    <img src="/smile/img/t1.jpg" width="860" height="1690" alt="POINT 3 목표 시력 달성 — 근시교정 98%, 난시교정 99% · 실제 리뷰" loading="lazy">
+    <img src="/smile/img/t2.jpg" width="860" height="830" alt="본 예약링크 특별혜택 4가지" loading="lazy">
+  </div>
+
+  <!-- 3. 예약 접수 -->
+  <section class="form" id="form">
+    <h2>예약 신청</h2>
+    <p class="lead">위 특별혜택은 이 페이지를 통해 접수된 예약에만 적용됩니다.<br>
+      아래 정보를 남기시면 담당자가 연락드립니다.</p>
+    <div class="box">
+      <tenping class="adsbytenping" style="width:100%; margin:0 auto; display:block;" tenping-ad-type="CInmlFSNPJoo9rBMK%2brlTg%3d%3d" tenping-ad-client="76BNZr4AdyVbR8lA2elJ3UbAOk8Gj%2bWIBJ6%2fs0aulJwLP2AI0ArgSLS%2bnD8%2f7SRT" tenping-ad-campaign="2024052210500006" tenping-ad-distributionAddID="2026090512510004" tenping-ad-contain_image="false" tenping-ad-contain_logo="false" tenping-ad-contain_Plugin="false" tenping-ad-contain_TpCall="false" tenping-ad-theme="default" tenping-ad-contain_privacy="false"></tenping><script async src="//ads.tenping.kr/scripts/adsbytenping.min.js"></script>
+    </div>
+  </section>
+
+  <footer>
+    <b>강남스마일안과</b>
+    <p>본 페이지는 강남스마일안과 시력교정 상담·예약 접수를 위한 광고 페이지입니다.</p>
+    <p>수술 방법과 결과는 개인의 눈 상태에 따라 다를 수 있으며,
+       모든 사람에게 동일하게 적용되지 않습니다. 정확한 사항은 정밀검사와
+       전문의 상담을 통해 확인하시기 바랍니다.</p>
+  </footer>
+</div>
+
+<div class="bar" id="bar">
+  <div class="in"><button type="button" id="go">예약하고 특별혜택 받기</button></div>
+</div>
+
+<script>
+(function () {
+  var bar = document.getElementById("bar"), form = document.getElementById("form");
+
+  document.getElementById("go").addEventListener("click", function () {
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  /* 폼이 화면에 들어오면 버튼을 내린다 — 입력칸을 가리지 않게. */
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      bar.classList.toggle("hide", es[0].isIntersecting);
+    }, { threshold: 0.15 }).observe(form);
+  }
+})();
+</script>
+</body>
+</html>
