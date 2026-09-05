@@ -75,6 +75,10 @@
   /* ── 본문 이미지 : 흰 줄에서 잘라 이어 붙였다 ────────────── */
   .strip{display:block;font-size:0;background:#fff}
   .strip img{display:block;width:100%;height:auto;vertical-align:top}
+  /* 빨간 특별혜택 배너만 따로 떼어 링크로 감쌌다. 누르면 예약 신청으로 내려간다.
+     사진이라 눌리는 게 안 보이므로 누르는 순간 살짝 눌러앉게 해 반응을 준다. */
+  .strip a.jump{display:block;transition:opacity .12s,transform .12s}
+  .strip a.jump:active{opacity:.88;transform:scale(.994)}
 
   /* ── 신청 폼 ─────────────────────────────────────────────*/
   .form{padding:30px 18px 34px;background:#fff;border-top:1px solid var(--line)}
@@ -178,12 +182,16 @@
 
   <!-- 2. 본문 앞부분 -->
   <div class="strip">
-    <img src="/smile/img/s1.jpg" width="860" height="1690" alt="하루가 아닌 단 5분, 흐릿한 세상과 작별하세요 — 뉴 스마일라식 할인 이벤트">
-    <img src="/smile/img/s2.jpg" width="860" height="1500" alt="본 예약링크 특별혜택 : 70여가지 정밀검사 지원 · 우대가 최대적용 · 당일수술 추가할인 · ATOS 정품 인증 카드" loading="lazy">
-    <img src="/smile/img/s3.jpg" width="860" height="1500" alt="5세대 시력교정술 차세대 스마일라식 — 단 2mm 각막 미세절개" loading="lazy">
+    <img src="/smile/img/s1.jpg" width="860" height="1220" alt="하루가 아닌 단 5분, 흐릿한 세상과 작별하세요 — 뉴 스마일라식 할인 이벤트">
+    <a class="jump" href="#form"><img src="/smile/img/b1.jpg" width="860" height="470"
+       alt="본 예약링크 특별혜택 : 70여가지 정밀검사 지원 · 우대가 최대적용 · 당일수술 추가할인 · ATOS 정품 인증 카드 — 눌러서 바로 예약 신청" loading="lazy"></a>
+    <img src="/smile/img/s2.jpg" width="860" height="1500" alt="5세대 시력교정술 차세대 스마일라식 — 단 2mm 각막 미세절개" loading="lazy">
+    <img src="/smile/img/s3.jpg" width="860" height="1500" alt="빠른 회복 · 각막손상 최소화 · 안구건조증 최소화 · 외부충격에 강함 · 빛번짐 최소화" loading="lazy">
     <img src="/smile/img/s4.jpg" width="860" height="1701" alt="POINT 1 검증된 의료진 · POINT 2 고급 첨단 장비 SCHWIND ATOS" loading="lazy">
     <img src="/smile/img/t1.jpg" width="860" height="1730" alt="POINT 3 목표 시력 달성 — 근시교정 98%, 난시교정 99% · 실제 리뷰" loading="lazy">
-    <img src="/smile/img/t2.jpg" width="860" height="830" alt="본 예약링크 특별혜택 4가지" loading="lazy">
+    <img src="/smile/img/t2.jpg" width="860" height="350" alt="" loading="lazy">
+    <a class="jump" href="#form"><img src="/smile/img/b2.jpg" width="860" height="480"
+       alt="본 예약링크 특별혜택 4가지 — 눌러서 바로 예약 신청" loading="lazy"></a>
   </div>
 
   <!-- 3. 잔여 자리 ① — 특별혜택 배너 바로 아래 -->
@@ -235,8 +243,14 @@
 (function () {
   var bar = document.getElementById("bar"), form = document.getElementById("form");
 
-  document.getElementById("go").addEventListener("click", function () {
-    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  function toForm() { form.scrollIntoView({ behavior: "smooth", block: "start" }); }
+
+  document.getElementById("go").addEventListener("click", toForm);
+
+  /* 특별혜택 배너 → 예약 신청. href="#form" 이 그대로 있으니
+     스크립트가 죽어도 이동은 된다. */
+  Array.prototype.forEach.call(document.querySelectorAll("a.jump"), function (a) {
+    a.addEventListener("click", function (e) { e.preventDefault(); toForm(); });
   });
 
   /* 폼이 화면에 들어오면 버튼을 내린다 — 입력칸을 가리지 않게. */
