@@ -22,46 +22,6 @@
   status = 200
 
 [[redirects]]
-  from = "/coway-2"
-  to   = "/coway_2/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-2/*"
-  to   = "/coway_2/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-3"
-  to   = "/coway_3/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-3/*"
-  to   = "/coway_3/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-4"
-  to   = "/coway_4/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-4/*"
-  to   = "/coway_4/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-5"
-  to   = "/coway_5/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-6"
-  to   = "/coway_6/index.html"
-  status = 200
-
-[[redirects]]
   from = "/coway-7"
   to   = "/coway_7/index.html"
   status = 200
