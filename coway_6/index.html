@@ -99,14 +99,7 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
           background:#3d4657;margin-left:9px;vertical-align:-1px}
 
   /* ── 1. 히어로 ──────────────────────────────────────── */
-  .hero{padding:16px 18px 2px;text-align:center}
-  .hero .eyebrow{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:-.3px;
-        color:var(--orange);background:#fff1ec;border-radius:20px;padding:5px 12px}
-  .hero h1{margin:9px 0 0;font-size:26px;font-weight:900;letter-spacing:-1.1px;line-height:1.26}
-  .hero h1 b{color:var(--orange)}
-  /* '최대'를 쓰는 자리라 범위와 지급조건은 지울 수 없다. 세 줄을 한 줄로 줄인다. */
-  .hero .cond{margin:7px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;letter-spacing:-.3px}
-  .hero .shot{width:150px;margin:6px auto -6px}
+  .hero{padding:10px 18px 2px;text-align:center}
 
   /* ── 2. 결과 카드 ────────────────────────────────────
      이 페이지의 중심. 기본값은 마크업에 텍스트로 박아 두고
@@ -122,14 +115,53 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   .bdg.c{background:#eef2ff;color:#4338ca}
   .bdg[hidden]{display:none}
 
-  .res-pay{margin-top:14px}
-  .res-pay .k{font-size:13.5px;font-weight:700;color:var(--muted)}
-  .res-pay b{display:block;margin-top:2px;font-size:48px;font-weight:900;letter-spacing:-2.5px;
-             color:var(--orange);line-height:1.05;font-variant-numeric:tabular-nums}
-  .res-pay b i{font-style:normal;font-size:20px;font-weight:800;margin-left:3px;letter-spacing:-.5px}
+  /* ── 1순위 : 현금지원금 ────────────────────────────
+     약정 하나로 12만~34만이 움직이는 유일한 값이라 제일 크게 쓴다. */
+  .sup{margin-top:10px}
+  .sup .k{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:-.3px}
+  .sup .k b{color:var(--ink);font-weight:800}
+  .sup > b{display:block;margin-top:1px;font-size:42px;font-weight:900;letter-spacing:-2.2px;
+           color:var(--orange);line-height:1.08;font-variant-numeric:tabular-nums}
+  .sup .sub{margin-top:4px}
+
+  /* ── 2순위 : 월 납부액 ─────────────────────────────
+     92개 조합 중 65개가 0원이라 조건을 바꿔도 거의 안 변한다.
+     크기를 내리고 이 숫자가 서 있는 전제를 바로 밑에 붙인다. */
+  .res-pay{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);
+           display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .res-pay .k{font-size:13px;font-weight:700;color:var(--muted)}
+  .res-pay b{font-size:26px;font-weight:900;letter-spacing:-1.2px;color:var(--ink);
+             line-height:1.1;font-variant-numeric:tabular-nums}
+  .res-pay b i{font-style:normal;font-size:14px;font-weight:800;margin-left:2px;letter-spacing:-.4px}
+  .res-pay .sub{flex:1 0 100%;margin-top:3px}
+  .res-pay .warn{color:#9a5b00}
+  .res-pay .warn b{font-size:inherit;font-weight:800;color:#9a5b00;letter-spacing:-.3px}
   .sub{font-size:12px;color:var(--muted);line-height:1.55;letter-spacing:-.3px}
   .res-pay .sub{margin-top:6px}
   .res-pay .sub b{display:inline;font-size:inherit;color:var(--ink);font-weight:800;letter-spacing:-.3px}
+
+  /* ── 조건 : 결과 숫자와 CTA 사이 ───────────────────
+     아래로 내려갔다 올라오는 왕복을 없애는 것이 이 배치의 전부다. */
+  .qc{margin-top:11px;padding-top:10px;border-top:1px solid var(--line)}
+  .qc-f + .qc-f{margin-top:9px}
+  .qc .lb{display:block;font-size:12px;font-weight:800;letter-spacing:-.4px;margin-bottom:6px}
+  .qc .hint{margin-top:5px;font-size:11.5px;color:var(--muted);letter-spacing:-.3px;line-height:1.45}
+
+  /* 할인 3종은 기본값이 최적이라 접는다. 단 적용 중인 할인은 접힌 채로도
+     보여야 한다 — 안 그러면 0원이 아무 조건 없는 값으로 읽힌다. */
+  .dsc{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;
+       margin-top:9px;padding:9px 10px;border:1px solid var(--line);border-radius:11px;
+       background:#fafbfc;min-height:46px;text-align:left}
+  .dsc-b{display:flex;flex-wrap:wrap;gap:5px;min-width:0}
+  .dsc-m{flex:0 0 auto;font-size:11.5px;font-weight:800;color:var(--orange);letter-spacing:-.3px}
+  .dsc-m i{font-style:normal;display:inline-block;margin-left:2px;transition:transform .18s}
+  .dsc[aria-expanded="true"] .dsc-m i{transform:rotate(180deg)}
+  .dsc-body[hidden]{display:none}
+  .dsc-body{margin-top:9px;padding:11px 12px;border:1px solid var(--line);
+            border-radius:11px;background:#fafbfc}
+  .bdg.t{background:#ecfdf5;color:#047857}
+
+  .np1{color:var(--muted)}
 
   .res-line{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
   .res-line .lr{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
@@ -356,13 +388,13 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
           overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
   .gstrip::-webkit-scrollbar{height:0}
   .gstrip::after{content:"";flex:0 0 4px}
-  .gstrip img{flex:0 0 calc(50% - 19px);aspect-ratio:1;object-fit:contain;
+  .gstrip img{flex:0 0 calc(50% - 19px);height:124px;object-fit:contain;
               scroll-snap-align:start;background:#fff;border-radius:12px;
               border:1px solid var(--line)}
   .gdots{display:flex;justify-content:center;gap:6px;margin-top:9px;min-height:7px}
   .gdots i{width:7px;height:7px;border-radius:50%;background:#d7dce3;transition:all .2s}
   .gdots i.on{background:var(--orange);width:18px;border-radius:20px}
-  .galhint{margin-top:7px;font-size:11px;color:#9aa1ac;font-weight:600;letter-spacing:-.2px}
+  .galhint{margin-top:5px;font-size:10.5px;color:#9aa1ac;font-weight:600;letter-spacing:-.2px}
 
   /* ══ coway-6 : 통합 카드 ══════════════════════════════ */
 
@@ -454,7 +486,7 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   <img id="mbShot" src="/coway_6/img/CHP-7220N.png" width="60" height="60" alt="">
   <span class="tx"><b id="mbProd">아이콘3 냉온정수기</b>
     <span id="mbCond">7년 · 자가관리</span></span>
-  <span class="amt"><b id="mbPay">0원</b><span id="mbSup">지원 340,000원</span></span>
+  <span class="amt"><b id="mbPay">0원</b><span id="mbSup">설치 후 지원 340,000원</span></span>
 </div></div>
 
 <div class="wrap">
@@ -466,11 +498,11 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
     <span>모든 상품은 코웨이(주) 제품입니다</span>
   </div>
 
-  <!-- 1. 히어로 : '최대'를 쓰는 유일한 자리이므로 여기서만 범위를 병기한다 -->
+  <!-- 1. 히어로 : 문구를 걷어내고 제품 그림만 남긴다.
+       "최대 34만원" 을 없앴으므로 그 자리의 범위·조건 병기 의무도 함께 사라진다.
+       대신 아래 결과카드가 '최대'가 아닌 선택 조건의 실값을 보여준다.
+       "자체" 라는 주체 고지는 결과카드 라벨이 이어받는다. -->
   <header class="hero">
-    <span class="eyebrow">자체 현금지원 이벤트</span>
-    <h1>현금지원금<br><b>최대 340,000원</b></h1>
-    <p class="cond">조건별 110,000~340,000원 · 설치 확인 후 지급</p>
     <div class="gal">
       <div class="gstrip" id="gstrip">
         <img src="/coway_6/img/CHP-7220N.png" width="420" height="420"
@@ -488,36 +520,62 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
     <div class="res" id="res">
       <p class="res-cond"><b id="rProd">아이콘3 냉온정수기</b> ·
         <span id="rCond">7년 · 자가관리</span></p>
-      <p class="res-bdg">
-        <span class="bdg" id="bdgHalf">반값할인 적용중</span>
-        <span class="bdg c" id="bdgCard">제휴카드 −24,000원</span>
-      </p>
 
+      <!-- 1순위 숫자. 약정 탭 한 번에 12만~34만으로 움직이는 유일한 값이고,
+           전제가 "설치 확인 후 지급" 한 줄뿐이라 크게 쓸 수 있다.
+           라벨의 "자체" 는 지운 히어로에서 옮겨온 주체 고지다. -->
+      <div class="sup">
+        <span class="k">홈펠릭스 <b>자체</b> 현금지원금</span>
+        <b id="rSup">340,000원</b>
+        <p class="sub">설치 확인 후 지급 · 조건별 110,000~340,000원</p>
+      </div>
+
+      <!-- 월 납부액은 92개 조합 중 65개가 0원이라 조건을 바꿔도 거의 안 변한다.
+           크기를 내리고, 대신 이 숫자가 서 있는 전제를 바로 밑에 붙인다. -->
       <div class="res-pay">
         <span class="k">예상 월 납부액</span>
         <b id="rPay" data-v="0">0<i>원</i></b>
         <p class="sub" id="rPayNote">반값할인 첫 <b id="rHm">18</b>개월 ·
           이후 월 <b id="rAfter">4,900</b>원</p>
+        <p class="sub warn" id="rPayCard">제휴카드 할인 적용 기준 ·
+          카드 없이는 월 <b id="rAfterNC">28,900</b>원</p>
       </div>
 
-      <div class="res-line">
-        <div class="lr"><span>이 조건 현금지원금</span><b id="rSup">340,000원</b></div>
-        <p class="sub">설치 확인 후 지급됩니다</p>
-      </div>
+      <!-- 조건을 결과 숫자와 CTA 사이에 둔다. 만지는 손과 바뀌는 숫자가
+           한 화면에 있어야 아래로 내려갔다 올라올 일이 없다. -->
+      <div class="qc">
+        <div class="qc-f">
+          <span class="lb">약정기간</span>
+          <div class="pills t4" id="termPills" role="radiogroup" aria-label="약정기간"></div>
+          <p class="hint" id="termHint">7년 약정이 지원금이 가장 큽니다</p>
+        </div>
+        <div class="qc-f">
+          <span class="lb">관리방식</span>
+          <div class="pills t3" id="cyclePills" role="radiogroup" aria-label="관리방식"></div>
+          <p class="hint" id="cycleDesc">필터를 배송받아 직접 교체 · 렌탈료가 가장 저렴해요</p>
+        </div>
 
-      <div class="res-line np">
-        <div class="lr"><span>네이버페이 포인트</span><b>30,000원</b></div>
-        <p class="sub">확인 전화에서 계약이 확정된 분께 설치 완료 후 지급됩니다</p>
+        <!-- 할인 3종은 기본값이 최적이라 접어 둔다. 다만 접힌 상태에서도
+             적용 중인 할인은 보여야 한다 — 안 그러면 0원이 무조건인 것처럼 읽힌다. -->
+        <button type="button" class="dsc" id="dscBtn" aria-expanded="false" aria-controls="dscBody">
+          <span class="dsc-b">
+            <span class="bdg" id="bdgHalf">반값할인</span>
+            <span class="bdg c" id="bdgCard">제휴카드 −14,450원</span>
+            <span class="bdg t" id="bdgTasa" hidden>타사보상</span>
+          </span>
+          <span class="dsc-m">할인 변경<i>▾</i></span>
+        </button>
+        <div class="dsc-body" id="dscBody" hidden></div>
       </div>
 
       <button type="button" class="cta" data-open>이 조건으로 상담 신청하기</button>
-      <p class="res-cta-sub">성함·연락처만 입력합니다 · 약 30초<br>
-        이 화면에서 계약·결제는 없습니다</p>
+      <p class="res-cta-sub">성함·연락처만 입력합니다 · 약 30초 · 계약·결제 없음<br>
+        <span class="np1">＋ 네이버페이 30,000원 (계약 확정 · 설치 완료 후 지급)</span></p>
     </div>
 
     <div class="ctrl">
-      <h3>조건 바꾸기</h3>
-      <p>바꾸면 위 금액이 바로 바뀝니다</p>
+      <h3>제품 바꾸기</h3>
+      <p>약정·관리방식·할인은 위 결과 카드에서 바로 바꿀 수 있습니다</p>
 
       <span class="lb">제품 <span style="font-weight:600;color:#9aa1ac">옆으로 밀어서 고르세요</span></span>
       <div class="pstrip" id="pstrip" role="radiogroup" aria-label="제품 선택"></div>
@@ -527,19 +585,10 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
       <button type="button" class="mlink" id="askLink"
               style="margin-top:4px;font-size:12px">찾는 제품이 없어요 · 직접 문의 →</button>
 
-      <div class="fld">
-        <span class="lb">약정기간</span>
-        <div class="pills t4" id="termPills" role="radiogroup" aria-label="약정기간"></div>
-        <p class="hint">7년 약정이 월 납부액이 가장 낮습니다</p>
-      </div>
-
-      <div class="fld">
-        <span class="lb">관리방식</span>
-        <div class="pills t3" id="cyclePills" role="radiogroup" aria-label="관리방식"></div>
-        <p class="hint" id="cycleDesc">필터를 배송받아 직접 교체 · 렌탈료가 가장 저렴해요</p>
-      </div>
-
-      <div class="fld">
+      <!-- 약정·관리방식·할인은 위 결과카드로 올라갔다.
+           여기 남은 <div class="fld"> 는 그 할인 토글의 실제 내용이며,
+           스크립트가 통째로 위 #dscBody 안으로 옮긴다. -->
+      <div class="fld" id="dscSrc">
         <!-- 제휴카드를 맨 위로. 셋 중 유일하게 조건 없이 누구나 받는 할인이고
              기본으로 켜져 있으므로, 첫 줄에 두는 편이 순서와 상태가 맞는다.
              coway-1~4 도 이 순서다. -->
@@ -664,7 +713,7 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
         </div>
         <div class="sumrow"><span>제품</span><b id="sProd">아이콘3 냉온정수기</b></div>
         <div class="sumrow"><span>약정 · 관리</span><b id="sCycle">7년 · 자가관리</b></div>
-        <div class="sumrow"><span>적용 할인</span><b id="sPromo">반값할인 + 제휴카드 −24,000원</b></div>
+        <div class="sumrow"><span>적용 할인</span><b id="sPromo">반값할인 + 제휴카드 −14,450원</b></div>
         <div class="sumrow big"><span>예상 월 납부액</span><b id="sPay">0원</b></div>
         <p class="sumnote" id="sPayNote">반값할인 첫 18개월 · 이후 월 4,900원</p>
         <div class="sumrow big"><span>현금 지원금</span><b id="sSup">340,000원</b></div>
@@ -1011,8 +1060,24 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     } else { note.hidden = true; }
 
     $("bdgHalf").hidden = !state.half;
+    $("bdgTasa").hidden = !state.tasa;
     $("bdgCard").hidden = !state.card;
     if (state.card) $("bdgCard").textContent = "제휴카드 −" + won(q.cardUsed) + "원";
+
+    /* "이후 월 4,900원" 은 제휴카드 24,000원을 이미 뺀 값이다.
+       카드 없이는 렌탈료 그대로이므로 그 금액을 숫자 바로 밑에 붙인다. */
+    var pc = $("rPayCard");
+    if (state.card && q.hm) {
+      $("rAfterNC").textContent = won(q.rent);
+      pc.hidden = false;
+    } else { pc.hidden = true; }
+
+    /* 약정은 이 페이지에서 지원금을 가장 크게 흔드는 축이다.
+       고른 조건의 결과만 한 줄로 쓴다 — 모든 약정의 값을 미리 깔면
+       "6·7년은 차이 없음" 같은 비교 학습이 생겨 탐색이 멈춘다. */
+    $("termHint").textContent =
+      (state.term / 12) + "년 · " + CYCLE_LABEL[state.cycle] +
+      " → 현금지원금 " + won(q.sup) + "원";
     if (galCode !== state.code) { galCode = state.code; buildGallery(state.code); }
 
     Array.prototype.forEach.call(document.querySelectorAll("#pstrip .pit"), function (b) {
@@ -1030,6 +1095,21 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     $("mbPay").textContent = won(q.pay) + "원";
     $("mbSup").textContent = "지원 " + won(q.sup) + "원";
   }
+
+  /* ── 할인 토글을 결과카드 안으로 옮긴다 ────────────────
+     복제하지 않고 원본 노드를 그대로 이동시킨다. label/for 연결과
+     기존 change 리스너가 전부 살아 있는 채로 자리만 바뀐다. */
+  (function () {
+    var src = $("dscSrc"), body = $("dscBody"), btn = $("dscBtn");
+    if (!src || !body || !btn) return;
+    while (src.firstChild) body.appendChild(src.firstChild);
+    src.parentNode.removeChild(src);
+    btn.addEventListener("click", function () {
+      var open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+      body.hidden = open;
+    });
+  })();
 
   /* ── 제품 셀렉트 ───────────────────────────────────────── */
   var sel = $("calcProd");
@@ -1188,7 +1268,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
      순간을 만드는 비용이 중복 노출보다 크다. */
   var sticky = $("sticky"), minibar = $("minibar");
   addEventListener("scroll", function () {
-    sticky.classList.toggle("on", scrollY > 200);
+    sticky.classList.toggle("on", scrollY > 50);
   }, { passive: true });
 
   /* 결과 영역이 화면에서 사라지면 상단 요약 바를 띄운다.
