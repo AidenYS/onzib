@@ -42,7 +42,7 @@
 
   /* ── 히어로 : 흐린 시야가 천천히 선명해진다 ───────────────
      e3(가장 흐림)를 바닥에 깔고 e2·e1 을 그 위에서 교차 페이드한다.
-     22초 한 바퀴, 한 번 바뀌는 데 3초 이상 — 깜박임이 아니라
+     17초 한 바퀴, 한 번 바뀌는 데 2.5초 남짓 — 깜박임이 아니라
      "서서히 초점이 잡히는" 속도다. 선명한 상태와 흐린 상태를
      각각 몇 초씩 머무르게 해서 눈이 따라가느라 피로해지지 않게 했다. */
   .hero{position:relative;overflow:hidden;background:#dfe6ec}
@@ -52,8 +52,8 @@
                       object-fit:cover;opacity:0;will-change:opacity}
   @keyframes seeMid  {0%,14%{opacity:0} 30%,74%{opacity:1} 90%,100%{opacity:0}}
   @keyframes seeClear{0%,26%{opacity:0} 44%,60%{opacity:1} 74%,100%{opacity:0}}
-  .eyes .l2{animation:seeMid   22s ease-in-out infinite}
-  .eyes .l1{animation:seeClear 22s ease-in-out infinite}
+  .eyes .l2{animation:seeMid   17s ease-in-out infinite}
+  .eyes .l1{animation:seeClear 17s ease-in-out infinite}
 
   /* 글자가 놓이는 위쪽만 하얗게 눌러 준다.
      길게 덮으면 시력표까지 흐려져 초점이 잡히는 게 안 보인다.
@@ -125,8 +125,8 @@
     <img src="/smile/img/s1.jpg" width="860" height="1690" alt="하루가 아닌 단 5분, 흐릿한 세상과 작별하세요 — 뉴 스마일라식 할인 이벤트">
     <img src="/smile/img/s2.jpg" width="860" height="1500" alt="본 예약링크 특별혜택 : 70여가지 정밀검사 지원 · 우대가 최대적용 · 당일수술 추가할인 · ATOS 정품 인증 카드" loading="lazy">
     <img src="/smile/img/s3.jpg" width="860" height="1500" alt="5세대 시력교정술 차세대 스마일라식 — 단 2mm 각막 미세절개" loading="lazy">
-    <img src="/smile/img/s4.jpg" width="860" height="1660" alt="POINT 1 검증된 의료진 · POINT 2 고급 첨단 장비 SCHWIND ATOS" loading="lazy">
-    <img src="/smile/img/t1.jpg" width="860" height="1690" alt="POINT 3 목표 시력 달성 — 근시교정 98%, 난시교정 99% · 실제 리뷰" loading="lazy">
+    <img src="/smile/img/s4.jpg" width="860" height="1701" alt="POINT 1 검증된 의료진 · POINT 2 고급 첨단 장비 SCHWIND ATOS" loading="lazy">
+    <img src="/smile/img/t1.jpg" width="860" height="1730" alt="POINT 3 목표 시력 달성 — 근시교정 98%, 난시교정 99% · 실제 리뷰" loading="lazy">
     <img src="/smile/img/t2.jpg" width="860" height="830" alt="본 예약링크 특별혜택 4가지" loading="lazy">
   </div>
 
@@ -142,7 +142,6 @@
 
   <footer>
     <b>강남스마일안과</b>
-    <p>본 페이지는 강남스마일안과 시력교정 상담·예약 접수를 위한 광고 페이지입니다.</p>
     <p>수술 방법과 결과는 개인의 눈 상태에 따라 다를 수 있으며,
        모든 사람에게 동일하게 적용되지 않습니다. 정확한 사항은 정밀검사와
        전문의 상담을 통해 확인하시기 바랍니다.</p>
