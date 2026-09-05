@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>코웨이 정수기 렌탈 상담 신청 · 홈펠릭스 현금지원 이벤트</title>
+<!--
+  ══════════════════════════════════════════════════════════
+  coway-5 · 결과 우선(result-first) 랜딩
+  ──────────────────────────────────────────────────────────
+  구성 : 고지 → 히어로 → 결과카드+CTA → 조건바꾸기 → 제휴카드
+         → 진행절차 → 조건안내/FAQ → 푸터 → 하단 고정 CTA
+
+  coway-4 와 달라진 핵심
+   · 히어로 JPG(base64 283KB) 폐기. 첫 화면을 텍스트 + 제품 PNG 로.
+   · 결과 카드를 정적 HTML 로 하드코딩 → JS 가 죽어도 오퍼가 보인다.
+   · 난수 UI(실시간 열람 바 · 가짜 신청자 현황) 삭제.
+   · 임의 작성 후기 삭제 → 신청 후 진행 절차로 대체.
+   · CTA 2개 → 1개. 데이터는 그대로 2단계(1차 저장 후 추가정보).
+   · 모든 리드에 조건(제품·약정·관리방식·금액)을 항상 실어 보낸다.
+   · 금액 산식을 quote() 하나로 통합. DOM 문자열 파싱 폐기.
+
+  ⚠ 조건이 붙는 금액은 각주를 붙일 수 없는 자리
+    (버튼 라벨·pill·title)에 올리지 않는다. 모든 카피 결정의 기준.
+  ══════════════════════════════════════════════════════════
+-->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- Meta Pixel (정수기) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1585655816688828');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></noscript>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "uryq9of2r0");
+</script>
+<!-- Danggeun Market Code -->
+<script>
+  (function (w, d) {
+    if (w.karrotPixel) return;
+    var k = { stub: true, queue: [] };
+    k.init = function () { k.queue.push(['init', arguments, Date.now()]); };
+    k.track = function () { k.queue.push(['track', arguments, Date.now()]); };
+    w.karrotPixel = k;
+    var s = d.createElement('script');
+    s.async = true;
+    s.src = 'https://karrot-pixel.business.daangn.com/karrot-pixel.js';
+    var f = d.getElementsByTagName('script')[0];
+    f && f.parentNode ? f.parentNode.insertBefore(s, f) : d.head.appendChild(s);
+  })(window, document);
+  window.karrotPixel.init('1788349571077983001');
+  window.karrotPixel.track('ViewPage');
+</script>
+<!-- End Danggeun Market Code -->
+<style>
+  :root{
+    --ink:#111827; --muted:#6b7280; --line:#e5e7eb;
+    --red:#ef4444; --orange:#ff4d17; --deep:#0f172a;
+    --bg:#f4f5f7; --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg); color:var(--ink);
+    -webkit-font-smoothing:antialiased; word-break:keep-all; line-height:1.5;
+  }
+  .wrap{max-width:520px;margin:0 auto;background:var(--card);min-height:100vh;
+        box-shadow:0 0 40px rgba(15,23,42,.06);padding-bottom:104px}
+  img{max-width:100%;height:auto;display:block}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+  /* ── 0. 판매점 고지 스트립 ─────────────────────────────
+     실시간 열람 바(난수)를 걷어낸 자리. 근거 없는 숫자 대신
+     상표·주체 오인을 막는 고지를 같은 높이에 둔다. */
+  .notice{background:var(--deep);color:#cbd5e1;font-size:11px;font-weight:600;
+          text-align:center;padding:8px 14px;letter-spacing:-.3px;line-height:1.45}
+
+  /* ── 1. 히어로 ──────────────────────────────────────── */
+  .hero{padding:22px 18px 4px;text-align:center}
+  .hero .eyebrow{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:-.3px;
+        color:var(--orange);background:#fff1ec;border-radius:20px;padding:5px 12px}
+  .hero h1{margin:12px 0 0;font-size:26px;font-weight:900;letter-spacing:-1.1px;line-height:1.28}
+  .hero h1 b{color:var(--orange)}
+  .hero .cond{margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.6;letter-spacing:-.3px}
+  .hero .shot{width:150px;margin:6px auto -6px}
+
+  /* ── 2. 결과 카드 ────────────────────────────────────
+     이 페이지의 중심. 기본값은 마크업에 텍스트로 박아 두고
+     JS 는 사용자가 조건을 바꿀 때만 덮어쓴다. */
+  .res{margin:14px;padding:18px 16px 16px;background:var(--card);
+       border:2px solid var(--deep);border-radius:18px;
+       box-shadow:0 10px 26px rgba(15,23,42,.10)}
+  .res-cond{font-size:12.5px;color:var(--muted);font-weight:700;letter-spacing:-.3px;line-height:1.5}
+  .res-cond b{color:var(--ink);font-weight:800}
+  .res-bdg{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .bdg{font-size:10.5px;font-weight:800;letter-spacing:-.2px;padding:4px 8px;border-radius:6px;
+       background:#fff1ec;color:var(--orange)}
+  .bdg.c{background:#eef2ff;color:#4338ca}
+  .bdg[hidden]{display:none}
+
+  .res-pay{margin-top:14px}
+  .res-pay .k{font-size:13.5px;font-weight:700;color:var(--muted)}
+  .res-pay b{display:block;margin-top:2px;font-size:48px;font-weight:900;letter-spacing:-2.5px;
+             color:var(--orange);line-height:1.05;font-variant-numeric:tabular-nums}
+  .res-pay b i{font-style:normal;font-size:20px;font-weight:800;margin-left:3px;letter-spacing:-.5px}
+  .sub{font-size:12px;color:var(--muted);line-height:1.55;letter-spacing:-.3px}
+  .res-pay .sub{margin-top:6px}
+  .res-pay .sub b{display:inline;font-size:inherit;color:var(--ink);font-weight:800;letter-spacing:-.3px}
+
+  .res-line{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+  .res-line .lr{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .res-line .lr span{font-size:14px;font-weight:700}
+  .res-line .lr b{font-size:20px;font-weight:900;letter-spacing:-.8px;font-variant-numeric:tabular-nums}
+  .res-line.np .lr b{font-size:17px;font-weight:700}
+  .res-line .sub{margin-top:3px}
+
+  .cta{display:block;width:100%;height:56px;margin-top:16px;border-radius:13px;
+       background:var(--orange);color:#fff;font-size:17px;font-weight:800;letter-spacing:-.5px}
+  .cta:active{background:#e63f0d}
+  .res-cta-sub{margin-top:9px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6}
+
+  /* ── 3. 조건 바꾸기 ─────────────────────────────────── */
+  .calc{margin:0 14px 18px;padding:18px 16px;background:var(--card);
+        border:1px solid var(--line);border-radius:16px}
+  .calc>h2{font-size:16px;font-weight:800;letter-spacing:-.5px}
+  .calc>h2+p{margin-top:3px;font-size:12px;color:var(--muted);letter-spacing:-.3px}
+  .fld{margin-top:18px}
+  .fld>label,.fld>.lb{display:block;font-size:12.5px;font-weight:800;color:var(--muted);
+        margin-bottom:8px;letter-spacing:-.3px}
+  .hint{margin-top:7px;font-size:11.5px;color:var(--muted);line-height:1.55;letter-spacing:-.3px}
+
+  .picks{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .pick{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;
+        padding:12px 8px 11px;background:var(--card);border:2px solid var(--line);
+        border-radius:13px;text-align:center;transition:border-color .15s,box-shadow .15s}
+  .pick img{width:100%;max-width:84px;margin-bottom:4px}
+  .pick b{font-size:13px;font-weight:900;letter-spacing:-.4px}
+  .pick .ds{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:-.3px;line-height:1.35}
+  .pick .ds em{font-style:normal;color:#0ea5e9;font-weight:800}
+  .pick .pr{margin-top:3px;font-size:12px;font-weight:900;color:var(--orange);letter-spacing:-.4px}
+  .pick.on{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,77,23,.12)}
+  .pick .ck{position:absolute;top:7px;right:7px;width:19px;height:19px;border-radius:50%;
+            background:var(--orange);color:#fff;font-size:11px;line-height:19px;font-weight:900;display:none}
+  .pick.on .ck{display:block}
+  .picknote{margin-top:7px;font-size:10.5px;color:#9aa1ac;font-weight:600;letter-spacing:-.2px}
+
+  select{width:100%;height:52px;padding:0 38px 0 14px;background:var(--card);
+         border:1.5px solid var(--line);border-radius:11px;font-family:inherit;
+         font-size:15px;font-weight:700;color:var(--ink);appearance:none;
+         background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+         background-repeat:no-repeat;background-position:right 15px center}
+
+  .pills{display:flex;gap:7px}
+  .pills.t4>button{flex:1}
+  .pills.t3>button{flex:1}
+  .pill{min-height:56px;padding:8px 6px;border:1.5px solid var(--line);border-radius:11px;
+        background:var(--card);font-size:13.5px;font-weight:800;letter-spacing:-.4px;
+        color:var(--ink);transition:border-color .15s,background .15s}
+  .pill.on{border-color:var(--orange);background:#fff7f4;color:var(--orange);box-shadow:0 0 0 2.5px rgba(255,77,23,.10)}
+  .pill:disabled{background:#f8f9fb;color:#c3c9d2;border-color:#eef0f3;cursor:default}
+
+  .tgl{display:flex;align-items:flex-start;gap:9px;min-height:48px;padding:10px 0 0}
+  .tgl input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--orange);cursor:pointer}
+  .tgl label{font-size:14px;font-weight:700;letter-spacing:-.4px;cursor:pointer;line-height:1.4}
+  .tglnote{margin:2px 0 0 29px;font-size:10.5px;color:var(--muted);line-height:1.55;letter-spacing:-.2px}
+  .note{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+        font-size:10.5px;color:var(--muted);line-height:1.75;letter-spacing:-.2px}
+
+  /* ── 4. 제휴카드 ────────────────────────────────────── */
+  .cards{margin:0 14px 18px;padding:18px 16px;background:var(--card);
+         border:1px solid var(--line);border-radius:16px}
+  .cards h2{font-size:16px;font-weight:800;letter-spacing:-.5px}
+  .cards>p{margin-top:4px;font-size:12px;color:var(--muted);line-height:1.55;letter-spacing:-.3px}
+  .clist{display:flex;flex-direction:column;gap:8px;margin-top:13px}
+  .crow{display:flex;align-items:center;gap:11px;width:100%;padding:9px 11px;
+        border:1px solid var(--line);border-radius:11px;text-align:left;background:var(--card)}
+  .crow img{width:52px;flex:none;border-radius:4px}
+  .crow .cn{flex:1;min-width:0}
+  .crow .cn b{display:block;font-size:12.5px;font-weight:800;letter-spacing:-.4px}
+  .crow .cn span{display:block;font-size:10.5px;color:var(--muted);margin-top:2px;letter-spacing:-.2px}
+  .crow .amt{flex:none;font-size:11px;color:var(--muted);font-weight:700;text-align:right;letter-spacing:-.3px}
+  .crow .amt b{display:block;font-size:15px;font-weight:900;color:var(--orange);letter-spacing:-.6px}
+  .cdet{display:none;padding:10px 12px;margin-top:-4px;background:#f8f9fb;
+        border-radius:0 0 11px 11px;font-size:11.5px;color:var(--muted);line-height:1.7}
+  .cdet.on{display:block}
+  .cdet b{color:var(--ink)}
+  .cmore{width:100%;height:44px;margin-top:10px;border:1px solid var(--line);border-radius:10px;
+         font-size:12.5px;font-weight:800;color:var(--muted);background:var(--card)}
+
+  /* ── 5. 진행 절차 ───────────────────────────────────── */
+  .flow{margin:0 14px 18px;padding:18px 16px;background:var(--card);
+        border:1px solid var(--line);border-radius:16px}
+  .flow h2{font-size:16px;font-weight:800;letter-spacing:-.5px;margin-bottom:14px}
+  .step{display:flex;gap:12px;padding-bottom:16px;position:relative}
+  .step:last-child{padding-bottom:0}
+  .step:not(:last-child)::before{content:"";position:absolute;left:13px;top:30px;bottom:2px;
+        width:2px;background:var(--line)}
+  .step .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--deep);color:#fff;
+        font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:1}
+  .step .tx b{display:block;font-size:14px;font-weight:800;letter-spacing:-.4px}
+  .step .tx p{margin-top:3px;font-size:12px;color:var(--muted);line-height:1.6;letter-spacing:-.3px}
+
+  /* ── 6. 조건 안내 · FAQ (접힘) ───────────────────────── */
+  .acc{margin:0 14px 18px}
+  .acc details{background:var(--card);border:1px solid var(--line);border-radius:14px;
+        margin-bottom:9px;overflow:hidden}
+  .acc summary{list-style:none;padding:15px 16px;font-size:14px;font-weight:800;
+        letter-spacing:-.4px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary::after{content:"▾";font-size:11px;color:var(--muted);transition:transform .2s}
+  .acc details[open] summary::after{transform:rotate(180deg)}
+  .acc .body{padding:0 16px 16px;font-size:12.5px;color:var(--muted);line-height:1.8;letter-spacing:-.3px}
+  .acc .body b{color:var(--ink)}
+  .acc .body .q{display:block;margin-top:14px;font-size:13px;font-weight:800;color:var(--ink)}
+  .acc .body .q:first-child{margin-top:0}
+  .acc .body ul{list-style:none;padding:0}
+  .acc .body li{position:relative;padding-left:11px;margin-bottom:10px}
+  .acc .body li::before{content:"·";position:absolute;left:2px}
+
+  /* ── 7. 푸터 ────────────────────────────────────────── */
+  footer{padding:20px 18px 26px;background:#eef1f5;font-size:11px;color:#78828f;line-height:1.75;
+         letter-spacing:-.2px}
+  footer b{color:#4b5563}
+
+  /* ── 하단 고정 CTA ──────────────────────────────────── */
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.97);
+          backdrop-filter:blur(6px);border-top:1px solid var(--line);
+          padding:9px 14px calc(9px + env(safe-area-inset-bottom));
+          transform:translateY(120%);transition:transform .25s ease}
+  .sticky.on{transform:none}
+  .sticky .in{max-width:520px;margin:0 auto}
+  .sticky .cta{margin-top:0;height:54px;font-size:16.5px}
+  .sticky p{margin-top:6px;text-align:center;font-size:11.5px;color:var(--muted)}
+
+  /* ── 4. 즉시신청 추가혜택 ── */
+  .bonus{background:#fff}
+  .bonus-img{display:block;width:100%;height:auto;vertical-align:top}
+  .bonuswrap{padding:4px 18px 40px}
+  .cbt{font-size:14.5px;font-weight:900;letter-spacing:-.5px;text-align:center;line-height:1.4}
+  .cbt b{color:var(--orange)}
+  .cbs{font-size:11.5px;color:var(--muted);font-weight:600;text-align:center;margin-top:4px;letter-spacing:-.3px}
+  .cardlist{display:grid;gap:8px;margin-top:13px}
+  /* 카드 아코디언 (시안 10과 동일 구조) */
+  .carditem{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+  .cardrow .cn{flex:1;min-width:0}
+  .cardrow .cn b{display:block;font-size:13px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
+  .cardrow .cn span{display:block;font-size:10.5px;color:var(--muted);font-weight:700;margin-top:1px}
+  .cardrow .amt{text-align:right;font-size:10.5px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .cardrow .amt b{display:block;font-size:16px;font-weight:900;color:var(--orange);letter-spacing:-.4px}
+  .carditem.open .arr{transform:rotate(180deg)}
+  .carditem.open .carddtl{display:block}
+  .carddtl .tier .amt2{color:var(--orange);font-weight:900;white-space:nowrap}
+  .carditem.extra{display:none}
+  .cardlist.open-all .carditem.extra{display:block}
+  .cardmore{
+    width:100%;margin-top:10px;height:44px;border:1.5px solid var(--line);border-radius:11px;
+    background:#fff;color:#4b5563;font-family:inherit;font-size:13px;font-weight:800;
+    letter-spacing:-.3px;cursor:pointer;
+  }
+  .cardmore:active{background:#f9fafb}
+  .cbn{font-size:10px;color:#9aa1ac;font-weight:600;line-height:1.6;margin-top:10px;letter-spacing:-.2px}
+
+  /* ── 신청 모달 ── */
+  .modal{position:fixed;inset:0;z-index:1000;display:none}
+  .modal.on{display:block}
+  .mbg{position:absolute;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(2px);
+       animation:fade .2s ease}
+  .msheet{
+    position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+    width:100%;max-width:500px;max-height:92vh;overflow-y:auto;
+    background:#fff;border-radius:20px 20px 0 0;
+    padding:22px 18px calc(22px + env(safe-area-inset-bottom));
+    animation:slideup .28s cubic-bezier(.2,.8,.3,1);
+  }
+  .mtitle{font-size:21px;font-weight:900;letter-spacing:-.9px;margin-top:3px;line-height:1.3}
+  .mfield{margin-top:15px}
+  .mfield>label{display:block;font-size:12.5px;font-weight:800;color:#374151;margin-bottom:7px}
+  .mfield input[type=text],.mfield input[type=tel]{
+    width:100%;height:50px;border:1.5px solid var(--line);border-radius:12px;padding:0 13px;
+    font-size:15px;font-weight:600;font-family:inherit;background:#fff;color:var(--ink);
+  }
+  .mfield input:focus{outline:none;border-color:var(--orange)}
+  .telrow{display:flex;align-items:center;gap:7px}
+  .telrow .fixed{flex:0 0 62px;height:50px;border:1.5px solid var(--line);border-radius:12px;
+                 display:flex;align-items:center;justify-content:center;font-size:15px;
+                 font-weight:800;background:#f3f4f6;color:#374151}
+  .telrow input{flex:1;min-width:0;text-align:center}
+  .lb2{font-size:10.5px;font-weight:700;color:#aeb4bd;margin-left:5px}
+  .chkrow{display:flex;align-items:center;gap:8px;margin-top:10px;cursor:pointer}
+  .chkrow input{width:17px;height:17px;flex:none;accent-color:var(--orange);cursor:pointer}
+  .chkrow span{font-size:12.5px;font-weight:700;color:#4b5563;letter-spacing:-.3px}
+  .mhint{font-size:11px;color:var(--muted);font-weight:700;margin-top:7px;letter-spacing:-.3px}
+  .magree{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+  .ag{display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer}
+  .ag input{width:18px;height:18px;flex:none;accent-color:var(--orange);cursor:pointer}
+  .ag span{flex:1;font-size:12.5px;font-weight:700;color:#4b5563;letter-spacing:-.3px}
+  .ag span b{color:var(--orange);font-weight:900}
+  .agv{border:0;background:none;color:#9aa1ac;font-family:inherit;font-size:11px;font-weight:700;
+       text-decoration:underline;cursor:pointer;padding:0;flex:none}
+  .agd{display:none;font-size:11px;color:#6b7280;font-weight:600;line-height:1.65;
+       background:#f8fafc;border-radius:9px;padding:10px 12px;margin:2px 0 6px 26px}
+  .agd.open{display:block}
+  .msubmit{
+    width:100%;height:56px;margin-top:18px;border:0;border-radius:14px;
+    background:linear-gradient(135deg,#03c75a,#01a648);color:#fff;
+    font-family:inherit;font-size:17px;font-weight:900;letter-spacing:-.5px;cursor:pointer;
+    box-shadow:0 8px 20px rgba(3,199,90,.3);
+  }
+  .msubmit.plain{background:linear-gradient(135deg,#374151,#1f2937);box-shadow:0 8px 20px rgba(31,41,55,.22)}
+  .msubmit.ghost{background:#f1f3f5;color:#4b5563;box-shadow:none}
+  .msubmit:active{transform:translateY(1px)}
+  .merr{font-size:12px;font-weight:800;color:var(--red);text-align:center;margin-top:9px;min-height:16px}
+  .mfoot{font-size:10px;color:#aeb4bd;font-weight:600;line-height:1.65;margin-top:12px;text-align:center}
+  /* 접수 후 추가정보 단계 */
+  .prog{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+  .prog span{font-size:11px;font-weight:800;letter-spacing:-.3px;padding:5px 11px;border-radius:20px}
+  .prog span.done{background:#dcfce7;color:#03c75a}
+  .prog span.now{background:#111827;color:#fff}
+  .prog i{flex:1;height:2px;background:var(--line);border-radius:2px}
+  .mtitle em{font-style:normal;color:#03c75a}
+
+  /* ── 모달 보강 (coway-5 신규 요소) ── */
+  .mlink{display:block;width:100%;margin-top:12px;padding:10px;text-align:center;
+         font-size:13px;font-weight:700;color:var(--muted);text-decoration:underline;
+         text-underline-offset:3px;background:none;border:0}
+  .sumhead{display:flex;align-items:center;justify-content:space-between;
+           font-size:12px;font-weight:800;color:var(--muted);margin-bottom:9px}
+  .sumhead .lb2{font-size:11.5px;font-weight:800;color:var(--orange);
+                background:none;border:0;text-decoration:underline;text-underline-offset:2px}
+  .sumrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+          padding:4px 0;font-size:12.5px;color:var(--muted)}
+  .sumrow b{font-size:13px;font-weight:800;color:var(--ink);text-align:right}
+  .sumrow.big b{font-size:17px;font-weight:900;color:var(--orange);letter-spacing:-.6px}
+  .sumnote{font-size:11px;color:var(--muted);text-align:right;margin-top:-2px;line-height:1.5}
+  .postrow{display:flex;gap:7px}
+  .postrow input{flex:1}
+  .zipbtn{flex:none;padding:0 14px;border:1.5px solid var(--line);border-radius:10px;
+          background:#f8f9fb;font-size:13px;font-weight:800;color:var(--ink)}
+  .mrow{display:flex;gap:7px}
+  .mrow input{flex:1}
+  .pills.t2{flex:none;display:flex;gap:6px}
+  .pills.t2 .pill{min-height:auto;height:52px;padding:0 18px}
+  .ag.agall{background:#f8f9fb;border-radius:10px;padding:14px 12px;margin-bottom:8px;min-height:56px}
+  .modal .flow .step .tx p{font-size:12px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 0. 판매점 고지 -->
+  <p class="notice">코웨이 제품을 취급하는 판매점이며, 코웨이(주)와 별개의 사업자입니다</p>
+
+  <!-- 1. 히어로 : '최대'를 쓰는 유일한 자리이므로 여기서만 범위를 병기한다 -->
+  <header class="hero">
+    <span class="eyebrow">홈펠릭스 자체 현금지원 이벤트</span>
+    <h1>현금지원금<br><b>최대 340,000원</b></h1>
+    <p class="cond">제품·약정기간·관리방식에 따라 110,000원~340,000원이며,<br>
+      설치가 확인된 뒤 지급됩니다.<br>아래에서 내 조건의 실제 금액을 바로 확인하세요.</p>
+    <img class="shot" id="heroShot" src="/coway_5/img/CHP-7220N.png" width="300" height="300"
+         alt="코웨이 아이콘3 냉온정수기" fetchpriority="high">
+  </header>
+
+  <!-- 2. 결과 카드 ─ 기본값을 텍스트로 박아 둔다. JS 는 조건이 바뀔 때만 덮어쓴다. -->
+  <section class="res" id="res">
+    <p class="res-cond"><b id="rProd">아이콘3 냉온정수기</b> ·
+      <span id="rCond">7년 · 자가관리</span></p>
+    <p class="res-bdg">
+      <span class="bdg" id="bdgHalf">반값할인 적용중</span>
+      <span class="bdg c" id="bdgCard">제휴카드 −24,000원</span>
+    </p>
+
+    <div class="res-pay">
+      <span class="k">예상 월 납부액</span>
+      <b id="rPay" data-v="0">0<i>원</i></b>
+      <p class="sub" id="rPayNote">반값할인 첫 <b id="rHm">18</b>개월 ·
+        이후 월 <b id="rAfter">4,900</b>원</p>
+    </div>
+
+    <div class="res-line">
+      <div class="lr"><span>이 조건 현금지원금</span><b id="rSup">340,000원</b></div>
+      <p class="sub">설치 확인 후 지급됩니다</p>
+    </div>
+
+    <div class="res-line np">
+      <div class="lr"><span>네이버페이 포인트</span><b>30,000원</b></div>
+      <p class="sub">확인 전화에서 계약이 확정된 분께 설치 완료 후 지급됩니다</p>
+    </div>
+
+    <button type="button" class="cta" data-open>이 조건으로 상담 신청하기</button>
+    <p class="res-cta-sub">성함·연락처만 입력합니다 · 약 30초<br>
+      이 화면에서 계약·결제는 없습니다</p>
+  </section>
+
+  <!-- 3. 조건 바꾸기 : 결과보다 위에 어떤 선택지도 두지 않는다 -->
+  <section class="calc">
+    <h2>조건 바꾸기</h2>
+    <p>조건을 바꾸면 위 금액이 바로 바뀝니다</p>
+
+    <div class="fld">
+      <span class="lb">제품</span>
+      <div class="picks" id="picks">
+        <button type="button" class="pick on" data-i="0">
+          <span class="ck">✓</span>
+          <img src="/coway_5/img/CHP-7220N.png" width="168" height="168" alt="" loading="lazy">
+          <b>아이콘3 냉온</b>
+          <span class="ds">정수 · 냉수 · 온수</span>
+          <span class="pr">월 28,900원~</span>
+        </button>
+        <button type="button" class="pick" data-i="1">
+          <span class="ck">✓</span>
+          <img src="/coway_5/img/CHPI-7430N.png" width="168" height="168" alt="" loading="lazy">
+          <b>얼음 미니 냉온</b>
+          <span class="ds">정수 · 냉수 · 온수 · <em>얼음</em></span>
+          <span class="pr">월 40,900원~</span>
+        </button>
+      </div>
+      <p class="picknote">코웨이 공식몰 누적 판매 순위 기준(2026.08 조회)</p>
+      <div style="margin-top:9px"><select id="calcProd" aria-label="제품 선택"></select></div>
+    </div>
+
+    <div class="fld">
+      <span class="lb">약정기간</span>
+      <div class="pills t4" id="termPills" role="radiogroup" aria-label="약정기간"></div>
+      <p class="hint">7년 약정이 월 납부액이 가장 낮습니다</p>
+    </div>
+
+    <div class="fld">
+      <span class="lb">관리방식</span>
+      <div class="pills t3" id="cyclePills" role="radiogroup" aria-label="관리방식"></div>
+      <p class="hint" id="cycleDesc">필터를 배송받아 직접 교체 · 렌탈료가 가장 저렴해요</p>
+    </div>
+
+    <div class="fld">
+      <div class="tgl">
+        <input type="checkbox" id="calcHalf" checked>
+        <label for="calcHalf">반값할인 프로모션 (렌탈료 50%)</label>
+      </div>
+      <div class="tgl">
+        <input type="checkbox" id="calcCard" checked>
+        <label for="calcCard">제휴카드 할인 적용</label>
+      </div>
+      <p class="tglnote">신한·우리 제휴카드 기준 월 24,000원 · 전월실적 30만원 이상<br>
+        할인액은 카드사·실적 구간에 따라 8,000원~26,000원으로 다릅니다</p>
+      <div class="tgl">
+        <input type="checkbox" id="calcTasa">
+        <label for="calcTasa">타사보상 할인 (약 10% · 타사 렌탈 이용 중)</label>
+      </div>
+      <p class="tglnote">※ 반값할인·타사보상은 중복 적용 불가, 제휴카드와는 중복 가능</p>
+    </div>
+
+    <p class="note">
+      ※ 반값할인 적용 개월 수는 제품·약정에 따라 다르며(첫 3~18개월), 종료 후 정상 렌탈료로 전환됩니다.<br>
+      ※ 현금지원금은 설치가 확인된 뒤 지급되며, 제품·약정기간·관리방식·반값할인 적용 여부에 따라
+        110,000원~340,000원입니다.<br>
+      ※ 일부 얼음정수기는 위생 관리를 위해 방문관리로만 운영됩니다.
+    </p>
+  </section>
+
+  <!-- 4. 제휴카드 -->
+  <section class="cards cardbox">
+    <h2>제휴카드 청구할인</h2>
+    <p>카드사·전월실적 구간에 따라 월 8,000원~26,000원 · 카드를 누르면 상세 조건이 열립니다</p>
+    <div class="cardlist" id="cardList"></div>
+    <button type="button" class="cardmore" id="cardMore">제휴카드 더보기 ▼</button>
+    <p class="note">
+      ※ 표시 금액은 각 카드의 기준 실적(대부분 전월실적 30만원, KB국민 40만원 ·
+        현대 M Edition3 50만원) 기준이며, 실적 구간이 높아지면 할인액도 커집니다.<br>
+      ※ 카드 발급 후 코웨이 고객센터(1588-5200)에 제품 자동이체를 등록해야 청구할인이 적용됩니다.<br>
+      ※ 일부 카드는 렌탈료 면제 프로모션 회차에 청구할인이 적용되지 않습니다.
+    </p>
+  </section>
+
+  <!-- 5. 신청 후 진행 절차 (임의 작성 후기를 걷어낸 자리) -->
+  <section class="flow">
+    <h2>신청 후 이렇게 진행됩니다</h2>
+    <div class="step"><span class="n">1</span><span class="tx">
+      <b>신청 접수</b><p>입력하신 조건 그대로 담당자에게 전달됩니다.</p></span></div>
+    <div class="step"><span class="n">2</span><span class="tx">
+      <b>확인 전화 1회</b><p>빠르면 당일, 늦어도 다음 영업일 중 연락드립니다(평일 09~19시 기준).
+      070 번호로 표시될 수 있습니다. 조건을 확인하고 동의하실 때 계약이 진행됩니다.</p></span></div>
+    <div class="step"><span class="n">3</span><span class="tx">
+      <b>설치일 지정</b><p>원하시는 날짜로 방문 설치 일정을 잡습니다.</p></span></div>
+    <div class="step"><span class="n">4</span><span class="tx">
+      <b>설치 · 지원금 지급</b><p>설치가 확인되면 현금지원금을 계좌로 입금해 드립니다.
+      네이버페이 포인트는 계약이 확정된 분께 설치 완료 후 함께 안내드립니다.</p></span></div>
+  </section>
+
+  <!-- 6. 조건 안내 · FAQ : 결심 앞이 아니라 CTA 뒤에 둔다 -->
+  <div class="acc">
+    <details>
+      <summary>신청 전 확인해 주세요</summary>
+      <div class="body"><ul>
+        <li>반값할인은 렌탈료의 50%를 첫 3~18개월 동안 적용합니다. 적용 개월 수는 제품·약정에 따라
+          다르며, 선택하신 조건의 정확한 개월 수는 위 계산 결과에 표시됩니다.
+          종료 후 정상 렌탈료로 전환됩니다.</li>
+        <li>제휴카드 할인은 제휴카드를 신규 발급하고 기준 실적을 충족할 때 매월 청구할인됩니다.
+          할인액은 카드사·실적 구간에 따라 8,000원~26,000원으로 다릅니다.
+          카드 발급 후 코웨이 고객센터에 자동이체를 등록해야 적용됩니다.</li>
+        <li>현금지원금은 <b>설치가 확인된 뒤</b> 지급됩니다. 제품·약정기간·관리방식·반값할인 적용
+          여부에 따라 110,000원~340,000원입니다.</li>
+        <li>반값할인과 타사보상 할인은 중복 적용되지 않습니다. 제휴카드와는 중복됩니다.</li>
+        <li>일부 얼음정수기는 위생 관리를 위해 방문관리로만 운영됩니다.</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>자주 묻는 질문</summary>
+      <div class="body">
+        <b class="q">반값할인은 언제까지인가요?</b>
+        제품·약정에 따라 첫 3~18개월입니다. 선택하신 조건의 정확한 개월 수와 종료 후 월 납부액은
+        위 계산 결과에 함께 표시됩니다. (아이콘3 냉온·7년·자가관리 기준: 첫 18개월, 이후 월 4,900원)
+        <b class="q">제휴카드를 꼭 만들어야 하나요?</b>
+        아닙니다. 위 계산기의 '제휴카드 할인 적용' 체크를 해제하면 카드 없이의 월 납부액이 바로
+        나옵니다. 할인액은 카드사와 전월실적 구간에 따라 8,000원~26,000원으로 달라지며,
+        표시된 24,000원은 신한·우리 제휴카드 전월실적 30만원 기준입니다.
+        <b class="q">현금지원금은 언제 받나요?</b>
+        설치가 확인된 뒤 지급됩니다. 금액은 제품·약정기간·관리방식·반값할인 적용 여부에 따라
+        110,000원~340,000원이며, 위 계산기에 선택하신 조건의 금액이 그대로 표시됩니다.
+      </div>
+    </details>
+  </div>
+
+  <footer>
+    <b>홈펠릭스</b> · 사업자등록번호 872-75-00325 · 대표번호 010-2606-6052<br>
+    코웨이 제품을 취급하는 판매점이며, 코웨이(주)와 별개의 사업자입니다.<br>
+    제품·설치·A/S는 코웨이(주) 정책을 따릅니다.
+  </footer>
+</div>
+
+<div class="sticky" id="sticky"><div class="in">
+  <button type="button" class="cta" data-open>이 조건으로 상담 신청하기</button>
+  <p>성함·연락처만 입력합니다 · 약 30초</p>
+</div></div>
+
+<!-- ══════════ 신청 모달 ══════════
+     UI 는 트랙 1개. 데이터는 그대로 2단계다.
+     STEP1 에서 리드가 확정 저장되고, STEP2 는 선택 입력이다. -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="mbg" data-close></div>
+  <div class="msheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button type="button" class="mclose" data-close aria-label="닫기">✕</button>
+
+    <!-- ── STEP 1 : 여기서 리드가 확정된다 ── -->
+    <div class="mstep" id="step1">
+      <p class="mtitle" id="mTitle">30초면 끝나요</p>
+      <p class="msub">지금은 상담 신청입니다. 이 화면에서 계약·결제는 없습니다.</p>
+
+      <div class="sum" id="mSum">
+        <div class="sumhead">
+          <span>선택하신 조건</span>
+          <button type="button" class="lb2" data-close>다시 고르기</button>
+        </div>
+        <div class="sumrow"><span>제품</span><b id="sProd">아이콘3 냉온정수기</b></div>
+        <div class="sumrow"><span>약정 · 관리</span><b id="sCycle">7년 · 자가관리</b></div>
+        <div class="sumrow"><span>적용 할인</span><b id="sPromo">반값할인 + 제휴카드 −24,000원</b></div>
+        <div class="sumrow big"><span>예상 월 납부액</span><b id="sPay">0원</b></div>
+        <p class="sumnote" id="sPayNote">반값할인 첫 18개월 · 이후 월 4,900원</p>
+        <div class="sumrow big"><span>현금 지원금</span><b id="sSup">340,000원</b></div>
+        <p class="sumnote">설치 확인 후 지급</p>
+        <div class="sumrow"><span>네이버페이 포인트</span><b>30,000원</b></div>
+        <p class="sumnote">계약 확정 후 설치 완료 시 지급</p>
+      </div>
+
+      <div class="mfield" id="mAskWrap" hidden>
+        <label for="mAskProd">찾으시는 제품 <span class="lb2">선택 입력</span></label>
+        <input type="text" id="mAskProd" placeholder="예: 아이콘 얼음 맥스, 노블 스탠드…"
+               data-clarity-mask="true">
+        <p class="mhint">코웨이 <b>전 모델</b>을 취급합니다. 제품명을 모르셔도 됩니다 —
+          사용 인원·설치 위치만 알려주시면 맞는 모델을 찾아드립니다.</p>
+      </div>
+
+      <div class="mfield">
+        <label for="fName">성함</label>
+        <input type="text" id="fName" placeholder="홍길동" autocomplete="name"
+               data-clarity-mask="true">
+      </div>
+      <div class="mfield">
+        <label for="fTel">연락처</label>
+        <input type="tel" id="fTel" placeholder="010-1234-5678" inputmode="numeric"
+               autocomplete="tel" maxlength="13" data-clarity-mask="true">
+        <p class="mhint">상담 외 용도로 사용하지 않습니다</p>
+      </div>
+
+      <div class="magree">
+        <label class="ag agall"><input type="checkbox" id="agAll">
+          <span><b>필수 항목 2건에 모두 동의합니다</b></span></label>
+
+        <label class="ag"><input type="checkbox" id="agA">
+          <span><b>[필수]</b> 개인정보 수집·이용 동의</span>
+          <button type="button" class="agv" data-d="dA">보기</button></label>
+        <div class="agd" id="dA">
+          수집항목: 성명, 연락처, 생년월일, 성별, 설치 주소, 신청 조건(제품·약정·관리방식)<br>
+          <b>주민등록번호 등 고유식별정보는 수집하지 않습니다.</b><br>
+          이용목적: 정수기 렌탈 상담 및 신청 처리<br>
+          보유기간: <b>상담 종료 후 즉시 파기</b> (계약 성립 시 관계 법령에 따라 보관)<br>
+          동의를 거부하실 수 있으며, 거부 시 상담 신청이 제한됩니다.
+        </div>
+
+        <label class="ag"><input type="checkbox" id="agB">
+          <span><b>[필수]</b> 제3자 제공 동의</span>
+          <button type="button" class="agv" data-d="dB">보기</button></label>
+        <div class="agd" id="dB">
+          제공받는 자: <b>코웨이(주)</b> 및 설치·상담 위탁 판매점<br>
+          제공목적: 렌탈 계약 체결, 제품 설치 및 사후관리 (설치 주소는 방문 설치에 이용)<br>
+          제공항목: 성명, 연락처, 생년월일, 성별, 설치 주소, 신청 조건<br>
+          보유기간: 제공목적 달성 시까지<br>
+          동의를 거부하실 수 있으며, 거부 시 신청 처리가 제한됩니다.
+        </div>
+
+        <label class="ag"><input type="checkbox" id="agC">
+          <span>[선택] 광고성 정보 수신 동의</span>
+          <button type="button" class="agv" data-d="dC">보기</button></label>
+        <div class="agd" id="dC">
+          혜택·프로모션 안내를 문자로 보내드립니다.
+          <b>동의하지 않아도 신청에는 영향이 없습니다.</b>
+        </div>
+      </div>
+
+      <button type="button" class="msubmit" id="mSubmit">신청하기</button>
+      <p class="merr" id="mErr"></p>
+      <button type="button" class="mlink" id="mAskLink">어떤 제품인지 모르겠어요 →</button>
+      <p class="mfoot">
+        코웨이 제품을 취급하는 판매점이며, 코웨이(주)와 별개의 사업자입니다.<br>
+        상호 <b>홈펠릭스</b> · 사업자등록번호 872-75-00325 · 대표번호 <b>010-2606-6052</b>
+      </p>
+    </div>
+
+    <!-- ── STEP 2 : 선택 입력. 리드는 이미 저장돼 있다 ── -->
+    <div class="mstep" id="step2" hidden>
+      <div class="prog"><span class="done">✓ 신청 접수</span><i></i><span class="now">추가 정보 (2/2)</span></div>
+      <p class="mtitle">접수됐습니다</p>
+      <p class="msub">아래 항목은 <b>선택</b>이며, 입력하지 않아도 상담은 그대로 진행됩니다.
+        설치 가능 지역 확인과 방문 일정 조율에 사용됩니다.<br>
+        네이버페이 포인트 30,000원은 확인 전화에서 계약이 확정된 분께 설치 완료 후 지급됩니다.</p>
+
+      <div class="mfield">
+        <label>설치 주소 <span class="lb2">선택</span></label>
+        <div class="postrow">
+          <input type="text" id="fZip" placeholder="우편번호" readonly data-clarity-mask="true">
+          <button type="button" class="zipbtn" id="zipBtn">주소 검색</button>
+        </div>
+        <input type="text" id="fAddr1" placeholder="도로명 주소" readonly
+               style="margin-top:7px" data-clarity-mask="true">
+        <input type="text" id="fAddr2" placeholder="상세주소 (동·호수) — 선택"
+               style="margin-top:7px" data-clarity-mask="true">
+      </div>
+
+      <div class="mfield">
+        <label>생년월일 · 성별 <span class="lb2">선택</span></label>
+        <div class="mrow">
+          <input type="text" id="fBirth" placeholder="19900101" inputmode="numeric"
+                 maxlength="8" data-clarity-mask="true">
+          <div class="pills t2" id="sexPills">
+            <button type="button" class="pill" data-v="남">남</button>
+            <button type="button" class="pill" data-v="여">여</button>
+          </div>
+        </div>
+        <p class="mhint">렌탈 접수 시 필요한 정보입니다 · 주민등록번호는 받지 않습니다</p>
+      </div>
+
+      <button type="button" class="msubmit" id="mSubmit2">추가정보 입력하기</button>
+      <button type="button" class="mlink" id="mSkip">나중에 상담원에게 알려줄게요 →</button>
+    </div>
+
+    <!-- ── STEP 3 : 완료. 취소 방지 안내는 리드가 저장된 뒤에 둔다 ── -->
+    <div class="mstep" id="step3" hidden>
+      <p class="mtitle">신청이 접수되었습니다</p>
+      <p class="msub">선택하신 조건 그대로 안내드릴게요</p>
+
+      <div class="flow" style="margin:14px 0 0;padding:0;border:0">
+        <div class="step"><span class="n">1</span><span class="tx">
+          <b>신청 접수</b><p>방금 완료</p></span></div>
+        <div class="step"><span class="n">2</span><span class="tx">
+          <b>확인 전화 1회</b><p>빠르면 당일, 늦어도 다음 영업일 중 (평일 09~19시)<br>
+          070 번호로 표시될 수 있습니다</p></span></div>
+        <div class="step"><span class="n">3</span><span class="tx">
+          <b>설치일 지정</b><p>원하시는 날짜로</p></span></div>
+        <div class="step"><span class="n">4</span><span class="tx">
+          <b>설치 · 지원금 지급</b><p>설치 확인 후 계좌 입금</p></span></div>
+      </div>
+
+      <p class="mhint" style="margin-top:14px">
+        <b>네이버페이 포인트 30,000원</b><br>
+        확인 전화에서 계약이 확정된 분께 설치 완료 후 현금지원금과 함께 안내드립니다.</p>
+
+      <details style="margin-top:14px">
+        <summary class="mlink" style="text-align:left">상담 전 미리 확인해 주세요</summary>
+        <p class="mhint" style="margin-top:8px">
+          · 반값할인은 렌탈료의 50%를 첫 3~18개월 동안 적용하며, 종료 후 정상 렌탈료로 전환됩니다.<br>
+          · 제휴카드 할인은 카드 신규 발급과 기준 실적 충족이 필요하며, 할인액은
+            카드사·실적 구간에 따라 8,000원~26,000원으로 다릅니다.<br>
+          · 현금지원금은 설치가 확인된 뒤 지급되며, 조건에 따라 110,000원~340,000원입니다.<br>
+          · 반값할인과 타사보상 할인은 중복 적용되지 않습니다.<br>
+          · 일부 얼음정수기는 위생 관리를 위해 방문관리로만 운영됩니다.</p>
+      </details>
+
+      <button type="button" class="msubmit" data-close style="margin-top:16px">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var PRODUCTS = [
+  { code:"CHP-7220N",  name:"아이콘3 냉온정수기", tag:"인기 1위" },
+  { code:"CHPI-7430N", name:"아이콘 얼음 미니 냉온정수기", tag:"인기 2위" },
+  { code:"CHP-7212N",  name:"아이콘 프로 냉온정수기" },
+  { code:"CHPI-7400N", name:"아이콘 얼음 냉온정수기" },
+  { code:"CP-7220N",   name:"아이콘3 냉정수기" },
+  { code:"CHPI-7420N", name:"아이콘 얼음 맥스 냉온정수기" },
+  { code:"CHPI-7410N", name:"아이콘 스탠다드 얼음 냉온정수기" },
+  { code:"CPI-7400N",  name:"아이콘 얼음 냉정수기" },
+  { code:"CPI-7410N",  name:"아이콘 스탠다드 얼음 냉정수기" },
+  { code:"CHP-7211N",  name:"아이콘2 냉온정수기" },
+  { code:"CP-7211N",   name:"아이콘2 냉정수기" }
+];
+
+/* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수) */
+var PLANS = {
+  "CP-7211N":  { "36":{v4:35900,self:32900,hm:6},  "60":{v4:32900,self:29900,hm:6},  "72":{v4:30900,self:27900,hm:18}, "84":{v4:28900,self:25900,hm:18} },
+  "CP-7220N":  { "36":{v4:36900,self:33900,hm:6},  "60":{v4:33900,self:30900,hm:6},  "72":{v4:31900,self:28900,hm:18}, "84":{v4:29900,self:26900,hm:18} },
+  "CHP-7220N": { "36":{v4:38900,self:35900,hm:6},  "60":{v4:35900,self:32900,hm:6},  "72":{v4:33900,self:30900,hm:18}, "84":{v4:31900,self:28900,hm:18} },
+  "CHP-7211N": { "36":{v4:37900,self:34900,hm:6},  "60":{v4:34900,self:31900,hm:6},  "72":{v4:32900,self:29900,hm:18}, "84":{v4:30900,self:27900,hm:18} },
+  "CHP-7212N": { "36":{v4:39900,self:36900,hm:6},  "60":{v4:36900,self:33900,hm:6},  "72":{v4:34900,self:31900,hm:12}, "84":{v4:32900,self:29900,hm:12} },
+  "CHPI-7430N":{ "36":{v2:52900,v4:49900,self:47900,hm:3}, "60":{v2:49900,v4:46900,self:44900,hm:6}, "72":{v2:47900,v4:44900,self:42900,hm:18}, "84":{v2:45900,v4:42900,self:40900,hm:18} },
+  "CPI-7400N": { "36":{v2:50900,v4:47900,hm:3},    "60":{v2:47400,v4:44400,hm:6},    "72":{v2:45900,v4:42900,hm:18},   "84":{v2:44400,v4:41400,hm:18} },
+  "CPI-7410N": { "36":{v2:52900,v4:49900,hm:3},    "60":{v2:48900,v4:45900,hm:6},    "72":{v2:46900,v4:43900,hm:18},   "84":{v2:44900,v4:41900,hm:18} },
+  "CHPI-7400N":{ "36":{v2:54900,v4:51900,hm:3},    "60":{v2:51400,v4:48400,hm:6},    "72":{v2:49900,v4:46900,hm:18},   "84":{v2:48400,v4:45400,hm:18} },
+  "CHPI-7410N":{ "36":{v2:56900,v4:53900,hm:3},    "60":{v2:52900,v4:49900,hm:6},    "72":{v2:50900,v4:47900,hm:18},   "84":{v2:48900,v4:45900,hm:18} },
+  "CHPI-7420N":{ "36":{v2:60900,v4:57900,hm:3},    "60":{v2:56900,v4:53900,hm:6},    "72":{v2:53900,v4:50900,hm:18},   "84":{v2:51900,v4:48900,hm:18} }
+};
+/* 약정 × 관리방식별 현금 지원금 (반값 미적용)
+   = 수수료 ÷ 1.1 − 리드 100,000 − 네이버페이 30,000 − 목표이익 70,000, 만원 절사
+   ※ 상한 300,000. 방문관리는 수수료가 커서 지원금도 1~2만원 높다. */
+var SUP_TERM = {
+  "CHP-7220N":   { 36:{self:170000, v4:190000}, 60:{self:240000, v4:260000}, 72:{self:290000, v4:300000}, 84:{self:290000, v4:300000} },
+  "CHPI-7430N":  { 36:{self:200000, v4:210000, v2:210000}, 60:{self:230000, v4:240000, v2:240000}, 72:{self:300000, v4:300000, v2:300000}, 84:{self:300000, v4:300000, v2:300000} },
+  "CHP-7212N":   { 36:{self:180000, v4:190000}, 60:{self:200000, v4:210000}, 72:{self:260000, v4:270000}, 84:{self:260000, v4:270000} },
+  "CHPI-7400N":  { 36:{v4:210000, v2:220000}, 60:{v4:240000, v2:250000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
+  "CP-7220N":    { 36:{self:170000, v4:180000}, 60:{self:240000, v4:250000}, 72:{self:290000, v4:300000}, 84:{self:290000, v4:300000} },
+  "CHPI-7420N":  { 36:{v4:220000, v2:230000}, 60:{v4:250000, v2:260000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
+  "CHPI-7410N":  { 36:{v4:210000, v2:220000}, 60:{v4:240000, v2:250000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
+  "CPI-7400N":   { 36:{v4:200000, v2:210000}, 60:{v4:230000, v2:240000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
+  "CPI-7410N":   { 36:{v4:210000, v2:210000}, 60:{v4:240000, v2:240000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
+  "CHP-7211N":   { 36:{self:170000, v4:180000}, 60:{self:190000, v4:200000}, 72:{self:240000, v4:260000}, 84:{self:240000, v4:260000} },
+  "CP-7211N":    { 36:{self:160000, v4:170000}, 60:{self:180000, v4:190000}, 72:{self:230000, v4:240000}, 84:{self:230000, v4:240000} }
+};
+/* 반값할인을 함께 적용했을 때. 아이콘 계열은 반값 시 수수료가 줄어 지원금도 낮아지지만,
+   아이콘3(전략상품)만 반대로 커진다.
+   ※ 상한 340,000 — 히어로 이미지의 "최대 34만원"과 맞춘 값이다.
+     산식상으로는 아이콘3 방문관리가 36만원까지 나오지만 광고 문구를 넘지 않게 자른다. */
+var SUP_TERM_HALF = {
+  "CHP-7220N":   { 36:{self:120000, v4:140000}, 60:{self:290000, v4:310000}, 72:{self:340000, v4:340000}, 84:{self:340000, v4:340000} },
+  "CHPI-7430N":  { 36:{self:150000, v4:150000, v2:150000}, 60:{self:180000, v4:180000, v2:180000}, 72:{self:230000, v4:240000, v2:240000}, 84:{self:230000, v4:240000, v2:240000} },
+  "CHP-7212N":   { 36:{self:130000, v4:140000}, 60:{self:150000, v4:160000}, 72:{self:200000, v4:210000}, 84:{self:200000, v4:210000} },
+  "CHPI-7400N":  { 36:{v4:150000, v2:160000}, 60:{v4:180000, v2:190000}, 72:{v4:240000, v2:250000}, 84:{v4:240000, v2:250000} },
+  "CP-7220N":    { 36:{self:120000, v4:130000}, 60:{self:290000, v4:300000}, 72:{self:340000, v4:340000}, 84:{self:340000, v4:340000} },
+  "CHPI-7420N":  { 36:{v4:160000, v2:170000}, 60:{v4:190000, v2:200000}, 72:{v4:250000, v2:260000}, 84:{v4:250000, v2:260000} },
+  "CHPI-7410N":  { 36:{v4:150000, v2:160000}, 60:{v4:180000, v2:190000}, 72:{v4:240000, v2:250000}, 84:{v4:240000, v2:250000} },
+  "CPI-7400N":   { 36:{v4:150000, v2:150000}, 60:{v4:180000, v2:180000}, 72:{v4:230000, v2:240000}, 84:{v4:230000, v2:240000} },
+  "CPI-7410N":   { 36:{v4:150000, v2:150000}, 60:{v4:180000, v2:180000}, 72:{v4:240000, v2:240000}, 84:{v4:240000, v2:240000} },
+  "CHP-7211N":   { 36:{self:120000, v4:130000}, 60:{self:140000, v4:150000}, 72:{self:190000, v4:200000}, 84:{self:190000, v4:200000} },
+  "CP-7211N":    { 36:{self:110000, v4:120000}, 60:{self:130000, v4:140000}, 72:{self:180000, v4:190000}, 84:{self:180000, v4:190000} }
+};
+var supOf = function (code, term, cyc, half) {
+  var t = (half ? SUP_TERM_HALF : SUP_TERM)[code];
+  if (!t) return 0;
+  var row = t[term] || t[84];
+  if (!row) return 0;
+  /* 그 제품에 없는 관리방식이면 가능한 것 중 가장 낮은 쪽으로 (과다 안내 방지) */
+  if (row[cyc] != null) return row[cyc];
+  var av = ['self', 'v4', 'v2'].filter(function (k) { return row[k] != null; });
+  return av.length ? row[av[0]] : 0;
+};
+
+var CYCLE_LABEL = { v2:"방문관리 · 2개월", v4:"방문관리 · 4개월", self:"자가관리" };
+var CYCLE_DESC = {
+  v2:"전문 매니저가 2개월마다 방문해 점검·관리해요",
+  v4:"전문 매니저가 4개월마다 방문해 점검·관리해요",
+  self:"필터를 배송받아 직접 교체 · 렌탈료가 가장 저렴해요"
+};
+var won = function (n) { return n.toLocaleString("ko-KR"); };
+
+/* ══════════════════════════════════════════════════════════
+   coway-5 앱
+
+   원칙 하나 : 금액은 quote() 한 곳에서만 나온다.
+   화면·모달·전송이 전부 같은 함수를 부른다. 두 곳에 복제하면
+   고객에게 보인 금액과 시트에 적히는 금액이 갈라진다.
+   ══════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  var SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbz32bGinwHfKmAWcPu9keO4uMbcXVd1be36NmNk_CYLhaSWp072G4_fCLIMqvMTW_2P/exec";
+  var CARD_DC = 24000, NPAY = 30000;
+  var VARIANT = (location.pathname.match(/coway-\d/) || ["coway-5"])[0];
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ── 추적 ────────────────────────────────────────────────
+     퍼널은 최대 도달 단계를 따로 남긴다. 마지막 값만 보면
+     되돌아간 사람이 어디까지 갔었는지 사라진다. */
+  var FUNNEL = ["01_진입", "02_조건변경", "03_모달열림", "04_성함", "05_연락처",
+                "06_동의", "07_접수완료", "08_추가정보", "09_추가정보건너뜀"];
+  var seen = {}, maxStep = 0;
+  function tag(name) {
+    if (seen[name]) return;
+    seen[name] = 1;
+    var i = FUNNEL.indexOf(name);
+    if (i > maxStep) maxStep = i;
+    try { clarity("set", "퍼널", name); clarity("set", "퍼널_최대", FUNNEL[maxStep]); } catch (e) {}
+  }
+  function fire(ev, data) {
+    try { if (window.fbq) fbq("track", ev, data || {}); } catch (e) {}
+    try { if (window.karrotPixel) karrotPixel.track(ev === "Lead" ? "Lead" : "ViewContent"); } catch (e) {}
+  }
+  try { clarity("set", "변형", VARIANT); } catch (e) {}
+  tag("01_진입");
+
+  /* ── 552조합 검증이 끝난 자산. 화면 작업으로 이 함수를 열지 말 것 ── */
+  function quote(s) {
+    var plan = PLANS[s.code][s.term];
+    var rent = plan[s.cycle];
+    if (rent == null) {                       /* 그 제품에 없는 관리방식 방어 */
+      var av = ["self", "v4", "v2"].filter(function (k) { return plan[k] != null; });
+      s.cycle = av[0];
+      rent = plan[s.cycle];
+    }
+    var base = s.half ? Math.round(rent / 2)
+             : s.tasa ? Math.round(rent * 0.9 / 10) * 10
+             : rent;
+    var cardUsed = s.card ? Math.min(CARD_DC, base) : 0;
+    return {
+      rent: rent, base: base, cardUsed: cardUsed,
+      pay: base - cardUsed,
+      hm: s.half ? plan.hm : 0,
+      payAfter: s.half ? rent - (s.card ? Math.min(CARD_DC, rent) : 0) : null,
+      sup: supOf(s.code, s.term, s.cycle, s.half),
+      npay: NPAY
+    };
+  }
+
+  var state = { code: "CHP-7220N", term: "84", cycle: "self", half: true, tasa: false, card: true };
+  function prod(code) {
+    for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].code === code) return PRODUCTS[i];
+    return PRODUCTS[0];
+  }
+  function idxOf(code) {
+    for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].code === code) return i;
+    return 0;
+  }
+
+  /* ── 결과 카드 ─────────────────────────────────────────── */
+  var RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function countTo(el, to) {
+    var from = +(el.dataset.v || 0);
+    el.dataset.v = to;
+    if (RM || from === to) { el.innerHTML = won(to) + "<i>원</i>"; return; }
+    var t0 = performance.now();
+    (function tick(t) {
+      var p = Math.min(1, (t - t0) / 260), e = 1 - Math.pow(1 - p, 3);
+      el.innerHTML = won(Math.round(from + (to - from) * e)) + "<i>원</i>";
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  function render() {
+    var q = quote(state), p = prod(state.code);
+    $("rProd").textContent = p.name;
+    $("rCond").textContent = (state.term / 12) + "년 · " + CYCLE_LABEL[state.cycle];
+    countTo($("rPay"), q.pay);
+    $("rSup").textContent = won(q.sup) + "원";
+
+    var note = $("rPayNote");
+    if (q.hm) {
+      $("rHm").textContent = q.hm;
+      $("rAfter").textContent = won(q.payAfter);
+      note.hidden = false;
+    } else { note.hidden = true; }
+
+    $("bdgHalf").hidden = !state.half;
+    $("bdgCard").hidden = !state.card;
+    if (state.card) $("bdgCard").textContent = "제휴카드 −" + won(q.cardUsed) + "원";
+    $("heroShot").src = "/coway_5/img/" + state.code + ".png";
+
+    Array.prototype.forEach.call(document.querySelectorAll("#picks .pick"), function (b) {
+      b.classList.toggle("on", +b.dataset.i === idxOf(state.code));
+    });
+    $("calcProd").value = String(idxOf(state.code));
+    $("cycleDesc").textContent = CYCLE_DESC[state.cycle] || "";
+  }
+
+  /* ── 제품 셀렉트 ───────────────────────────────────────── */
+  var sel = $("calcProd");
+  (function () {
+    var top = document.createElement("optgroup");
+    top.label = "코웨이 공식몰 누적 판매 순위 기준(2026.08 조회)";
+    var rest = document.createElement("optgroup");
+    rest.label = "전체 제품";
+    PRODUCTS.forEach(function (p, i) {
+      var o = document.createElement("option");
+      o.value = i; o.textContent = p.name;
+      (p.tag ? top : rest).appendChild(o);
+    });
+    var ask = document.createElement("optgroup");
+    ask.label = "─────────";
+    var oa = document.createElement("option");
+    oa.value = "ask"; oa.textContent = "＋ 찾는 제품이 없어요 (직접 문의)";
+    ask.appendChild(oa);
+    sel.appendChild(top); sel.appendChild(rest); sel.appendChild(ask);
+    sel.value = String(idxOf(state.code));
+  })();
+
+  sel.addEventListener("change", function () {
+    if (sel.value === "ask") { sel.value = String(idxOf(state.code)); openModal("ask"); return; }
+    state.code = PRODUCTS[+sel.value].code;
+    tag("02_조건변경"); syncCycles(); render();
+  });
+
+  document.querySelectorAll("#picks .pick").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.code = PRODUCTS[+b.dataset.i].code;
+      tag("02_조건변경"); syncCycles(); render();
+    });
+  });
+
+  /* ── 약정 pill ─────────────────────────────────────────
+     금액·지원금을 pill 안에 미리 보여주지 않는다. 72·84 지원금이
+     같은 제품이 많아 나란히 두면 "6년이나 7년이나" 로 학습된다. */
+  var TERMS = [["36", "3년"], ["60", "5년"], ["72", "6년"], ["84", "7년"]];
+  (function () {
+    var w = $("termPills");
+    TERMS.forEach(function (t) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pill" + (t[0] === state.term ? " on" : "");
+      b.textContent = t[1]; b.dataset.v = t[0];
+      b.setAttribute("role", "radio");
+      b.setAttribute("aria-checked", t[0] === state.term ? "true" : "false");
+      b.addEventListener("click", function () {
+        state.term = t[0]; tag("02_조건변경"); syncTerms(); syncCycles(); render();
+      });
+      w.appendChild(b);
+    });
+  })();
+  function syncTerms() {
+    Array.prototype.forEach.call($("termPills").children, function (b) {
+      var on = b.dataset.v === state.term;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-checked", on ? "true" : "false");
+    });
+  }
+
+  /* ── 관리방식 pill : 미지원은 지우지 않고 비활성 + 사유 ── */
+  var CYCS = ["self", "v4", "v2"];
+  (function () {
+    var w = $("cyclePills");
+    CYCS.forEach(function (c) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pill"; b.dataset.v = c;
+      b.textContent = CYCLE_LABEL[c];
+      b.setAttribute("role", "radio");
+      b.addEventListener("click", function () {
+        if (b.disabled) return;
+        state.cycle = c; tag("02_조건변경"); syncCycles(); render();
+      });
+      w.appendChild(b);
+    });
+  })();
+  function syncCycles() {
+    var plan = PLANS[state.code][state.term];
+    var av = CYCS.filter(function (c) { return plan[c] != null; });
+    if (av.indexOf(state.cycle) === -1) state.cycle = av[0];
+    Array.prototype.forEach.call($("cyclePills").children, function (b) {
+      var ok = plan[b.dataset.v] != null, on = ok && b.dataset.v === state.cycle;
+      b.disabled = !ok;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-checked", on ? "true" : "false");
+      b.title = ok ? "" : "이 모델은 위생 관리를 위해 방문관리로만 운영됩니다";
+    });
+  }
+
+  /* ── 할인 토글 ─────────────────────────────────────────── */
+  var half = $("calcHalf"), tasa = $("calcTasa"), card = $("calcCard");
+  half.addEventListener("change", function () {
+    state.half = half.checked;
+    if (half.checked) { tasa.checked = false; state.tasa = false; }
+    tag("02_조건변경"); render();
+  });
+  tasa.addEventListener("change", function () {
+    state.tasa = tasa.checked;
+    if (tasa.checked) { half.checked = false; state.half = false; }
+    tag("02_조건변경"); render();
+  });
+  card.addEventListener("change", function () {
+    state.card = card.checked; tag("02_조건변경"); render();
+  });
+
+  /* ── 하단 고정 CTA : 200px 이후 등장해 끝까지 유지 ─────────
+     본문 CTA 와 겹쳐도 숨기지 않는다. 버튼이 화면에서 사라지는
+     순간을 만드는 비용이 중복 노출보다 크다. */
+  var sticky = $("sticky");
+  addEventListener("scroll", function () {
+    sticky.classList.toggle("on", scrollY > 200);
+  }, { passive: true });
+
+  /* ══════════ 모달 ══════════ */
+  var modal = $("modal"), mode = "quote", leadId = "", sex = "";
+  var s1 = $("step1"), s2 = $("step2"), s3 = $("step3");
+
+  function fillSummary() {
+    var q = quote(state), p = prod(state.code), lab = [];
+    if (state.half) lab.push("반값할인");
+    if (state.tasa) lab.push("타사보상");
+    if (state.card) lab.push("제휴카드 −" + won(q.cardUsed) + "원");
+    $("sProd").textContent = p.name;
+    $("sCycle").textContent = (state.term / 12) + "년 · " + CYCLE_LABEL[state.cycle];
+    $("sPromo").textContent = lab.length ? lab.join(" + ") : "없음";
+    $("sPay").textContent = won(q.pay) + "원";
+    $("sSup").textContent = won(q.sup) + "원";
+    var n = $("sPayNote");
+    if (q.hm) {
+      n.textContent = "반값할인 첫 " + q.hm + "개월 · 이후 월 " + won(q.payAfter) + "원";
+      n.hidden = false;
+    } else { n.hidden = true; }
+  }
+
+  function openModal(m) {
+    mode = m || "quote";
+    $("mAskWrap").hidden = mode !== "ask";
+    $("mSum").hidden = mode === "ask";
+    s1.hidden = false; s2.hidden = true; s3.hidden = true;
+    if (mode !== "ask") fillSummary();
+    modal.classList.add("on");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    tag("03_모달열림");
+    fire("InitiateCheckout");
+  }
+  function closeModal() {
+    modal.classList.remove("on");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+  document.querySelectorAll("[data-open]").forEach(function (b) {
+    b.addEventListener("click", function () { openModal("quote"); });
+  });
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("[data-close]")) closeModal();
+    var v = e.target.closest(".agv");
+    if (v) { var d = $(v.dataset.d); d.classList.toggle("on"); }
+  });
+  addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+  $("mAskLink").addEventListener("click", function () { openModal("ask"); });
+
+  /* ── 입력 ─────────────────────────────────────────────── */
+  var fName = $("fName"), fTel = $("fTel"), mErr = $("mErr");
+  fName.addEventListener("input", function () { if (this.value.trim()) tag("04_성함"); });
+  fTel.addEventListener("input", function () {
+    var v = this.value.replace(/\D/g, "").slice(0, 11);
+    this.value = v.length < 4 ? v
+      : v.length < 8 ? v.slice(0, 3) + "-" + v.slice(3)
+      : v.slice(0, 3) + "-" + v.slice(3, 7) + "-" + v.slice(7);
+    if (v.length >= 10) tag("05_연락처");
+  });
+
+  var agAll = $("agAll"), agA = $("agA"), agB = $("agB"), agC = $("agC");
+  agAll.addEventListener("change", function () {
+    agA.checked = agB.checked = this.checked; tag("06_동의");
+  });
+  [agA, agB].forEach(function (x) {
+    x.addEventListener("change", function () {
+      agAll.checked = agA.checked && agB.checked; tag("06_동의");
+    });
+  });
+
+  $("sexPills").addEventListener("click", function (e) {
+    var b = e.target.closest(".pill"); if (!b) return;
+    sex = b.dataset.v;
+    Array.prototype.forEach.call(this.children, function (x) {
+      x.classList.toggle("on", x === b);
+    });
+  });
+
+  $("zipBtn").addEventListener("click", function () {
+    new daum.Postcode({ oncomplete: function (d) {
+      $("fZip").value = d.zonecode;
+      $("fAddr1").value = d.roadAddress || d.jibunAddress;
+      $("fAddr2").focus();
+    }}).open();
+  });
+
+  /* ── 전송 ─────────────────────────────────────────────
+     sendBeacon 을 1순위로 두지 않는다. 큐 등록 성공을 완료로
+     처리하면 서버가 실패해도 사용자는 '접수 완료'를 본다. */
+  function sendLead(payload, onOk, onFail) {
+    var body = new URLSearchParams(payload).toString();
+    var opts = {
+      method: "POST", keepalive: true,
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body
+    };
+    if (!SHEET_ENDPOINT || SHEET_ENDPOINT.indexOf("PASTE_") === 0) {
+      console.warn("[LEAD] 엔드포인트 미설정 — 전송 건너뜀"); onOk(); return;
+    }
+    fetch(SHEET_ENDPOINT, opts)
+      .then(function (r) { if (!r.ok) throw 0; onOk(); })
+      .catch(function () {
+        fetch(SHEET_ENDPOINT, Object.assign({}, opts, { mode: "no-cors" }))
+          .then(onOk).catch(onFail);
+      });
+  }
+
+  /* 모든 접수유형에 조건을 항상 싣는다.
+     이름·번호만 남는 리드는 상담사가 백지에서 시작한다. */
+  function buildPayload() {
+    var q = quote(state), p = prod(state.code);
+    return {
+      "접수ID": leadId,
+      "변형": VARIANT,
+      "접수유형": mode === "ask" ? "제품 문의" : "상담 신청",
+      "성명": fName.value.trim(),
+      "연락처": "'" + fTel.value.trim(),
+      "희망제품": p.name + " (" + p.code + ")",
+      "약정기간": (state.term / 12) + "년",
+      "관리방식": CYCLE_LABEL[state.cycle],
+      "반값할인": state.half ? "Y" : "N",
+      "타사보상": state.tasa ? "Y" : "N",
+      "제휴카드할인": state.card ? "Y" : "N",
+      "예상월납부액": q.pay,
+      "현금지원금": q.sup,
+      "네이버페이": NPAY,
+      "광고수신동의": agC.checked ? "Y" : "N",
+      "상담메모": mode === "ask" ? ("문의 제품: " + ($("mAskProd").value.trim() || "미기재")) : "",
+      "유입경로": location.href,
+      "기기정보": navigator.userAgent.slice(0, 160)
+    };
+  }
+
+  var busy = false;
+  $("mSubmit").addEventListener("click", function () {
+    if (busy) return;
+    mErr.textContent = "";
+    var name = fName.value.trim(), tel = fTel.value.replace(/\D/g, "");
+    if (!name) { mErr.textContent = "성함을 입력해 주세요."; focusTo(fName); return; }
+    if (tel.length < 10) { mErr.textContent = "휴대폰 번호 11자리를 입력해 주세요."; focusTo(fTel); return; }
+    if (!agA.checked || !agB.checked) {
+      mErr.textContent = "필수 동의 2건에 체크해 주세요."; focusTo(agAll); return;
+    }
+    busy = true;
+    this.style.pointerEvents = "none";
+    this.textContent = "접수 중…";
+    leadId = "L" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    var self = this;
+    sendLead(buildPayload(), function () {
+      busy = false;
+      self.style.pointerEvents = ""; self.textContent = "신청하기";
+      tag("07_접수완료");
+      fire("Lead", { content_name: mode === "ask" ? "제품 문의" : "상담 신청",
+                     content_category: "정수기 렌탈", content_ids: [VARIANT] });
+      fire("CompleteRegistration");
+      if (mode === "ask") { s1.hidden = true; s3.hidden = false; }
+      else { s1.hidden = true; s2.hidden = false; }
+      modal.querySelector(".msheet").scrollTop = 0;
+    }, function () {
+      busy = false;
+      self.style.pointerEvents = ""; self.textContent = "신청하기";
+      mErr.textContent = "전송에 실패했습니다. 잠시 후 다시 눌러 주세요.";
+      try { clarity("set", "퍼널", "X_전송실패"); } catch (e) {}
+    });
+  });
+
+  function focusTo(el) {
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+  }
+
+  /* STEP2 는 보완 저장. 실패해도 1차 리드는 이미 들어가 있다. */
+  function sendExtra(done) {
+    var p = {
+      "액션": "보완", "접수ID": leadId,
+      "생년월일": "'" + $("fBirth").value.trim(),
+      "성별": sex,
+      "우편번호": "'" + $("fZip").value.trim(),
+      "설치주소": $("fAddr1").value.trim(),
+      "상세주소": $("fAddr2").value.trim(),
+      "건물유형": ""
+    };
+    sendLead(p, done, done);
+  }
+  $("mSubmit2").addEventListener("click", function () {
+    tag("08_추가정보");
+    this.style.pointerEvents = "none"; this.textContent = "저장 중…";
+    var self = this;
+    sendExtra(function () {
+      self.style.pointerEvents = ""; self.textContent = "추가정보 입력하기";
+      s2.hidden = true; s3.hidden = false;
+      modal.querySelector(".msheet").scrollTop = 0;
+    });
+  });
+  $("mSkip").addEventListener("click", function () {
+    tag("09_추가정보건너뜀");
+    s2.hidden = true; s3.hidden = false;
+    modal.querySelector(".msheet").scrollTop = 0;
+  });
+
+  /* ── 시작 ─────────────────────────────────────────────── */
+  syncCycles();
+  render();
+})();
+</script>
+<script>
+/* ── 제휴카드 상세 데이터 (onzib.com 실데이터, 2026-08 기준) ── */
+var NOTE_A = "코웨이 렌탈료 면제 프로모션 고객은 면제 회차에 청구할인 혜택 미적용";
+var NOTE_B = "카드 발급 후 코웨이 고객센터 1588-5200 전화하여 제품 자동이체 등록 필수";
+var NOTE_C = "제휴카드 관련 문의는 해당 카드사 고객센터로 문의";
+/* base = 전월실적 30만원 기준 할인액 (목록 표시값) */
+var CARD_DATA = [
+  { img:"card_coway_12", name:"코웨이 신한카드", base:"24,000원", max:"30,000원",
+    tiers:[["전월실적 30만원 이상","24,000원","기본 13,000원 + 프로모션 11,000원"],["전월실적 70만원 이상","24,000원","기본 17,000원 + 프로모션 7,000원"],["전월실적 150만원 이상","30,000원",""]],
+    fee:"국내전용 27,000원 / 국내외겸용 30,000원", apply:"1833-6013 전화신청 또는 온라인신청",
+    promo:"60개월간 최대 1.1만원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
+  { img:"card_coway_13", name:"코웨이 ICON 우리카드", base:"24,000원", max:"30,000원",
+    tiers:[["전월실적 30만원 이상","24,000원","기본 13,000원 + 프로모션 11,000원"],["전월실적 80만원 이상","24,000원","기본 17,000원 + 프로모션 7,000원"],["전월실적 150만원 이상","30,000원","기본 23,000원 + 프로모션 7,000원"]],
+    fee:"국내외겸용 25,000원", apply:"1800-0859 전화신청",
+    promo:"60개월간 최대 11,000원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
+  { img:"card_coway_08", name:"코웨이 삼성카드", base:"22,000원", max:"26,000원",
+    tiers:[["전월실적 30만원 이상","22,000원","기본 7,000원 + 프로모션 15,000원"],["전월실적 70만원 이상","24,000원","기본 10,000원 + 프로모션 14,000원"],["전월실적 120만원 이상","26,000원","기본 13,000원 + 프로모션 13,000원"]],
+    fee:"국내외겸용 15,000원", apply:"1588-7540 전화신청 또는 온라인신청",
+    promo:"60개월간 최대 1만 5천원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
+  { img:"card_coway_09", name:"코웨이 X LOCA 롯데카드", base:"21,000원", max:"25,000원",
+    tiers:[["전월실적 30만원 이상","21,000원","기본 13,000원 + 프로모션 8,000원"],["전월실적 70만원 이상","22,000원","기본 16,000원 + 프로모션 6,000원"],["전월실적 150만원 이상","25,000원",""]],
+    fee:"국내외겸용 20,000원", apply:"",
+    promo:"", notes:[NOTE_B, NOTE_C] },
+  { img:"card_coway_02", name:"NH농협 올원카드", base:"20,000원", max:"40,000원",
+    tiers:[["전월실적 30만원 이상","20,000원","기본 10,000원 + 캐시백 10,000원"],["전월실적 100만원 이상","25,000원","기본 15,000원 + 캐시백 10,000원"],["전월실적 200만원 이상","40,000원","기본 30,000원 + 캐시백 10,000원"]],
+    fee:"국내전용 10,000원 / 국내외겸용 12,000원", apply:"1644-2866 전화신청 또는 온라인신청",
+    promo:"60개월간 최대 1만원 추가 청구할인", notes:[NOTE_B, NOTE_C] },
+  { img:"card_coway_11", name:"마이 코웨이 하나카드", base:"13,000원", max:"25,000원",
+    tiers:[["전월실적 30만원 이상","13,000원",""],["전월실적 80만원 이상","18,000원",""],["전월실적 150만원 이상","25,000원",""]],
+    fee:"국내외겸용 25,000원", apply:"1588-1771 전화신청",
+    promo:"", notes:[NOTE_B, NOTE_C] },
+  { img:"card_coway_04", name:"코웨이 IBK카드", base:"13,000원", max:"23,000원",
+    tiers:[["전월실적 30만원 이상","13,000원",""],["전월실적 70만원 이상","17,000원",""],["전월실적 120만원 이상","23,000원",""]],
+    fee:"국내전용 12,000원 / 국내외겸용 15,000원", apply:"1566-0088 전화신청 또는 온라인신청",
+    promo:"", notes:[NOTE_B, NOTE_C] },
+  { img:"card_coway_01", name:"KB국민 코웨이Ⅱ 카드", base:"26,000원", max:"30,000원", cond:"전월실적 40만원 기준",
+    tiers:[["전월실적 40만원 이상","26,000원","기본 15,000원 + 프로모션 11,000원"],["전월실적 80만원 이상","30,000원","기본 20,000원 + 프로모션 10,000원"]],
+    fee:"국내외겸용 30,000원", apply:"1644-8388 전화신청 또는 온라인신청",
+    promo:"36개월간 최대 1만 1천원 추가 청구할인", notes:[NOTE_B, NOTE_C] },
+  { img:"card_coway_05", name:"현대카드 M Edition3", base:"25,000원", max:"30,000원", cond:"전월실적 50만원 기준",
+    tiers:[["전월실적 50만원 이상","25,000원","기본 15,000원 + 프로모션 10,000원"],["전월실적 100만원 이상","30,000원","기본 20,000원 + 프로모션 10,000원"]],
+    fee:"국내외겸용 30,000원", apply:"02-2655-5003 전화신청 또는 온라인신청",
+    promo:"36개월간 월 1만원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
+  { img:"card_coway_14", name:"코웨이 현대카드", base:"8,000원", max:"16,000원", cond:"전월실적 40만원 기준",
+    tiers:[["전월실적 40만원 이상","8,000원",""],["전월실적 80만원 이상","12,000원",""],["전월실적 120만원 이상","16,000원",""]],
+    fee:"국내외겸용 20,000원", apply:"1670-0443 전화신청 또는 온라인신청",
+    promo:"", notes:[NOTE_A, NOTE_B, NOTE_C] }
+];
+
+/* 카드 리스트 + 클릭 상세 렌더 */
+(function () {
+  var list = document.getElementById("cardList");
+  if (!list) return;
+  var SHOW = 4;
+  list.innerHTML = CARD_DATA.map(function (c, i) {
+    var tiers = c.tiers.map(function (t) {
+      return '<div class="tier"><span>' + t[0] + (t[2] ? "<small>" + t[2] + "</small>" : "")
+        + '</span><span class="amt2">' + t[1] + " 할인</span></div>";
+    }).join("");
+    var dtl = '<p class="lead">렌탈료 자동이체 시 최대 월 ' + c.max + ' 할인</p>'
+      + "<h5>실적 구간별 할인</h5>" + tiers
+      + "<h5>연회비</h5><p class='kv'>" + c.fee + "</p>"
+      + (c.apply ? "<h5>발급 신청</h5><p class='kv'>" + c.apply.replace(/(\d[\d-]{7,})/, '<a href="tel:$1">$1</a>') + "</p>" : "")
+      + (c.promo ? "<h5>신규발급 프로모션</h5><p class='kv'>" + c.promo + "</p>" : "")
+      + '<div class="notes">' + c.notes.map(function (n) { return "※ " + n; }).join("<br>") + "</div>";
+    return '<div class="carditem' + (i >= SHOW ? " extra" : "") + '">'
+      + '<div class="cardrow">'
+      + '<div class="face"><img src="/coway_5/img/card/' + c.img + '.png" alt="' + c.name + '" loading="lazy"></div>'
+      + '<div class="cn"><b>' + c.name + "</b><span>" + (c.cond || "전월실적 30만원 기준") + "</span></div>"
+      + '<div class="amt">월<b>−' + c.base + '</b></div><span class="arr">▼</span></div>'
+      + '<div class="carddtl">' + dtl + "</div></div>";
+  }).join("");
+
+  list.addEventListener("click", function (ev) {
+    var row = ev.target.closest(".cardrow");
+    if (!row) return;
+    var item = row.parentElement;
+    var wasOpen = item.classList.contains("open");
+    Array.prototype.forEach.call(list.querySelectorAll(".carditem.open"), function (x) {
+      x.classList.remove("open");
+    });
+    if (!wasOpen) item.classList.add("open");
+  });
+
+  var moreBtn = document.getElementById("cardMore");
+  moreBtn.addEventListener("click", function () {
+    var opened = list.classList.toggle("open-all");
+    moreBtn.textContent = opened ? "접기 ▲" : "제휴카드 " + (CARD_DATA.length - SHOW) + "개 더보기 ▼";
+    if (!opened) {
+      Array.prototype.forEach.call(list.querySelectorAll(".carditem.extra.open"), function (x) {
+        x.classList.remove("open");
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>
