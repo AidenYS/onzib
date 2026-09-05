@@ -9,15 +9,19 @@
   ══════════════════════════════════════════════════════════
   이사방 랜딩 v3 · 단순형 (v2에서 상단 배너만 교체)
   ──────────────────────────────────────────────────────────
-  구성 :  배너 → 인증·수상 → 약속 → 입력폼 → 신청현황 → 작업현장 → 이용후기
+  구성 :  배너 → 인증·수상 → 약속 → 입력폼 → 신청현황
+  · 26.09.05 작업현장·이용후기 두 섹션을 뺐다. 직전 판은
+    index-v3_백업_26.09.05.html 에 그대로 있다 (사진·후기 마크업 포함).
   · 접수는 디비센스 공식 입력폼(iframe) — 정산 경로 일치
   · 금지 모델(서경석) / AI 생성 이미지 미사용
-  · 배너 : img/banner-v5.png (원본 860x8000 템플릿 상단만 사용, 788x1026)
+  · 배너 : img/banner-v6.png = banner-v5.png 위 256px(로고 + "이사방이 검증한")
+           을 잘라낸 것. v5 원본은 img/ 에 그대로 둔다.
+           (v5 는 원본 860x8000 템플릿 상단만 사용, 788x1026)
            헤드라인과 선별문구 사이 여백 171 → 114px 로 좁힘
            하단 도시·트럭 바에 더미 대표전화 02-1234-5678 이 있어 제외
            v2 는 img/banner.png "2곳 견적 드립니다" 사용
-  · img/work1~7.jpg, review-door/-pack.jpg = 광고주 배포 공식 작업사진에서 선별·크롭
-      ⚠ 사진 선정 기준 2가지 (교체 시 반드시 지킬 것)
+  · img/work1~7.jpg, review-door/-pack.jpg 은 파일만 남아 있고 지금은 안 쓴다.
+      ⚠ 다시 넣을 때 지킬 사진 선정 기준 2가지
         1) 유니폼 '서경석과 함께 이사방' 문구가 보이는 컷 금지
         2) 트럭 대표번호 1544-3354 가 보이는 컷 금지 → 폼 우회 전화 = 정산 누락
   · img/logo.png 은 로고만 잘라둔 예비 파일 — 현재 미사용
@@ -94,51 +98,6 @@
   .live .hd b{font-size:15px;font-weight:800;letter-spacing:-.3px}
   .live .frame{border:1px solid var(--line)}
 
-  /* ══ 5. 작업 현장 ══ */
-  .wk{padding:22px 0 26px;background:#fff;border-top:1px solid var(--line)}
-  .wk-hd{text-align:center;margin:0 0 4px}
-  .wk-hd b{font-size:19px;font-weight:900;letter-spacing:-.5px}
-  .wk-sub{text-align:center;font-size:12.5px;color:var(--muted);margin:0 0 14px}
-  .wk-strip{display:flex;gap:9px;overflow-x:auto;padding:0 14px 4px;
-            /* mandatory 는 마지막 장이 끝까지 안 붙는 일이 생겨 proximity 로 둔다 */
-            scroll-snap-type:x proximity;scroll-padding-left:14px;
-            overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
-  .wk-strip::-webkit-scrollbar{height:0}
-  /* flex 스크롤 컨테이너는 브라우저에 따라 오른쪽 padding 을 무시한다.
-     마지막 장 뒤에 여백을 만들어 주는 스페이서. */
-  .wk-strip::after{content:"";flex:0 0 5px}
-  .wk-strip figure{flex:0 0 66%;max-width:230px;margin:0;scroll-snap-align:start}
-  .wk-strip img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;
-                border-radius:11px;background:#e9edf3}
-  .wk-strip figcaption{font-size:11.5px;font-weight:700;color:#4a5568;
-                       margin-top:6px;text-align:center;letter-spacing:-.2px}
-
-  /* ══ 6. 이용후기 ══ */
-  .rv{background:var(--orange);padding:22px 12px 26px}
-  .rv-hd{text-align:center;color:#fff;font-size:19px;font-weight:900;
-         letter-spacing:-.5px;margin:0 0 14px}
-  .rc{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:11px;position:relative}
-  .rc:last-child{margin-bottom:0}
-  /* 후기 사진 — 좌우로 넘기는 스트립 */
-  .rc .ph{position:relative;background:#e9edf3;aspect-ratio:16/10;
-          display:flex;overflow-x:auto;overscroll-behavior-x:contain;
-          scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-  .rc .ph::-webkit-scrollbar{height:0}
-  .rc .ph img{flex:0 0 100%;display:block;width:100%;height:100%;
-              object-fit:cover;scroll-snap-align:center}
-  /* .ph 는 스크롤 컨테이너라 그 안에 절대배치하면 사진과 같이 밀린다.
-     래퍼(.phw)를 기준으로 고정한다. */
-  .rc .phw{position:relative}
-  .rc .swipe{position:absolute;right:9px;bottom:9px;z-index:2;pointer-events:none;
-             background:rgba(17,24,39,.62);color:#fff;font-size:10.5px;font-weight:700;
-             border-radius:20px;padding:4px 9px;letter-spacing:-.2px;
-             backdrop-filter:blur(3px)}
-  .rc .bd{padding:13px 14px 15px}
-  .rc h3{font-size:16px;font-weight:900;color:var(--navy);letter-spacing:-.5px;
-         margin:0 0 7px;display:flex;gap:6px;align-items:center}
-  .rc h3 em{font-style:normal;font-size:14px;opacity:.5}
-  .rc .txt{font-size:12.5px;color:#4a5568;line-height:1.7;margin:0;white-space:pre-line}
-
   footer{background:#eef1f6;padding:22px 20px 28px;font-size:11.5px;color:#78828f;line-height:1.7}
   footer b{color:#5a6577}
 
@@ -197,8 +156,8 @@ try{ clarity("set","페이지","24bang-당근"); }catch(e){}
 
   <!-- 1. 배너 -->
   <div class="banner">
-    <img src="/24bang/img/banner-v5.png" width="788" height="1026"
-         alt="이사방이 검증한 2매칭 무료 비교견적 · 잡음없는 실력 대비 저렴한 업체만을 선별합니다">
+    <img src="/24bang/img/banner-v6.png" width="788" height="770"
+         alt="2매칭 무료 비교견적 · 월 10만명이 방문하는 이사방 · 잡음없는 실력 대비 저렴한 업체만을 선별합니다">
   </div>
 
   <!-- 1-2. 인증·수상
@@ -285,65 +244,6 @@ try{ clarity("set","페이지","24bang-당근"); }catch(e){}
         height="300" frameborder="0" scrolling="no" loading="lazy"
         title="실시간 신청 현황"></iframe>
     </div>
-  </div>
-
-  <!-- 5. 작업 현장
-       전부 광고주(디비센스)가 배포한 이사방 공식 작업사진.
-       선정 기준 2가지 —
-         · 유니폼의 '서경석과 함께 이사방' 문구가 안 보이는 컷만 사용
-           (브리프 금지사항 : 모델 서경석 사용 불가)
-         · 트럭 차체의 대표번호 1544-3354 가 안 나오는 컷만 사용
-           (번호 노출 시 폼을 안 거치고 직접 전화 → 정산 누락) -->
-  <div class="wk">
-    <p class="wk-hd"><b>실제 이사방 작업 현장</b></p>
-    <p class="wk-sub">옆으로 넘겨서 보세요</p>
-    <div class="wk-strip">
-      <figure><img src="/24bang/img/work1.jpg" loading="lazy" alt="이삿짐을 실은 트럭 적재함">
-        <figcaption>전용 박스로 적재</figcaption></figure>
-      <figure><img src="/24bang/img/work2.jpg" loading="lazy" alt="거실에 소파를 설치하는 작업자">
-        <figcaption>가구 배치까지</figcaption></figure>
-      <figure><img src="/24bang/img/work3.jpg" loading="lazy" alt="전용 커버로 포장한 매트리스">
-        <figcaption>매트리스 전용 커버</figcaption></figure>
-      <figure><img src="/24bang/img/work4.jpg" loading="lazy" alt="주방에서 냉장고를 다루는 작업자">
-        <figcaption>가전 설치</figcaption></figure>
-      <figure><img src="/24bang/img/work5.jpg" loading="lazy" alt="장롱 내부를 닦는 작업자">
-        <figcaption>수납장 청소</figcaption></figure>
-      <figure><img src="/24bang/img/work6.jpg" loading="lazy" alt="이사 후 바닥을 청소하는 작업자">
-        <figcaption>배치 전 바닥 청소</figcaption></figure>
-      <figure><img src="/24bang/img/work7.jpg" loading="lazy" alt="정리를 마친 옷장">
-        <figcaption>옷장 정리 완료</figcaption></figure>
-    </div>
-  </div>
-
-  <!-- 6. 이용후기 -->
-  <div class="rv">
-    <p class="rv-hd">이사방 이용후기</p>
-      <!-- 후기 2 ─ 네이버 블로그 '랄라' (내돈내산) -->
-      <div class="rc">
-        <div class="phw">
-        <div class="ph">
-          <!-- 후기 사진 2장. 둘 다 이사방 공식 현장사진에서 선별.
-               유니폼의 '서경석과 함께 이사방' 문구 · 트럭 대표번호 노출 없음.
-                 1) 작업현장4/48.jpg     냉장고 문짝 분리
-                    → 후기 본문 '문짝만 떼서 옮기고 다시 조립' 대목과 맞춘 컷
-                 2) 작업현장3/도.주방20.jpg  에어캡으로 그릇 포장 -->
-          <img src="/24bang/img/review-door.jpg" alt="">
-          <img src="/24bang/img/review-pack.jpg" alt="">
-        </div>
-        <span class="swipe">사진 2장 · 옆으로 밀기</span>
-        </div>
-        <div class="bd">
-          <h3><em>💬</em>추가 금액 없음을 계약서에 기입해 주셨다</h3>
-          <p class="txt">“견적을 낼 때도 이사 시 중요하고 까다로운 부분이 어떤 것인지 잘 설명해 주셨다. (…) 나중에 보니 짐 양 측정이 정확했다.”
-
-“추가 금액 없음을 계약서에 기입해 주시기도 하셨고 (…) 선 계약금은 없었다.”
-
-“문자에는 7시 10분에 도착하신다고 했지만 (…) 정말로 정확히 7시 10분에 오셨다. 견적을 볼 때도 약속한 시간에 맞춰 오신 걸 보면 시간 약속에 철저하신 편인 것 같았다.”
-
-“이사 자체에 엄청 걱정이 많았는데, 매우 만족했다. (…) 하지만 모든 건 케바케니 참고만 해주시길^^”</p>
-        </div>
-      </div>
-
   </div>
 
   <footer>
