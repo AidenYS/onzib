@@ -298,6 +298,29 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   .cardlist{display:grid;gap:8px;margin-top:13px}
   /* 카드 아코디언 (시안 10과 동일 구조) */
   .carditem{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+  /* 제휴카드 목록 — coway-1 과 같은 한 줄 카드 형태.
+     시안 11 계열에는 자식 규칙(.cardrow .cn / .amt)만 있고 기반 규칙이
+     통째로 빠져 있어, 카드 이미지가 326px 로 늘어나고 상세가 접히지
+     않은 채 전부 펼쳐져 있었다. coway-1 원문을 그대로 가져온다. */
+  .cardrow{
+    display:flex;align-items:center;gap:11px;padding:11px 12px;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .cardrow .face{flex:0 0 54px}
+  .cardrow .face img{width:100%;display:block;border-radius:5px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+  .cardrow .arr{margin-left:3px;color:#b6bcc6;font-size:10px;transition:transform .25s;flex:0 0 auto}
+  .carddtl{display:none;border-top:1px solid #f3f4f6;padding:13px 14px 15px;background:#fafbfc}
+  .carddtl .lead{font-size:12px;font-weight:800;color:#1f2937}
+  .carddtl h5{font-size:11px;font-weight:900;color:#6b7280;margin:12px 0 5px;letter-spacing:.02em}
+  .carddtl .tier{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:8px;
+    font-size:12px;font-weight:700;color:#4b5563;padding:6px 0;border-bottom:1px dashed #eceef1;
+  }
+  .carddtl .tier:last-of-type{border-bottom:0}
+  .carddtl .tier small{display:block;font-weight:600;color:#9ca3af;font-size:10px;margin-top:1px}
+  .carddtl p.kv{font-size:11.5px;font-weight:700;color:#4b5563;margin:2px 0;line-height:1.55}
+  .carddtl p.kv a{color:#1d4ed8;text-decoration:none;font-weight:800}
+  .carddtl .notes{margin-top:11px;font-size:10px;color:#94a3b8;font-weight:600;line-height:1.65}
   .cardrow .cn{flex:1;min-width:0}
   .cardrow .cn b{display:block;font-size:13px;font-weight:800;letter-spacing:-.4px;line-height:1.3}
   .cardrow .cn span{display:block;font-size:10.5px;color:var(--muted);font-weight:700;margin-top:1px}
