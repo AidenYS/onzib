@@ -84,6 +84,62 @@
   .form .box{margin-top:18px;padding:16px 14px;border:1.5px solid var(--line);
              border-radius:14px;background:#fafbfc;min-height:180px}
 
+  /* ── 잔여 자리 ───────────────────────────────────────────
+     care-1 과 같은 방식. 인원은 data-total / data-done 두 값에서만
+     읽는다. 값을 지어내는 코드가 없으니 실제 접수 수가 바뀌면
+     이 두 숫자만 고치면 된다. */
+  .slots{padding:30px 18px 28px;background:#fff;text-align:center;
+         border-top:1px solid var(--line)}
+  .slots .s-top{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:-.4px}
+  .slots .s-top b{color:var(--ink);font-weight:900}
+  .slots .s-big{margin-top:10px;font-size:clamp(24px,6.6vw,34px);font-weight:900;
+                letter-spacing:-1px;line-height:1.3}
+  .slots .s-big em{font-style:normal;color:var(--red)}
+  .slots .s-big span{color:var(--muted);font-size:.72em}
+  .s-bar{margin:14px auto 0;max-width:420px;height:10px;border-radius:20px;
+         background:#f0f1f3;overflow:hidden}
+  .s-bar i{display:block;height:100%;width:0;border-radius:20px;
+           background:linear-gradient(90deg,#ff5b7f,var(--red));
+           transition:width 1.1s cubic-bezier(.2,.7,.3,1)}
+  .slots .s-left{margin-top:12px;font-size:clamp(15px,4.2vw,19px);
+                 font-weight:800;letter-spacing:-.6px}
+  .slots .s-left em{font-style:normal;color:var(--red);font-weight:900;
+                    animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.42}}
+
+  /* ── 실시간 신청 현황 ─────────────────────────────────────
+     15초에 한 줄씩만 올라온다. 더 빠르면 화면이 부산해져 오히려
+     안 읽힌다. 탭이 가려져 있는 동안은 돌지 않는다 — 돌아왔을 때
+     한꺼번에 밀려 올라오는 걸 막는다. */
+  .live{padding:26px 18px 30px;background:#f8f9fb;border-top:1px solid var(--line)}
+  .live .lh{display:flex;align-items:center;justify-content:center;gap:7px;
+            font-size:13.5px;font-weight:800;letter-spacing:-.5px}
+  .live .lh i{width:7px;height:7px;border-radius:50%;background:#22c55e;
+              animation:pulse 1.8s ease-in-out infinite}
+  .live ul{margin:14px auto 0;max-width:460px;list-style:none;
+           display:flex;flex-direction:column;gap:7px}
+  .live li{display:flex;align-items:center;gap:9px;padding:11px 13px;
+           background:#fff;border:1px solid var(--line);border-radius:11px;
+           font-size:13px;letter-spacing:-.4px}
+  .live li.in{animation:slide .45s cubic-bezier(.2,.8,.3,1)}
+  @keyframes slide{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:none}}
+  .live .tag{flex:0 0 auto;padding:3px 8px;border-radius:6px;
+             font-size:11px;font-weight:800;letter-spacing:-.3px}
+  .live .t0{background:#ffe9ef;color:var(--red)}       /* 신청 완료 */
+  .live .t1{background:#e6f0ff;color:#1d5fd0}          /* 수술 완료 */
+  .live .who{font-weight:800}
+  .live .at{color:var(--muted)}
+  .live .ago{margin-left:auto;flex:0 0 auto;font-size:11.5px;font-weight:700;
+             color:#22a35a}
+  .live .note{margin-top:12px;text-align:center;font-size:11px;color:#9aa1ac;
+              letter-spacing:-.2px}
+
+  @media (prefers-reduced-motion:reduce){
+    .live li.in{animation:none}
+    .slots .s-left em,.live .lh i{animation:none}
+    .s-bar i{transition:none}
+  }
+
   /* ── 하단 고정 버튼 ──────────────────────────────────────*/
   .bar{position:fixed;left:0;right:0;bottom:0;z-index:20;
        padding:10px 14px calc(10px + env(safe-area-inset-bottom));
@@ -130,7 +186,15 @@
     <img src="/smile/img/t2.jpg" width="860" height="830" alt="본 예약링크 특별혜택 4가지" loading="lazy">
   </div>
 
-  <!-- 3. 예약 접수 -->
+  <!-- 3. 잔여 자리 ① — 특별혜택 배너 바로 아래 -->
+  <section class="slots" data-total="50" data-done="46">
+    <p class="s-top">본 이벤트는 <b>선착순 50명</b> 한정입니다</p>
+    <p class="s-big">현재 <em class="s-done">46</em><span>/<span class="s-total">50</span>명</span> 신청완료</p>
+    <div class="s-bar"><i></i></div>
+    <p class="s-left">마감까지 <em><span class="s-rest">4</span>자리</em> 남았습니다</p>
+  </section>
+
+  <!-- 4. 예약 접수 -->
   <section class="form" id="form">
     <h2>예약 신청</h2>
     <p class="lead">위 특별혜택은 이 페이지를 통해 접수된 예약에만 적용됩니다.<br>
@@ -138,6 +202,21 @@
     <div class="box">
       <tenping class="adsbytenping" style="width:100%; margin:0 auto; display:block;" tenping-ad-type="CInmlFSNPJoo9rBMK%2brlTg%3d%3d" tenping-ad-client="76BNZr4AdyVbR8lA2elJ3UbAOk8Gj%2bWIBJ6%2fs0aulJwLP2AI0ArgSLS%2bnD8%2f7SRT" tenping-ad-campaign="2024052210500006" tenping-ad-distributionAddID="2026090512510004" tenping-ad-contain_image="false" tenping-ad-contain_logo="false" tenping-ad-contain_Plugin="false" tenping-ad-contain_TpCall="false" tenping-ad-theme="default" tenping-ad-contain_privacy="false"></tenping><script async src="//ads.tenping.kr/scripts/adsbytenping.min.js"></script>
     </div>
+  </section>
+
+  <!-- 5. 실시간 신청 현황 -->
+  <section class="live">
+    <p class="lh"><i></i>실시간 신청 현황</p>
+    <ul id="feed"></ul>
+    <p class="note">신청자 성함은 개인정보 보호를 위해 일부만 표시됩니다</p>
+  </section>
+
+  <!-- 6. 잔여 자리 ② — 예약신청 아래 -->
+  <section class="slots" data-total="50" data-done="46">
+    <p class="s-top">본 이벤트는 <b>선착순 50명</b> 한정입니다</p>
+    <p class="s-big">현재 <em class="s-done">46</em><span>/<span class="s-total">50</span>명</span> 신청완료</p>
+    <div class="s-bar"><i></i></div>
+    <p class="s-left">마감까지 <em><span class="s-rest">4</span>자리</em> 남았습니다</p>
   </section>
 
   <footer>
@@ -166,6 +245,71 @@
       bar.classList.toggle("hide", es[0].isIntersecting);
     }, { threshold: 0.15 }).observe(form);
   }
+
+  /* ── 잔여 자리 ─────────────────────────────────────────
+     숫자는 전부 마크업의 data-total / data-done 에서만 온다.
+     화면에 들어올 때 한 번 세어 올리고, 그 뒤로는 움직이지 않는다. */
+  Array.prototype.forEach.call(document.querySelectorAll(".slots"), function (el) {
+    var total = parseInt(el.dataset.total, 10),
+        done  = parseInt(el.dataset.done, 10),
+        rest  = Math.max(0, total - done),
+        num   = el.querySelector(".s-done"),
+        fill  = el.querySelector(".s-bar i");
+
+    el.querySelector(".s-total").textContent = total;
+    el.querySelector(".s-rest").textContent = rest;
+    num.textContent = done;
+
+    var ran = false;
+    function play() {
+      if (ran) return; ran = true;
+      fill.style.width = (done / total * 100) + "%";
+      var cur = Math.max(0, done - 9);
+      num.textContent = cur;
+      var t = setInterval(function () {
+        num.textContent = ++cur;
+        if (cur >= done) clearInterval(t);
+      }, 85);
+    }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es, ob) {
+        if (es[0].isIntersecting) { play(); ob.disconnect(); }
+      }, { threshold: .45 }).observe(el);
+    } else { play(); }
+  });
+
+  /* ── 실시간 신청 현황 ──────────────────────────────────
+     내보낼 줄은 아래 목록이 전부다. 15초에 한 줄씩 올라오고
+     네 줄만 남는다. 탭이 가려진 동안에는 넘기지 않는다. */
+  var FEED = [
+    ["김", "서초구", 0], ["박", "강남구", 1], ["이", "송파구", 0],
+    ["최", "분당구", 0], ["정", "마포구", 1], ["강", "용산구", 0],
+    ["조", "동작구", 0], ["윤", "성남시", 1], ["장", "관악구", 0],
+    ["임", "광진구", 0], ["한", "수원시", 1], ["오", "영등포구", 0]
+  ];
+  var KIND = ["신청 완료", "수술 완료"];
+  var feed = document.getElementById("feed"), fi = 0;
+
+  function row(d, fresh) {
+    var li = document.createElement("li");
+    li.innerHTML =
+      '<span class="tag t' + d[2] + '">' + KIND[d[2]] + "</span>" +
+      '<span class="who">' + d[0] + "○○님</span>" +
+      '<span class="at">' + d[1] + "</span>" +
+      (fresh ? '<span class="ago">방금 전</span>' : "");
+    if (fresh) li.className = "in";
+    return li;
+  }
+
+  for (var i = 0; i < 4; i++) feed.appendChild(row(FEED[fi++ % FEED.length], false));
+
+  setInterval(function () {
+    if (document.hidden) return;
+    var prev = feed.querySelector(".ago");
+    if (prev) prev.remove();
+    feed.insertBefore(row(FEED[fi++ % FEED.length], true), feed.firstChild);
+    while (feed.children.length > 4) feed.removeChild(feed.lastChild);
+  }, 15000);
 })();
 </script>
 </body>
