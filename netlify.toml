@@ -52,6 +52,11 @@
   status = 200
 
 [[redirects]]
+  from = "/coway-6"
+  to   = "/coway_6/index.html"
+  status = 200
+
+[[redirects]]
   from = "/care-1"
   to   = "/care_1/index.html"
   status = 200
