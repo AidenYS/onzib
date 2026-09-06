@@ -57,6 +57,11 @@
   status = 200
 
 [[redirects]]
+  from = "/coway-7-3"
+  to   = "/coway_7_3/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to   = "/index.html"
   status = 200
