@@ -41,7 +41,16 @@
 
   /* ── 2. 메인 이미지 ── */
   .hero-img{display:block;width:100%;height:auto;vertical-align:top}
-  .desc-img{display:block;width:100%;height:auto;vertical-align:top}
+  /* ── 2. 첫 인사 ──────────────────────────────────────
+     안내 이미지(127px) 를 글 3줄로 대신한다. 높이를 1/3 줄이라는 요청이라
+     글자를 13.5px 로 낮추고 줄간격·패딩을 좁혔다.
+     강조는 아래 계산기가 쓰는 주황(--orange)과 같은 색으로 맞춘다 —
+     이 페이지의 가격·인기뱃지·CTA 가 전부 그 색이다. */
+  .intro{padding:13px 18px;background:#fff;text-align:center}
+  .intro p{font-size:13.5px;font-weight:700;color:var(--ink);
+           letter-spacing:-.5px;line-height:1.5}
+  .intro p + p{margin-top:3px}
+  .intro b{font-weight:900;color:var(--orange)}
 
   /* ── 3. 계산기 ── */
   .calcwrap{padding:26px 18px 40px;background:#fff}
@@ -492,7 +501,11 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   <!-- 2. 렌탈료 계산기 — 첫 화면에 바로 나오게 위로 올렸다.
        원래는 히어로 이미지(894px) 뒤라 스크롤해야 보였다. -->
   <!-- 3. 계산기 안내 + 렌탈료 계산기 -->
-  <img class="desc-img" src="/coway_7/img/desc.jpg" alt="아래에서 실제 나의 렌탈료 &amp; 현금지원금 확인해 볼 수 있습니다">
+  <section class="intro">
+    <p>모든 상품은 <b>코웨이 정식 렌탈 상품</b>입니다</p>
+    <p>현금지원금 <b>최대 34만원</b></p>
+    <p>내 조건 지금 확인하시고, <b>혜택 바로 챙겨가세요</b></p>
+  </section>
 
   <div class="calcwrap">
     <div class="calc" id="calc">
