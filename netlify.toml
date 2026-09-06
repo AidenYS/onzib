@@ -22,8 +22,13 @@
   status = 200
 
 [[redirects]]
-  from = "/coway-7"
-  to   = "/coway_7/index.html"
+  from = "/coway-2"
+  to   = "/coway_2/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/coway-2/*"
+  to   = "/coway_2/index.html"
   status = 200
 
 [[redirects]]
@@ -49,16 +54,6 @@
 [[redirects]]
   from = "/smile"
   to   = "/smile/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-7-2"
-  to   = "/coway_7_2/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/coway-7-3"
-  to   = "/coway_7_3/index.html"
   status = 200
 
 [[redirects]]
