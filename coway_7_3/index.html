@@ -638,6 +638,11 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
           <select id="calcCycle"></select>
         </div>
       </div>
+
+      <div class="row" id="colorRow">
+        <label>색상</label>
+        <select id="calcColor"></select>
+      </div>
       <p class="cycledesc" id="cycleDesc"></p>
 
       <div class="tgl">
@@ -1078,6 +1083,24 @@ var supOf = function (code, term, cyc, half) {
   return av.length ? row[av[0]] : 0;
 };
 
+/* 제품별 색상. 가격에는 영향이 없어 계산에는 쓰지 않고, 고른 값만
+   상담에 넘긴다 — 전화에서 색을 다시 묻지 않아도 되게. */
+var COLORS = {
+  "CP-7220N": ["블룸 핑크", "씨엘 블루", "크림 베이지", "페블 그레이", "퓨어 화이트", "플래티넘 실버"],
+  "CHP-7220N": ["블룸 핑크", "씨엘 블루", "크림 베이지", "페블 그레이", "퓨어 화이트", "플래티넘 실버"],
+  "CHP-7212N": ["포슬린 화이트", "아이언 실버", "페블 블랙", "브론즈 베이지", "아이시 블루"],
+  "CHPI-7430N": ["아이스 화이트", "아이스 블루", "아이스 핑크", "아이스 그레이", "아이스 베이지"],
+  "CPI-7400N": ["아이스 화이트", "아이스 블루", "아이스 핑크", "아이스 그레이"],
+  "CPI-7410N": ["아이스 화이트", "아이스 그레이", "아이스 블루", "아이스 핑크"],
+  "CHPI-7400N": ["아이스 화이트", "아이스 블루", "아이스 핑크", "아이스 그레이"],
+  "CHPI-7410N": ["아이스 화이트", "아이스 그레이", "아이스 블루", "아이스 핑크"],
+  "CHPI-7420N": ["아이스 화이트", "아이스 그레이", "아이스 블루"],
+  "CHP-7211N": ["퓨어 화이트", "플래티넘 실버", "페블 그레이", "블룸 핑크", "크림 베이지", "씨엘 블루"],
+  "CP-7211N": ["퓨어 화이트", "블룸 핑크", "크림 베이지", "플래티넘 실버", "씨엘 블루"],
+  "CHPI-5820L": ["포슬린 화이트", "페블 그레이"],
+  "CHPI-5801L": ["화이트", "블랙"]
+};
+
 var CYCLE_LABEL = { v2:"방문관리 · 2개월", v4:"방문관리 · 4개월", self:"자가관리" };
 var CYCLE_DESC = {
   v2:"전문 매니저가 2개월마다 방문해 점검·관리해요",
@@ -1143,6 +1166,23 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   };
 
   /* 제품별 관리방식 옵션 구성 (저렴한 순 → 첫 항목이 기본) */
+  /* 색상은 제품마다 가짓수가 달라 매번 다시 만든다. 없는 제품은 줄째로 감춘다
+     (프라임 스탠드·물탱크는 색상 선택이 없다). */
+  var colorSel = document.getElementById("calcColor");
+  var colorRow = document.getElementById("colorRow");
+  var buildColors = function () {
+    var list = COLORS[PRODUCTS[+sel.value].code] || [];
+    var prev = colorSel.value;
+    colorSel.innerHTML = "";
+    list.forEach(function (nm) {
+      var o = document.createElement("option");
+      o.value = nm; o.textContent = nm;
+      colorSel.appendChild(o);
+    });
+    colorRow.style.display = list.length ? "" : "none";
+    colorSel.value = list.indexOf(prev) > -1 ? prev : (list[0] || "");
+  };
+
   var buildCycles = function () {
     var p = PRODUCTS[+sel.value], rows = PLANS[p.code];
     var plan84 = rows[termSel.value] ||
@@ -1363,7 +1403,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
         openDetail(PRODUCTS[+b.dataset.i].code); return;
       }
       sel.value = b.dataset.i;
-      buildTerms(); buildCycles(); update();
+      buildTerms(); buildCycles(); buildColors(); update();
     });
   });
 
@@ -1378,7 +1418,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
       return;
     }
     lastProd = sel.value;
-    buildTerms(); buildCycles(); update();
+    buildTerms(); buildCycles(); buildColors(); update();
   });
   termSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
   cycleSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
@@ -1386,6 +1426,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
 
   buildTerms();
   buildCycles();
+  buildColors();
   update();
 })();
 
@@ -1583,6 +1624,7 @@ function sendLead(payload, onOk, onFail) {
     if (card) labels.push("제휴카드 −" + won(cardUsed) + "원");
     return {
       prod: p, code: p.code, name: p.name,
+      color: (elx("calcColor").value || ""),
       sup: supOf(p.code, term.value, cyc.value, half),
       term: term.value, cycle: cyc.value,
       cycleLabel: CYCLE_LABEL[cyc.value] || "-",
@@ -1620,7 +1662,7 @@ function sendLead(payload, onOk, onFail) {
 
   var fillSummary = function () {
     var c = readCalc();
-    elx("sProd").textContent  = c.name;
+    elx("sProd").textContent  = c.name + (c.color ? " · " + c.color : "");
     elx("sCycle").textContent = (c.term / 12) + "년 · " + c.cycleLabel;
     elx("sPromo").textContent = c.promoLabel;
     elx("sPay").textContent   = c.pay + "원";
@@ -1848,7 +1890,8 @@ function sendLead(payload, onOk, onFail) {
       접수유형: instant ? "즉시신청(네이버페이)" : (mode === "ask" ? "제품 문의" : "이벤트 신청"),
       성명: name,
       연락처: "010-" + t2.value + "-" + t3.value,
-      희망제품: instant ? c.name + " (" + c.code + ")"
+      /* 색상은 시트에 열을 새로 만들지 않고 희망제품 뒤에 붙인다. */
+      희망제품: instant ? c.name + " (" + c.code + ")" + (c.color ? " · " + c.color : "")
                 : (mode === "ask"
                     ? (elx("mAskProd").value.trim() || "제품명 미정 · 상담사 안내 요청")
                     : ""),
