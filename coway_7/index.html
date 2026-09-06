@@ -46,8 +46,12 @@
      글자를 13.5px 로 낮추고 줄간격·패딩을 좁혔다.
      강조는 아래 계산기가 쓰는 주황(--orange)과 같은 색으로 맞춘다 —
      이 페이지의 가격·인기뱃지·CTA 가 전부 그 색이다. */
-  .intro{padding:13px 18px;background:#fff;text-align:center}
-  .intro p{font-size:13.5px;font-weight:700;color:var(--ink);
+  .intro{padding:14px 16px;background:#fff;text-align:center}
+  /* 폭에 따라 글자가 따라 큰다. 셋째 줄("내 조건 지금 확인하시고, 혜택 바로
+     챙겨가세요")이 가장 길어서 이 줄이 한 줄로 유지되는 한계를 폭별로 재고
+     그 안쪽으로 잡았다 — 320px 13.8 / 390px 16.8 / 412px 이상 17.5px.
+     고정값 17px 로 두면 360·375px 기기에서 셋째 줄이 두 줄로 넘어간다. */
+  .intro p{font-size:clamp(13.5px,4.3vw,17.5px);font-weight:700;color:var(--ink);
            letter-spacing:-.5px;line-height:1.5}
   .intro p + p{margin-top:3px}
   .intro b{font-weight:900;color:var(--orange)}
