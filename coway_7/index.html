@@ -948,11 +948,23 @@ var PRODUCTS = [
   { code:"CP-7211N",   name:"아이콘2 냉정수기", short:"아이콘2 냉정" }
 ];
 
-/* 제품 상세 이미지 — onzib.com 상품상세정보 원본 (860px 폭, 두 장이 한 벌).
-   여기 없는 제품은 카드에 "상세보기" 가 안 붙는다. 지금은 인기 2종 샘플. */
+/* 제품 상세 이미지 — onzib.com 상품상세정보 원본을 그대로 부른다.
+   제품마다 한두 장이 앞·뒤로 이어지는 한 벌이고, 페이지에 놓인 순서다.
+   복사본을 두지 않는 이유: 11종이 24.2MB 라 배포가 3.4배로 뛴다.
+   onzib.com 이 우리 사이트이고 CDN 이 8시간 캐시로 바로 주므로 그대로 쓴다.
+   대신 못 불러오는 경우를 대비해 팝업에 안내와 원본 링크를 둔다. */
 var DETAIL = {
-  "CHP-7220N":  ["/coway_7/img/d/CHP-7220N_1.jpg",  "/coway_7/img/d/CHP-7220N_2.jpg"],
-  "CHPI-7430N": ["/coway_7/img/d/CHPI-7430N_1.jpg", "/coway_7/img/d/CHPI-7430N_2.jpg"]
+  "CHP-7220N": ["https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863722_274.jpg", "https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863722_8019.jpg"],
+  "CHPI-7430N": ["https://storage.bilrigo.com/data/editor/2507/11d561a208dda6754723f5896d0ee30d_1753334475_1731.jpg", "https://storage.bilrigo.com/data/editor/2507/11d561a208dda6754723f5896d0ee30d_1753334475_3739.jpg"],
+  "CHP-7212N": ["https://storage.bilrigo.com/data/editor/2505/f9bc1e294565bb87736b6b128ca41176_1747269436_782.jpg"],
+  "CHPI-7400N": ["https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716509_2337.jpg", "https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716509_7706.jpg"],
+  "CP-7220N": ["https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863403_743.jpg", "https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863403_9516.jpg"],
+  "CHPI-7420N": ["https://storage.bilrigo.com/data/editor/2508/f8260eea14af6ff4bb7a5b664742dfa7_1755735549_4385.jpg", "https://storage.bilrigo.com/data/editor/2508/f8260eea14af6ff4bb7a5b664742dfa7_1755735549_9934.jpg"],
+  "CHPI-7410N": ["https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047419_8137.jpg", "https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047422_3899.jpg"],
+  "CPI-7400N": ["https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716345_6904.jpg", "https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716346_2201.jpg"],
+  "CPI-7410N": ["https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047552_558.jpg", "https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047555_4645.jpg"],
+  "CHP-7211N": ["https://storage.bilrigo.com/data/editor/2605/5f8874aa11c05f67dcf867db8f74e39e_1779071004_2895.jpg"],
+  "CP-7211N": ["https://storage.bilrigo.com/data/editor/2606/b8b2fe9ac224ddf81deb89e88fac2c8e_1780288605_0802.jpg"]
 };
 
 /* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수) */
@@ -1184,11 +1196,24 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     document.getElementById("dtlName").textContent = (prodByCode(code) || {}).name || "제품 상세";
     dtlBody.innerHTML = '<p class="load">상세 정보를 불러오는 중…</p>';
     dtlBody.scrollTop = 0;
-    var html = "";
+    dtlBody.innerHTML = "";
     for (var i = 0; i < list.length; i++) {
-      html += '<img src="' + list[i] + '" alt="">';
+      var im = new Image();
+      im.alt = "";
+      /* 이미지는 onzib.com CDN 에서 온다. 못 받으면 화면이 비어 버리므로
+         그 자리에 안내와 원본 링크를 대신 세운다. */
+      im.onerror = (function (el) {
+        return function () {
+          var p = document.createElement("p");
+          p.className = "load";
+          p.innerHTML = '상세 이미지를 불러오지 못했습니다<br>'
+            + '<a href="https://onzib.com/" target="_blank" rel="noopener">onzib.com 에서 보기</a>';
+          if (el.parentNode) el.parentNode.replaceChild(p, el);
+        };
+      })(im);
+      im.src = list[i];                       /* 열 때 붙인다 = 안 열면 안 받는다 */
+      dtlBody.appendChild(im);
     }
-    dtlBody.innerHTML = html;                 /* 열 때 붙인다 = 안 열면 안 받는다 */
     dtl.hidden = false;
     document.documentElement.style.overflow = "hidden";
     dtlOpen = true;
