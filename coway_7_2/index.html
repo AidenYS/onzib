@@ -954,7 +954,14 @@ var PRODUCTS = [
   { code:"CPI-7400N",  name:"아이콘 얼음 냉정수기", short:"얼음 냉정" },
   { code:"CPI-7410N",  name:"아이콘 스탠다드 얼음 냉정수기", short:"스탠다드 얼음 냉정" },
   { code:"CHP-7211N",  name:"아이콘2 냉온정수기", short:"아이콘2 냉온" },
-  { code:"CP-7211N",   name:"아이콘2 냉정수기", short:"아이콘2 냉정" }
+  { code:"CP-7211N",   name:"아이콘2 냉정수기", short:"아이콘2 냉정" },
+
+  /* ── 사무실·매장용 대형 스탠드. 가정용과 성격이 달라 목록 맨 뒤에 둔다.
+        넷 다 반값할인·자가관리가 없고 약정도 3/5/6년뿐이다. ── */
+  { code:"CHP-5720L",  name:"프라임 스탠드 냉온정수기", short:"프라임 스탠드", big:true },
+  { code:"CHPI-5820L", name:"아이스 스탠드 3.0 얼음 냉온정수기", short:"아이스 스탠드", big:true },
+  { code:"CHPI-5801L", name:"듀얼냉각 대용량 얼음 냉온정수기", short:"듀얼냉각 대용량", big:true },
+  { code:"CHP-700L",   name:"물탱크 냉온정수기", short:"물탱크 냉온", big:true }
 ];
 
 /* 제품 상세 이미지 — onzib.com 상품상세정보 원본을 그대로 부른다.
@@ -976,8 +983,15 @@ var DETAIL = {
   "CP-7211N": ["https://storage.bilrigo.com/data/editor/2606/b8b2fe9ac224ddf81deb89e88fac2c8e_1780288605_0802.jpg"]
 };
 
-/* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수) */
+/* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수)
+   hm 이 없으면 그 제품은 반값할인 대상이 아니다. */
 var PLANS = {
+  /* 사무실용 대형 스탠드 — onzib.com 상세에서 조합별로 읽은 값. 7년 약정 없음. */
+  "CHP-5720L":  { "36":{v2:51900, v4:48900}, "60":{v2:49400, v4:46400}, "72":{v2:47900, v4:44900} },
+  "CHPI-5820L": { "36":{v2:61400, v4:58400}, "60":{v2:58400, v4:55400}, "72":{v2:56400, v4:53400} },
+  "CHPI-5801L": { "36":{v2:59900}, "60":{v2:57400}, "72":{v2:55900} },
+  "CHP-700L":   { "36":{v2:64100}, "60":{v2:61600}, "72":{v2:60100} },
+
   "CP-7211N":  { "36":{v4:35900,self:32900,hm:6},  "60":{v4:32900,self:29900,hm:6},  "72":{v4:30900,self:27900,hm:18}, "84":{v4:28900,self:25900,hm:18} },
   "CP-7220N":  { "36":{v4:36900,self:33900,hm:6},  "60":{v4:33900,self:30900,hm:6},  "72":{v4:31900,self:28900,hm:18}, "84":{v4:29900,self:26900,hm:18} },
   "CHP-7220N": { "36":{v4:38900,self:35900,hm:6},  "60":{v4:35900,self:32900,hm:6},  "72":{v4:33900,self:30900,hm:18}, "84":{v4:31900,self:28900,hm:18} },
@@ -1056,6 +1070,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   var halfM   = document.getElementById("halfM");
   var halfAfter=document.getElementById("halfAfter");
   var CARD_DC = 24000;
+  var halfWanted = false;
 
   /* 인기 상위 2종을 별도 그룹으로 올려 먼저 보이게 함 */
   var gTop = document.createElement("optgroup");
@@ -1081,10 +1096,27 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   sel.value = 0; /* 아이콘3 냉온 — 코웨이 정수기 누적 판매 1위 */
   var lastProd = "0";
 
+  /* 제품별 약정 옵션 구성. 대형 스탠드 4종은 7년 약정이 없어서,
+     셀렉트에 7년을 그대로 두면 없는 요금을 읽게 된다. */
+  var buildTerms = function () {
+    var rows = PLANS[PRODUCTS[+sel.value].code];
+    var avail = Object.keys(rows).sort(function (a, b) { return +a - +b; });
+    var prev = termSel.value, last = avail[avail.length - 1];
+    termSel.innerHTML = "";
+    avail.forEach(function (t) {
+      var o = document.createElement("option");
+      o.value = t;
+      o.textContent = (t / 12) + "년" + (t === last ? " · 최저가" : "");
+      termSel.appendChild(o);
+    });
+    termSel.value = avail.indexOf(prev) > -1 ? prev : last;
+  };
+
   /* 제품별 관리방식 옵션 구성 (저렴한 순 → 첫 항목이 기본) */
   var buildCycles = function () {
-    var p = PRODUCTS[+sel.value];
-    var plan84 = PLANS[p.code]["84"];
+    var p = PRODUCTS[+sel.value], rows = PLANS[p.code];
+    var plan84 = rows[termSel.value] ||
+                 rows[Object.keys(rows).sort(function (a, b) { return +b - +a; })[0]];
     var avail = Object.keys(plan84).filter(function (k) { return k !== "hm"; });
     avail.sort(function (a, b) { return plan84[a] - plan84[b]; });
     var prev = cycleSel.value;
@@ -1109,6 +1141,16 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     var p = PRODUCTS[+sel.value];
     var plan = PLANS[p.code][termSel.value];
     var rent = plan[cycleSel.value];
+
+    /* 반값할인이 없는 제품(대형 스탠드 4종)은 체크를 끄고 잠근다.
+       켜 둔 채로 두면 있지도 않은 할인으로 절반 금액이 나온다. */
+    var canHalf = plan.hm != null;
+    if (!canHalf) {
+      if (half.checked) { halfWanted = true; half.checked = false; }
+    } else if (halfWanted) { half.checked = true; halfWanted = false; }
+    half.disabled = !canHalf;
+    var hl = document.querySelector('label[for="calcHalf"]');
+    if (hl) hl.style.opacity = canHalf ? "" : ".45";
     /* 적용 순서: ① 반값 or 타사보상(렌탈료 자체를 깎음) → ② 제휴카드 청구할인
        ※ 카드 청구할인은 그 달 청구액을 초과할 수 없다 (초과분은 이월·환급되지 않음) */
     var base = rent;
@@ -1121,8 +1163,8 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     var sup = supOf(p.code, termSel.value, cycleSel.value, half.checked);
     /* 옆에 나란히 두려고 만원 단위로 줄인다. 지원금은 만원 절사라
        나머지가 없어 이 표기로 금액이 깎이지 않는다. */
-    supOut.textContent = (sup % 10000 === 0) ? (sup / 10000) + "만원"
-                                             : won(sup) + "원";
+    supOut.textContent = !SUP_TERM[p.code] ? "상담 시 안내"
+      : (sup % 10000 === 0) ? (sup / 10000) + "만원" : won(sup) + "원";
 
     /* "이후 월 ○○원" 은 제휴카드 할인을 이미 뺀 값이다. 카드가 없을 때 얼마인지
        같은 자리에 적어 둔다 — 상담 전화에서 처음 듣게 하지 않는다. */
@@ -1178,13 +1220,16 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
      그 제품에서 가능한 방식으로 대신 계산한다 — 셀렉트에서 고르면 어차피
      buildCycles 가 같은 방식으로 보정한다. */
   function cardAmt(code) {
-    var plan = PLANS[code][termSel.value] || PLANS[code]["84"];
+    var rows = PLANS[code];
+    var plan = rows[termSel.value] ||
+               rows[Object.keys(rows).sort(function (a, b) { return +b - +a; })[0]];
     var cyc = cycleSel.value;
     if (plan[cyc] == null) {
       cyc = ["self", "v4", "v2"].filter(function (k) { return plan[k] != null; })[0];
     }
     var rent = plan[cyc], base = rent;
-    if (half.checked) base = Math.round(rent / 2);
+    /* 그 제품이 반값 대상일 때만 절반을 먹인다. hm 이 없으면 대상이 아니다. */
+    if (half.checked && plan.hm != null) base = Math.round(rent / 2);
     else if (tasa.checked) base = Math.round(rent * 0.9 / 10) * 10;
     return {
       pay: base - (chk.checked ? Math.min(CARD_DC, base) : 0),
@@ -1197,8 +1242,8 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
       var a = cardAmt(PRODUCTS[+b.dataset.i].code);
       b.querySelector(".mp").textContent = won(a.pay) + "원";
       /* 지원금은 만원 절사라 나머지가 없다. 카드 폭이 좁아 만원 단위로 줄인다. */
-      b.querySelector(".ms").textContent =
-        (a.sup % 10000 === 0) ? (a.sup / 10000) + "만원" : won(a.sup) + "원";
+      b.querySelector(".ms").textContent = !SUP_TERM[PRODUCTS[+b.dataset.i].code]
+        ? "상담 시" : (a.sup % 10000 === 0) ? (a.sup / 10000) + "만원" : won(a.sup) + "원";
     });
   }
 
@@ -1286,7 +1331,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
         openDetail(PRODUCTS[+b.dataset.i].code); return;
       }
       sel.value = b.dataset.i;
-      buildCycles(); update();
+      buildTerms(); buildCycles(); update();
     });
   });
 
@@ -1301,12 +1346,13 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
       return;
     }
     lastProd = sel.value;
-    buildCycles(); update();
+    buildTerms(); buildCycles(); update();
   });
   termSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
   cycleSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
   chk.addEventListener("change", function () { step("1_계산기조작"); update(); });
 
+  buildTerms();
   buildCycles();
   update();
 })();
