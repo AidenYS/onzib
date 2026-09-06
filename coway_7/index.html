@@ -998,7 +998,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   PRODUCTS.forEach(function (p, i) {
     var o = document.createElement("option");
     o.value = i;
-    o.textContent = p.tag ? (p.name + " · " + p.tag) : p.name;
+    o.textContent = p.name.replace(/^아이콘 /, "");
     (p.tag ? gTop : gRest).appendChild(o);
   });
   sel.appendChild(gTop);
@@ -1008,7 +1008,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
   gAsk.label = "─────────";
   var oAsk = document.createElement("option");
   oAsk.value = "ask";
-  oAsk.textContent = "＋ 찾는 제품이 없어요 (직접 문의)";
+  oAsk.textContent = "＋ 찾는 제품이 없어요";
   gAsk.appendChild(oAsk);
   sel.appendChild(gAsk);
   sel.value = 0; /* 아이콘3 냉온 — 코웨이 정수기 누적 판매 1위 */
