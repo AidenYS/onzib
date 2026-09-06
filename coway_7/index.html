@@ -103,6 +103,33 @@
          -webkit-overflow-scrolling:touch}
   .picks::-webkit-scrollbar{height:0}
   .picks::after{content:"";flex:0 0 1px}
+
+  /* 카드 안 "상세보기" — 카드를 누르면 제품 선택, 이 글자를 누르면 상세 */
+  .pick .dbtn{position:absolute;top:8px;right:8px;font-size:10px;font-weight:800;
+              color:var(--muted);border:1px solid var(--line);border-radius:20px;
+              padding:2px 7px;background:#fff;letter-spacing:-.3px}
+  .pick.on .dbtn{border-color:#ffd4c6;color:var(--orange)}
+
+  /* ── 제품 상세 팝업 ─────────────────────────────────────
+     전체 화면. 위는 제품명·닫기, 가운데만 스크롤, 아래는 신청 버튼 고정.
+     상세를 다 보고 마음먹었을 때 닫고 다시 찾아 내려갈 일이 없게 한다. */
+  .dtl{position:fixed;inset:0;z-index:950;background:#fff;display:flex;flex-direction:column}
+  /* 하단 고정 CTA 가 z-index 900 이라 그 위여야 팝업 버튼이 눌린다.
+     신청 모달(1000) 보다는 아래로 둬서 모달이 뜨면 그게 위로 온다. */
+  .dtl[hidden]{display:none}
+  .dtl-hd{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
+          gap:10px;padding:13px 14px;border-bottom:1px solid var(--line);background:#fff}
+  .dtl-hd b{font-size:15px;font-weight:900;letter-spacing:-.5px}
+  .dtl-x{width:34px;height:34px;border:0;background:#f3f4f6;border-radius:50%;
+         font-size:15px;color:#4b5563;line-height:1;cursor:pointer}
+  .dtl-body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff}
+  .dtl-body img{display:block;width:100%;height:auto;vertical-align:top}
+  .dtl-body .load{padding:60px 20px;text-align:center;font-size:13px;
+                  color:var(--muted);font-weight:700}
+  .dtl-ft{flex:0 0 auto;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+          border-top:1px solid var(--line);background:#fff}
+  .dtl-cta{width:100%;height:52px;border:0;border-radius:12px;background:var(--orange);
+           color:#fff;font-size:16px;font-weight:900;letter-spacing:-.5px;cursor:pointer}
   .pick{
     flex:0 0 46%;max-width:172px;scroll-snap-align:center;
     position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;
@@ -694,6 +721,18 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
 
 </div>
 
+<!-- 제품 상세 팝업 (인기 2종 샘플) -->
+  <div class="dtl" id="dtl" hidden>
+    <div class="dtl-hd">
+      <b id="dtlName">제품 상세</b>
+      <button type="button" class="dtl-x" id="dtlX" aria-label="닫기">✕</button>
+    </div>
+    <div class="dtl-body" id="dtlBody"></div>
+    <div class="dtl-ft">
+      <button type="button" class="dtl-cta" id="dtlCta">이 조건으로 상담 신청하기</button>
+    </div>
+  </div>
+
 <!-- ══════════ 신청 모달 ══════════ -->
 <div class="modal" id="modal" aria-hidden="true">
   <div class="mbg" data-close></div>
@@ -909,6 +948,13 @@ var PRODUCTS = [
   { code:"CP-7211N",   name:"아이콘2 냉정수기", short:"아이콘2 냉정" }
 ];
 
+/* 제품 상세 이미지 — onzib.com 상품상세정보 원본 (860px 폭, 두 장이 한 벌).
+   여기 없는 제품은 카드에 "상세보기" 가 안 붙는다. 지금은 인기 2종 샘플. */
+var DETAIL = {
+  "CHP-7220N":  ["/coway_7/img/d/CHP-7220N_1.jpg",  "/coway_7/img/d/CHP-7220N_2.jpg"],
+  "CHPI-7430N": ["/coway_7/img/d/CHPI-7430N_1.jpg", "/coway_7/img/d/CHPI-7430N_2.jpg"]
+};
+
 /* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수) */
 var PLANS = {
   "CP-7211N":  { "36":{v4:35900,self:32900,hm:6},  "60":{v4:32900,self:29900,hm:6},  "72":{v4:30900,self:27900,hm:18}, "84":{v4:28900,self:25900,hm:18} },
@@ -1087,6 +1133,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
       + (p.tag ? '<span class="rk">' + p.tag + "</span>" : "")
       + '<img src="/coway_7/img/' + p.code + '.png" alt="' + p.name + '" loading="lazy">'
       + "<b>" + p.short + "</b>"
+      + (DETAIL[p.code] ? '<span class="dbtn">상세보기</span>' : "")
       + '<span class="ds">' + ds + "</span>"
       + '<div class="amt">'
       +   '<div class="r"><span>월 납부액</span><b class="mp">–</b></div>'
@@ -1125,6 +1172,55 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     });
   }
 
+  /* ── 제품 상세 팝업 ────────────────────────────────────
+     안드로이드에서는 팝업을 닫을 때 X 보다 뒤로가기를 먼저 누르는 사람이 많다.
+     열 때 이력을 하나 쌓고 popstate 에서 닫아, 뒤로가기가 "닫기" 가 되게 한다.
+     이 처리가 없으면 뒤로가기 한 번이 그대로 사이트 이탈이다. */
+  var dtl = document.getElementById("dtl"),
+      dtlBody = document.getElementById("dtlBody"), dtlOpen = false;
+  function openDetail(code) {
+    var list = DETAIL[code];
+    if (!list) return;
+    document.getElementById("dtlName").textContent = (prodByCode(code) || {}).name || "제품 상세";
+    dtlBody.innerHTML = '<p class="load">상세 정보를 불러오는 중…</p>';
+    dtlBody.scrollTop = 0;
+    var html = "";
+    for (var i = 0; i < list.length; i++) {
+      html += '<img src="' + list[i] + '" alt="">';
+    }
+    dtlBody.innerHTML = html;                 /* 열 때 붙인다 = 안 열면 안 받는다 */
+    dtl.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    dtlOpen = true;
+    history.pushState({ dtl: 1 }, "");
+    step("3_상세보기");
+  }
+  function closeDetail(fromPop) {
+    if (!dtlOpen) return;
+    dtl.hidden = true;
+    dtlBody.innerHTML = "";                   /* 메모리도 같이 돌려준다 */
+    document.documentElement.style.overflow = "";
+    dtlOpen = false;
+    if (!fromPop) history.back();
+  }
+  function prodByCode(c) {
+    for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].code === c) return PRODUCTS[i];
+    return null;
+  }
+  document.getElementById("dtlX").addEventListener("click", function () { closeDetail(false); });
+  document.getElementById("dtlCta").addEventListener("click", function () {
+    closeDetail(false);                        /* 팝업을 겹치지 않고 넘긴다 */
+    /* 신청 모달을 여는 함수는 다른 스코프에 있다. 이미 바인딩된 버튼을
+       그대로 눌러 같은 경로로 보낸다 — 열리는 방식이 한 갈래로 유지된다. */
+    setTimeout(function () {
+      var t = document.querySelector(".cta-main") || document.querySelector(".cta-plain");
+      if (t) t.click();
+    }, 220);
+  });
+  window.addEventListener("popstate", function () {
+    if (dtlOpen) closeDetail(true);
+  });
+
   /* 카드 ↔ 셀렉트 동기화 */
   var picks = strip.querySelectorAll(".pick");
   var syncPicks = function () {
@@ -1142,7 +1238,10 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     });
   };
   Array.prototype.forEach.call(picks, function (b) {
-    b.addEventListener("click", function () {
+    b.addEventListener("click", function (ev) {
+      if (ev.target.closest && ev.target.closest(".dbtn")) {
+        openDetail(PRODUCTS[+b.dataset.i].code); return;
+      }
       sel.value = b.dataset.i;
       buildCycles(); update();
     });
