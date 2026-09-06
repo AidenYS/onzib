@@ -1012,6 +1012,10 @@ var PLANS = {
    = 수수료 ÷ 1.1 − 리드 100,000 − 네이버페이 30,000 − 목표이익 70,000, 만원 절사
    ※ 상한 300,000. 방문관리는 수수료가 커서 지원금도 1~2만원 높다. */
 var SUP_TERM = {
+  "CHP-5720L": { 36:{v2:210000, v4:210000}, 60:{v2:230000, v4:230000}, 72:{v2:300000, v4:300000} },
+  "CHPI-5820L": { 36:{v2:230000, v4:230000}, 60:{v2:260000, v4:260000}, 72:{v2:300000, v4:300000} },
+  "CHPI-5801L": { 36:{v2:230000}, 60:{v2:260000}, 72:{v2:300000} },
+  "CHP-700L": { 36:{v2:240000}, 60:{v2:260000}, 72:{v2:300000} },
   "CHP-7220N":   { 36:{self:170000, v4:190000}, 60:{self:240000, v4:260000}, 72:{self:290000, v4:300000}, 84:{self:290000, v4:300000} },
   "CHPI-7430N":  { 36:{self:200000, v4:210000, v2:210000}, 60:{self:230000, v4:240000, v2:240000}, 72:{self:300000, v4:300000, v2:300000}, 84:{self:300000, v4:300000, v2:300000} },
   "CHP-7212N":   { 36:{self:180000, v4:190000}, 60:{self:200000, v4:210000}, 72:{self:260000, v4:270000}, 84:{self:260000, v4:270000} },
@@ -1044,7 +1048,11 @@ var SUP_TERM_HALF = {
 var supOf = function (code, term, cyc, half) {
   var t = (half ? SUP_TERM_HALF : SUP_TERM)[code];
   if (!t) return 0;
-  var row = t[term] || t[84];
+  var row = t[term];
+  if (!row) {                        /* 그 약정이 없으면 가장 긴 약정으로 */
+    var ks = Object.keys(t).sort(function (a, b) { return +b - +a; });
+    row = t[ks[0]];
+  }
   if (!row) return 0;
   /* 그 제품에 없는 관리방식이면 가능한 것 중 가장 낮은 쪽으로 (과다 안내 방지) */
   if (row[cyc] != null) return row[cyc];
@@ -1225,8 +1233,9 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
      buildCycles 가 같은 방식으로 보정한다. */
   function cardAmt(code) {
     var rows = PLANS[code];
-    var plan = rows[termSel.value] ||
-               rows[Object.keys(rows).sort(function (a, b) { return +b - +a; })[0]];
+    var tkey = rows[termSel.value] ? termSel.value
+             : Object.keys(rows).sort(function (a, b) { return +b - +a; })[0];
+    var plan = rows[tkey];
     var cyc = cycleSel.value;
     if (plan[cyc] == null) {
       cyc = ["self", "v4", "v2"].filter(function (k) { return plan[k] != null; })[0];
@@ -1237,7 +1246,8 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     else if (tasa.checked) base = Math.round(rent * 0.9 / 10) * 10;
     return {
       pay: base - (chk.checked ? Math.min(CARD_DC, base) : 0),
-      sup: supOf(code, termSel.value, cyc, half.checked)
+      /* 반값이 없는 제품은 일반 표에서 찾는다. 반값 표를 뒤지면 0 이 나온다. */
+      sup: supOf(code, tkey, cyc, half.checked && plan.hm != null)
     };
   }
   function syncCardAmt() {
