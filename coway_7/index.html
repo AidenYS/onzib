@@ -90,9 +90,17 @@
 
   /* 인기 2종 픽커 */
   .pickttl{font-size:13px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
+  .pickttl span{float:right;font-size:11px;font-weight:700;color:var(--muted)}
   .pickttl b{color:var(--orange)}
-  .picks{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  /* 옆으로 미는 줄. 한 화면에 두 장 + 다음 장이 걸쳐 보여야
+     "더 있다" 가 전달된다. mandatory 로 잡으면 튀어서 proximity 로 둔다. */
+  .picks{display:flex;gap:9px;overflow-x:auto;padding:2px 1px 7px;
+         scroll-snap-type:x proximity;overscroll-behavior-x:contain;
+         -webkit-overflow-scrolling:touch}
+  .picks::-webkit-scrollbar{height:0}
+  .picks::after{content:"";flex:0 0 1px}
   .pick{
+    flex:0 0 46%;max-width:172px;scroll-snap-align:center;
     position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;
     padding:26px 8px 11px;background:#fff;border:2px solid var(--line);border-radius:13px;
     font-family:inherit;cursor:pointer;text-align:center;transition:border-color .15s,box-shadow .15s;
@@ -516,23 +524,9 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
       <h3>⚡ 내 조건으로 <em>월 렌탈료</em> 확인</h3>
       <p class="lead">제품 · 약정 · 관리방식만 고르면 바로 계산됩니다</p>
 
-      <p class="pickttl">🔥 가장 많이 선택한 <b>인기 2종</b></p>
-      <div class="picks">
-        <button type="button" class="pick" data-i="0">
-          <span class="rk">인기 1위</span>
-          <img src="/coway_7/img/CHP-7220N.png" alt="아이콘3 냉온정수기">
-          <b>아이콘3 냉온</b>
-          <span class="ds">정수 · 냉수 · 온수</span>
-          <span class="pr">월 28,900원~</span>
-        </button>
-        <button type="button" class="pick" data-i="1">
-          <span class="rk">인기 2위</span>
-          <img src="/coway_7/img/CHPI-7430N.png" alt="아이콘 얼음 미니 냉온정수기">
-          <b>얼음 미니 냉온</b>
-          <span class="ds">정수 · 냉수 · 온수 · <em>얼음</em></span>
-          <span class="pr">월 40,900원~</span>
-        </button>
-      </div>
+      <p class="pickttl">🔥 가장 많이 선택한 순서 · <b>전체 11종</b>
+        <span>옆으로 밀어보세요</span></p>
+      <div class="picks" id="picks"></div>
       <p class="pickfoot">코웨이 누적 판매 순위 기준 · 눌러서 바로 계산해 보세요</p>
 
       <div class="row">
@@ -885,17 +879,17 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
 /* ── 제품 데이터 (빌리고 26.09 코웨이 시트 · 7년 약정 기준) ── */
 /* 정렬 = 코웨이 누적구매 순위 우선 (coway-shop 기준: 아이콘3 냉온 1위, 얼음 미니 2위) */
 var PRODUCTS = [
-  { code:"CHP-7220N",  name:"아이콘3 냉온정수기", tag:"인기 1위" },
-  { code:"CHPI-7430N", name:"아이콘 얼음 미니 냉온정수기", tag:"인기 2위" },
-  { code:"CHP-7212N",  name:"아이콘 프로 냉온정수기" },
-  { code:"CHPI-7400N", name:"아이콘 얼음 냉온정수기" },
-  { code:"CP-7220N",   name:"아이콘3 냉정수기" },
-  { code:"CHPI-7420N", name:"아이콘 얼음 맥스 냉온정수기" },
-  { code:"CHPI-7410N", name:"아이콘 스탠다드 얼음 냉온정수기" },
-  { code:"CPI-7400N",  name:"아이콘 얼음 냉정수기" },
-  { code:"CPI-7410N",  name:"아이콘 스탠다드 얼음 냉정수기" },
-  { code:"CHP-7211N",  name:"아이콘2 냉온정수기" },
-  { code:"CP-7211N",   name:"아이콘2 냉정수기" }
+  { code:"CHP-7220N",  name:"아이콘3 냉온정수기", short:"아이콘3 냉온", tag:"인기 1위" },
+  { code:"CHPI-7430N", name:"아이콘 얼음 미니 냉온정수기", short:"얼음 미니 냉온", tag:"인기 2위" },
+  { code:"CHP-7212N",  name:"아이콘 프로 냉온정수기", short:"아이콘 프로 냉온" },
+  { code:"CHPI-7400N", name:"아이콘 얼음 냉온정수기", short:"얼음 냉온" },
+  { code:"CP-7220N",   name:"아이콘3 냉정수기", short:"아이콘3 냉정" },
+  { code:"CHPI-7420N", name:"아이콘 얼음 맥스 냉온정수기", short:"얼음 맥스 냉온" },
+  { code:"CHPI-7410N", name:"아이콘 스탠다드 얼음 냉온정수기", short:"스탠다드 얼음 냉온" },
+  { code:"CPI-7400N",  name:"아이콘 얼음 냉정수기", short:"얼음 냉정" },
+  { code:"CPI-7410N",  name:"아이콘 스탠다드 얼음 냉정수기", short:"스탠다드 얼음 냉정" },
+  { code:"CHP-7211N",  name:"아이콘2 냉온정수기", short:"아이콘2 냉온" },
+  { code:"CP-7211N",   name:"아이콘2 냉정수기", short:"아이콘2 냉정" }
 ];
 
 /* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수) */
@@ -1063,11 +1057,45 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     }
   };
 
-  /* 인기 2종 카드 ↔ 셀렉트 동기화 */
-  var picks = document.querySelectorAll(".pick");
+  /* 제품 카드 — 전체 11종을 같은 모양으로 그린다.
+     기능(냉/온/얼음)은 코드 앞자리에서 읽는다. CHP=온수, 끝의 I=얼음.
+     "월 ○○원~" 은 그 제품의 최저 렌탈료다 (약정·관리방식 전 조합 중 최소). */
+  function lowOf(code) {
+    var lo = Infinity, t, k, pl;
+    for (t in PLANS[code]) {
+      pl = PLANS[code][t];
+      for (k in pl) if (k !== "hm" && pl[k] != null && pl[k] < lo) lo = pl[k];
+    }
+    return lo;
+  }
+  var strip = document.getElementById("picks");
+  strip.innerHTML = PRODUCTS.map(function (p, i) {
+    var pre = p.code.split("-")[0];
+    var ds = "정수 · 냉수" + (pre.indexOf("H") >= 0 ? " · 온수" : "")
+           + (pre.charAt(pre.length - 1) === "I" ? " · <em>얼음</em>" : "");
+    return '<button type="button" class="pick" data-i="' + i + '">'
+      + (p.tag ? '<span class="rk">' + p.tag + "</span>" : "")
+      + '<img src="/coway_7/img/' + p.code + '.png" alt="' + p.name + '" loading="lazy">'
+      + "<b>" + p.short + "</b>"
+      + '<span class="ds">' + ds + "</span>"
+      + '<span class="pr">월 ' + won(lowOf(p.code)) + "원~</span>"
+      + "</button>";
+  }).join("");
+
+  /* 카드 ↔ 셀렉트 동기화 */
+  var picks = strip.querySelectorAll(".pick");
   var syncPicks = function () {
+    var on = null;
     Array.prototype.forEach.call(picks, function (b) {
-      b.classList.toggle("on", +b.dataset.i === +sel.value);
+      var hit = +b.dataset.i === +sel.value;
+      b.classList.toggle("on", hit);
+      if (hit) on = b;
+    });
+    /* 셀렉트에서 제품을 바꿔도 그 사진이 보이게 줄을 옮긴다.
+       scrollIntoView 는 페이지까지 세로로 끌고 가므로 쓰지 않는다. */
+    if (on) strip.scrollTo({
+      left: Math.max(0, on.offsetLeft - (strip.clientWidth - on.offsetWidth) / 2),
+      behavior: "smooth"
     });
   };
   Array.prototype.forEach.call(picks, function (b) {
