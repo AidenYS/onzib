@@ -114,8 +114,19 @@
   .pick .ds{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:-.3px}
   .pick .ds em{font-style:normal;color:#0ea5e9;font-weight:800}
   .pick .ds{min-height:2.6em}                    /* 한 줄이든 두 줄이든 같은 자리 */
-  .pick .pr{font-size:12.5px;font-weight:900;color:var(--orange);
-            margin-top:auto;padding-top:4px;letter-spacing:-.4px}
+
+  /* 카드 금액 — 아래 결과 줄과 같은 순서·같은 라벨(월 납부액 → 현금지원).
+     "월 최저 렌탈료" 를 보여 주던 자리다. 광고에서 0원을 보고 들어온 사람이
+     카드에서 28,900원을 만나던 것을 없앤다. 금액을 오른쪽에 세로로 떨어뜨려
+     카드끼리 눈으로 훑을 수 있게 했다. */
+  .pick .amt{margin-top:auto;padding-top:7px;width:100%;
+             border-top:1px dashed var(--line)}
+  .pick .r{display:flex;align-items:baseline;justify-content:space-between;gap:4px}
+  .pick .r + .r{margin-top:2px}
+  .pick .r span{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:-.3px}
+  .pick .r b{font-size:15px;font-weight:900;letter-spacing:-.6px;color:var(--ink);
+             font-variant-numeric:tabular-nums}
+  .pick .r.s b{font-size:13px;color:var(--orange)}
   .pick .rk{
     position:absolute;top:8px;left:50%;transform:translateX(-50%);
     background:var(--deep);color:#fff;font-size:10px;font-weight:800;
@@ -1052,6 +1063,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
           : (termSel.value / 12) + "년 기준 · 6년 이상 시 " + won(full) + "원");
     document.getElementById("cycleDesc").textContent = CYCLE_DESC[cycleSel.value] || "";
     syncPicks();
+    syncCardAmt();
 
     if (half.checked) {
       var after = chk.checked ? Math.max(0, rent - CARD_DC) : rent;
@@ -1065,15 +1077,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
 
   /* 제품 카드 — 전체 11종을 같은 모양으로 그린다.
      기능(냉/온/얼음)은 코드 앞자리에서 읽는다. CHP=온수, 끝의 I=얼음.
-     "월 ○○원~" 은 그 제품의 최저 렌탈료다 (약정·관리방식 전 조합 중 최소). */
-  function lowOf(code) {
-    var lo = Infinity, t, k, pl;
-    for (t in PLANS[code]) {
-      pl = PLANS[code][t];
-      for (k in pl) if (k !== "hm" && pl[k] != null && pl[k] < lo) lo = pl[k];
-    }
-    return lo;
-  }
+     금액은 비워 두고 syncCardAmt 가 조건에 맞춰 채운다. */
   var strip = document.getElementById("picks");
   strip.innerHTML = PRODUCTS.map(function (p, i) {
     var pre = p.code.split("-")[0];
@@ -1084,9 +1088,42 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
       + '<img src="/coway_7/img/' + p.code + '.png" alt="' + p.name + '" loading="lazy">'
       + "<b>" + p.short + "</b>"
       + '<span class="ds">' + ds + "</span>"
-      + '<span class="pr">월 ' + won(lowOf(p.code)) + "원~</span>"
-      + "</button>";
+      + '<div class="amt">'
+      +   '<div class="r"><span>월 납부액</span><b class="mp">–</b></div>'
+      +   '<div class="r s"><span>현금지원</span><b class="ms">–</b></div>'
+      + "</div></button>";
   }).join("");
+
+  /* 카드 한 장의 금액 — 지금 화면에 걸린 조건(약정·관리방식·할인) 그대로 계산한다.
+     계산식은 아래 결과 줄과 같은 것을 쓴다. 카드와 결과가 다른 식으로 돌면
+     같은 화면에서 두 숫자가 어긋난다.
+     그 제품이 지금 관리방식을 지원하지 않으면(얼음 계열은 자가관리가 없다)
+     그 제품에서 가능한 방식으로 대신 계산한다 — 셀렉트에서 고르면 어차피
+     buildCycles 가 같은 방식으로 보정한다. */
+  function cardAmt(code) {
+    var plan = PLANS[code][termSel.value] || PLANS[code]["84"];
+    var cyc = cycleSel.value;
+    if (plan[cyc] == null) {
+      cyc = ["self", "v4", "v2"].filter(function (k) { return plan[k] != null; })[0];
+    }
+    var rent = plan[cyc], base = rent;
+    if (half.checked) base = Math.round(rent / 2);
+    else if (tasa.checked) base = Math.round(rent * 0.9 / 10) * 10;
+    return {
+      pay: base - (chk.checked ? Math.min(CARD_DC, base) : 0),
+      sup: supOf(code, termSel.value, cyc, half.checked)
+    };
+  }
+  function syncCardAmt() {
+    if (!strip) return;
+    Array.prototype.forEach.call(strip.querySelectorAll(".pick"), function (b) {
+      var a = cardAmt(PRODUCTS[+b.dataset.i].code);
+      b.querySelector(".mp").textContent = won(a.pay) + "원";
+      /* 지원금은 만원 절사라 나머지가 없다. 카드 폭이 좁아 만원 단위로 줄인다. */
+      b.querySelector(".ms").textContent =
+        (a.sup % 10000 === 0) ? (a.sup / 10000) + "만원" : won(a.sup) + "원";
+    });
+  }
 
   /* 카드 ↔ 셀렉트 동기화 */
   var picks = strip.querySelectorAll(".pick");
