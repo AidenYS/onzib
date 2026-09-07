@@ -439,6 +439,7 @@
   .dbox b{display:block;font-size:14.5px;font-weight:900;color:#03c75a;letter-spacing:-.4px}
   .dbox span{display:block;font-size:11.5px;color:#4b5563;font-weight:700;margin-top:3px}
     .msum-row b i{font-style:normal;font-size:.72em;font-weight:800;margin-left:3px;letter-spacing:-.2px;opacity:.85}
+      .msum-tot b i{font-style:normal;font-size:.6em;font-weight:800;margin-left:3px;letter-spacing:-.2px;opacity:.8}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -1021,7 +1022,7 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     supNote.textContent = (half.checked ? "반값할인 적용 기준 · " : "")
       + (+termSel.value >= 72
           ? "6년 이상 약정 · 최대 혜택"
-          : (termSel.value / 12) + "년 기준 · 6년 이상 시 " + won(full) + "원");
+          : (termSel.value / 12) + "년 기준 · 6년 이상 시 " + won(full) + "원 상당");
     document.getElementById("cycleDesc").textContent = CYCLE_DESC[cycleSel.value] || "";
     syncPicks();
 
@@ -1296,7 +1297,7 @@ function sendLead(payload, onOk, onFail) {
     var full = supOf(c.code, "84", cy, hf), now = supOf(c.code, t, cy, hf);
     elx("mTermHint").innerHTML = +t >= 72
       ? "6년 이상이라 혜택을 <b>전액</b> 받으실 수 있어요"
-      : "6년 이상으로 하시면 혜택이 <b>" + won(full) + "원</b>까지 올라가요 (현재 " + won(now) + "원)";
+      : "6년 이상으로 하시면 혜택이 <b>" + won(full) + "원 상당</b>까지 올라가요 (현재 " + won(now) + "원)";
   };
 
   var fillSummary = function () {
@@ -1306,7 +1307,7 @@ function sendLead(payload, onOk, onFail) {
     elx("sPromo").textContent = c.promoLabel;
     elx("sPay").textContent   = c.pay + "원";
     elx("sSup").innerHTML     = won(c.sup) + "원<i>상당</i>";
-    elx("sTotal").textContent = won(c.sup + NPAY) + "원";
+    elx("sTotal").innerHTML   = won(c.sup + NPAY) + "원<i>상당</i>";
 
     /* 반값 적용 시 "첫 N개월" 조건을 요약에도 명시 */
     var plan = PLANS[c.code][c.term];
