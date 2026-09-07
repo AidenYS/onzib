@@ -366,7 +366,7 @@
   #sticky .ctas>a b{font-size:13.5px;line-height:1.28}
   #sticky .cta-main{box-shadow:0 4px 12px rgba(3,199,90,.28)}
   #sticky .cta-bdg{font-size:9.5px;padding:3px 9px}
-  .stickypad{height:96px}
+  .stickypad{height:112px}
 
   /* ── 신청 모달 ── */
   .modal{position:fixed;inset:0;z-index:1000;display:none}
@@ -536,6 +536,7 @@
     .msum-row b i{font-style:normal;font-size:.72em;font-weight:800;margin-left:3px;letter-spacing:-.2px;opacity:.85}
       .msum-tot b i{font-style:normal;font-size:.6em;font-weight:800;margin-left:3px;letter-spacing:-.2px;opacity:.8}
       .pick .r.s b i{font-style:normal;font-size:.66em;font-weight:800;margin-left:2px;letter-spacing:-.2px;opacity:.85}
+      #sticky .ctas>a .cta-sub{font-size:10px;letter-spacing:-.4px}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -700,8 +701,8 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
       <!-- 신청 버튼 2종 (한 줄 · 반반) -->
       <div class="ctas one">
         <a class="cta-main" href="#apply">
-          <b>이 조건으로 상담 신청하기</b>
-          <span class="cta-sub">성함·연락처만 · 약 30초</span>
+          <b id="ctaMain">월 0원으로 시작하기</b>
+          <span class="cta-sub" id="ctaSub">혜택 34만원 상당 · 성함·연락처만 30초</span>
         </a>
       </div>
       <p class="ctanote">혜택은 조건과 무관하게 제공됩니다 ·
@@ -745,7 +746,8 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   <div id="sticky" class="hidden">
     <div class="ctas one">
       <a class="cta-main" href="#apply">
-        <b>이 조건으로 상담 신청하기</b>
+        <b id="ctaMainS">월 0원으로 시작하기</b>
+        <span class="cta-sub" id="ctaSubS">혜택 34만원 상당</span>
       </a>
     </div>
     <p class="ctanote sticky">네이버페이 30,000원은 계약 확정 후 지급</p>
@@ -1254,6 +1256,21 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
     document.getElementById("cycleDesc").textContent = CYCLE_DESC[cycleSel.value] || "";
     syncPicks();
     syncCardAmt();
+
+    /* 버튼에도 지금 조건의 숫자를 얹는다. 계산기와 버튼 사이가 멀어
+       "이 조건" 이 무슨 조건이었는지 흐려지고, 하단 고정 바로 들어온
+       사람은 계산 결과를 아예 못 본 채 버튼만 본다. */
+    var ctaPay = "월 " + won(v) + "원으로 시작하기";
+    var ctaSup = SUP_TERM[p.code]
+      ? "혜택 " + ((sup % 10000 === 0) ? (sup / 10000) + "만원" : won(sup) + "원") + " 상당"
+      : "";
+    [["ctaMain",  ctaPay],
+     ["ctaMainS", ctaPay],
+     ["ctaSub",   ctaSup ? ctaSup + " · 성함·연락처만 30초" : "성함·연락처만 · 약 30초"],
+     ["ctaSubS",  ctaSup]].forEach(function (r) {
+      var e = document.getElementById(r[0]);
+      if (e) e.textContent = r[1];
+    });
 
     if (half.checked) {
       var after = chk.checked ? Math.max(0, rent - CARD_DC) : rent;
