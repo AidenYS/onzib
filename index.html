@@ -56,13 +56,17 @@ a{text-decoration:none}
 .Layer_Box{position:fixed;inset:0;z-index:12000;background:rgba(15,23,42,.68)}.Layer_Box_In{position:fixed;left:50%;top:50%;z-index:12001;width:min(calc(100% - 32px),430px);transform:translate(-50%,-50%);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.3)}.Layer_Box_In h3{padding:20px 48px 14px 20px;font-size:18px}.Layer_Box_In textarea{display:block;width:100%;height:min(55vh,430px);padding:16px;border:0;border-top:1px solid var(--line);resize:none;color:#334155;line-height:1.65}.Close_Button_Box{position:absolute;right:15px;top:15px;width:36px;height:36px;border:0;border-radius:50%;background:#f1f5f9;cursor:pointer}.Close_Button_Box:before,.Close_Button_Box:after{content:"";position:absolute;left:10px;top:17px;width:16px;height:2px;background:#0f172a}.Close_Button_Box:before{transform:rotate(45deg)}.Close_Button_Box:after{transform:rotate(-45deg)}
 @media(max-width:374px){.hero{padding-left:15px;padding-right:15px}.hero h1{font-size:36px}.hero h1 strong{font-size:47px}.story,.benefit,.compare,.trust{padding-left:14px;padding-right:14px}#boxAll{width:calc(100% - 28px);padding-left:14px;padding-right:14px}.dynamic-group>p:last-child{gap:6px}.dynamic-group>p:last-child>label{font-size:13px}.Phone_Box ul{grid-template-columns:70px 7px 1fr 7px 1fr;gap:3px}}
 
-    /* 회사 정보 — 온집은 (주)홈펠릭스의 브랜드다. 페이지 어디에도 사업자 표기가
-       없어 하단에 작게 둔다. 플로팅 버튼이 fixed 라 그 높이만큼 아래를 비운다. */
+    /* 회사 정보 — 온집은 홈펠릭스의 브랜드다. 페이지 어디에도 사업자 표기가
+       없어 하단에 둔다. 브랜드명을 한 줄 세우고 그 아래 상호·사업자번호를 붙인다.
+       상호 앞에 법인 표기를 붙이지 않는다 — 사업자등록번호 872-75-00325 의
+       가운데 75 는 개인과세사업자를 뜻하고 법인(81·82·85~88)이 아니다.
+       플로팅 버튼이 fixed 라 그 높이만큼 아래를 비운다. */
     .site-foot{padding:22px 20px calc(84px + env(safe-area-inset-bottom));
       background:#f1f5f9;border-top:1px solid var(--line);text-align:center}
-    .site-foot p{margin:0;font-size:11px;line-height:1.7;color:var(--muted);
+    .site-foot .brand{display:block;margin-bottom:9px;font-size:16px;
+      font-weight:900;letter-spacing:-.6px;color:#334155}
+    .site-foot p{margin:0;font-size:11px;line-height:1.75;color:var(--muted);
       letter-spacing:-.2px}
-    .site-foot b{color:#475569;font-weight:700}
     .site-foot a{color:var(--muted);text-decoration:underline}
   </style>
 <!-- Microsoft Clarity -->
@@ -203,7 +207,8 @@ a{text-decoration:none}
 </div>
 
 <footer class="site-foot">
-<p><b>온집</b>은 <b>(주)홈펠릭스</b>의 브랜드입니다</p>
+<span class="brand">온집</span>
+<p>상호 홈펠릭스 · 사업자등록번호 872-75-00325</p>
 <p>문의 <a href="mailto:homefellix@gmail.com">homefellix@gmail.com</a></p>
 </footer>
 </div><!-- /.page-shell -->
