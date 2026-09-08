@@ -539,14 +539,18 @@
       #sticky .ctas>a .cta-sub{font-size:10px;letter-spacing:-.4px}
       .c60{font-style:normal;display:inline-block;color:#8a6d3b;font-weight:700;white-space:nowrap}
       /* ── 선착순 카운트 (merits 에서 가져옴) ── */
-    .cntbox{margin:22px 0 4px;padding:20px 18px 18px;text-align:center;
-      background:#fff5f2;border:1.5px solid #ffd4c6;border-radius:14px}
-    .cntbox .cb-badge{display:inline-block;margin-bottom:11px;padding:5px 15px;
+    .cntbox{margin:24px 0 6px;padding:26px 12px 24px;text-align:center;
+      background:#fff5f2;border:2px solid #ffc7b3;border-radius:16px;
+      box-shadow:0 6px 18px rgba(255,77,23,.10)}
+    .cntbox .cb-badge{display:inline-block;margin-bottom:14px;padding:7px 19px;
       border-radius:999px;background:var(--orange);color:#fff;
-      font-size:12.5px;font-weight:800;letter-spacing:-.3px}
-    .cntbox .cb-line{margin:3px 0;font-size:19px;font-weight:800;color:var(--ink);
-      letter-spacing:-.5px;line-height:1.45;font-variant-numeric:tabular-nums}
-    .cntbox .cb-line b{color:var(--orange);font-weight:900}
+      font-size:clamp(13px,3.8vw,15px);font-weight:800;letter-spacing:-.3px;
+      box-shadow:0 3px 10px rgba(255,77,23,.28)}
+    /* 글자를 키우되 한 줄을 넘지 않게 화면 폭에 맞춰 줄인다 */
+    .cntbox .cb-line{margin:5px 0;font-size:clamp(19px,5.7vw,25px);font-weight:800;
+      color:var(--ink);letter-spacing:-.6px;line-height:1.4;white-space:nowrap;
+      font-variant-numeric:tabular-nums}
+    .cntbox .cb-line b{color:var(--orange);font-weight:900;font-size:1.12em}
     /* 남은 수만 깜박인다 — merits 와 같은 1초 주기 */
     .cntbox #cntRemain{animation:cbblink 1s ease-in-out infinite}
     @keyframes cbblink{0%,100%{opacity:1}50%{opacity:.15}}
@@ -981,7 +985,7 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
      상단 바와 버튼 위 카운트 박스가 같은 값을 써야 하므로 여기서 한 번 정해
      두 군데에 뿌린다. 총 모집 수를 실제로 정하시면 TOTAL 만 바꾸면 된다. */
   var TOTAL = 30;
-  var remain = 3 + Math.floor(Math.random() * 3);
+  var remain = 3;   /* 발주자 지정 — 상단 바와 카운트 박스가 같은 값을 쓴다 */
   var put = function (id, v) {
     var e = document.getElementById(id);
     if (e) e.textContent = v;
