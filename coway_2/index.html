@@ -538,6 +538,19 @@
       .pick .r.s b i{font-style:normal;font-size:.66em;font-weight:800;margin-left:2px;letter-spacing:-.2px;opacity:.85}
       #sticky .ctas>a .cta-sub{font-size:10px;letter-spacing:-.4px}
       .c60{font-style:normal;display:inline-block;color:#8a6d3b;font-weight:700;white-space:nowrap}
+      /* ── 선착순 카운트 (merits 에서 가져옴) ── */
+    .cntbox{margin:22px 0 4px;padding:20px 18px 18px;text-align:center;
+      background:#fff5f2;border:1.5px solid #ffd4c6;border-radius:14px}
+    .cntbox .cb-badge{display:inline-block;margin-bottom:11px;padding:5px 15px;
+      border-radius:999px;background:var(--orange);color:#fff;
+      font-size:12.5px;font-weight:800;letter-spacing:-.3px}
+    .cntbox .cb-line{margin:3px 0;font-size:19px;font-weight:800;color:var(--ink);
+      letter-spacing:-.5px;line-height:1.45;font-variant-numeric:tabular-nums}
+    .cntbox .cb-line b{color:var(--orange);font-weight:900}
+    /* 남은 수만 깜박인다 — merits 와 같은 1초 주기 */
+    .cntbox #cntRemain{animation:cbblink 1s ease-in-out infinite}
+    @keyframes cbblink{0%,100%{opacity:1}50%{opacity:.15}}
+    @media (prefers-reduced-motion:reduce){.cntbox #cntRemain{animation:none}}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -695,6 +708,14 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
           ※ 카드 발급 후 코웨이 고객센터에 제품 자동이체를 등록해야 청구할인이 적용됩니다.<br>
         ※ 표시 금액에는 <b>신규발급 프로모션(60개월)</b>이 포함되어 있습니다. 60개월 이후 할인액은 카드사 조건에 따라 달라질 수 있어, 시점이 되기 전에 따로 안내드립니다.
         </p>
+      </div>
+
+      <!-- 선착순 카운트 — /merits 에서 쓰던 장치. 버튼 바로 위에 둔다.
+           숫자는 상단 바와 같은 값을 쓴다 (한 곳에서 정해 두 군데에 뿌림). -->
+      <div class="cntbox">
+        <span class="cb-badge">선착순 9월 프로모션</span>
+        <p class="cb-line">현재 <b id="cntDone">27</b>/<span id="cntTotal">30</span>명 신청완료</p>
+        <p class="cb-line">마감까지 <b id="cntRemain">3</b>명 남았습니다</p>
       </div>
 
       <!-- 신청 버튼 2종 (한 줄 · 반반) -->
@@ -955,10 +976,20 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
 <script>
 /* ── 실시간 열람 수 ── */
 (function () {
-  var el = document.getElementById("viewN");
   /* 남은 자리는 초 단위로 움직이는 값이 아니다. 방문할 때 한 번만 정하고
-     그대로 둔다 — 보는 동안 숫자가 오르내리면 만든 티가 난다. */
-  el.textContent = 3 + Math.floor(Math.random() * 3);
+     그대로 둔다 — 보는 동안 숫자가 오르내리면 만든 티가 난다.
+     상단 바와 버튼 위 카운트 박스가 같은 값을 써야 하므로 여기서 한 번 정해
+     두 군데에 뿌린다. 총 모집 수를 실제로 정하시면 TOTAL 만 바꾸면 된다. */
+  var TOTAL = 30;
+  var remain = 3 + Math.floor(Math.random() * 3);
+  var put = function (id, v) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = v;
+  };
+  put("viewN", remain);
+  put("cntRemain", remain);
+  put("cntTotal", TOTAL);
+  put("cntDone", TOTAL - remain);
 })();
 
 /* ── 제품 데이터 (빌리고 26.09 코웨이 시트 · 7년 약정 기준) ── */
