@@ -555,6 +555,44 @@
     .cntbox #cntRemain{animation:cbblink 1s ease-in-out infinite}
     @keyframes cbblink{0%,100%{opacity:1}50%{opacity:.15}}
     @media (prefers-reduced-motion:reduce){.cntbox #cntRemain{animation:none}}
+      /* ── 모달 압축 (26.09.09) ── */
+    /* 제목 한 줄. 좁은 화면에서는 글자를 줄여서라도 줄바꿈을 막는다. */
+    .mtitle{font-size:clamp(15px,4.7vw,21px);white-space:nowrap;margin-top:2px}
+    /* 약정·프로모션을 한 줄에. 눌러야 후보가 나오므로 평소엔 한 줄만 먹는다. */
+    .mrow2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .mrow2 .mcol{min-width:0}
+    .mrow2 label{display:block;font-size:12px;font-weight:800;color:#374151;margin-bottom:6px}
+    .mrow2 select{width:100%;height:46px;border:1.5px solid var(--line);border-radius:11px;
+      padding:0 30px 0 11px;font-family:inherit;font-size:14.5px;font-weight:800;
+      color:var(--ink);background-color:#fff;-webkit-appearance:none;appearance:none;
+      background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236b7280' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 11px center}
+    .mrow2 select:focus{outline:none;border-color:var(--orange)}
+    /* 합계 한 덩이 — 내역은 밑에 작은 글씨로 */
+    .msum-tot{align-items:center}
+    .msum-tot .brk{display:block;margin-top:3px;font-style:normal;font-size:9.5px;
+      font-weight:700;opacity:.72;letter-spacing:-.2px;line-height:1.4}
+    .msum-tot .brk em{font-style:normal;font-weight:800}
+    /* 자리 조이기 */
+    .msum{padding:11px 13px;margin-top:12px}
+    .msum-row{padding:3px 0}
+    .mfield{margin-top:12px}
+    .mfield input[type=text],.mfield input[type=tel],.telrow .fixed{height:46px}
+    .mhint{margin-top:6px;font-size:10.5px;line-height:1.45}
+    .chkrow{margin-top:11px}
+    .magree{margin-top:13px;padding-top:11px}
+    .ag{padding:5px 0}
+    .msubmit{height:54px;margin-top:14px}
+    .merr{margin-top:7px}
+    .mfoot{margin-top:10px;font-size:9.5px;line-height:1.55}
+      /* 더 조이기 — 목표는 성함·연락처까지 스크롤 없이 닿는 것 */
+    .msum-row.sub{padding-top:0;margin-top:-2px}
+    .msum-row.sub b{font-size:11.5px;font-weight:700;color:var(--muted)}
+    .msum-hd{margin-bottom:5px}
+    .ag{padding:3px 0}
+    .agd{margin:1px 0 4px 26px;padding:9px 11px}
+    .mfoot{margin-top:8px;font-size:9px;line-height:1.5}
+    .msheet{max-height:94vh}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -799,7 +837,7 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
     <!-- STEP 1 : 입력 -->
     <div class="mstep" id="step1">
       <button type="button" class="mx" data-close aria-label="닫기">✕</button>
-      <p class="mkicker" id="mKicker">이벤트 신청</p>
+      <p class="mkicker" id="mKicker" hidden>이벤트 신청</p>
       <h3 class="mtitle" id="mTitle">30초면 끝나요</h3>
 
       <!-- 즉시신청 전용: 선택 조건 요약 -->
@@ -810,26 +848,38 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
         </div>
         <div class="msum-row"><span>제품</span><b id="sProd">-</b></div>
         <div class="msum-row"><span>약정 · 관리방식</span><b id="sCycle">-</b></div>
-        <div class="msum-row"><span>적용 할인</span><b id="sPromo">-</b></div>
+        <div class="msum-row sub"><span></span><b id="sPromo">-</b></div>
         <div class="msum-row"><span>예상 월 납부액</span><b id="sPay">-</b></div>
         <p class="msum-note" id="sPayNote"></p>
-        <div class="msum-row hi"><span>혜택</span><b id="sSup">-</b></div>
-        <div class="msum-row np"><span>네이버페이 포인트</span><b id="sNpay">+30,000원</b></div>
-        <p class="msum-note">네이버페이 포인트는 설치 완료 후 문자로 보내드립니다</p>
-        <div class="msum-tot"><span>받으시는 혜택 합계</span><b id="sTotal">-</b></div>
+        <div class="msum-tot">
+          <span>받으시는 혜택 합계
+            <i class="brk">혜택 <em id="sSup">-</em> + 네이버페이 <em id="sNpay">3만원</em> · 설치 후 지급</i>
+          </span>
+          <b id="sTotal">-</b>
+        </div>
       </div>
 
-      <!-- 즉시신청 전용: 약정기간 -->
-      <div class="mfield" id="mTermWrap">
-        <label>몇 년 쓰실 계획인가요?</label>
-        <div class="pills" id="mTerm">
-          <button type="button" data-t="36">3년</button>
-          <button type="button" data-t="60">5년</button>
-          <button type="button" data-t="72">6년</button>
-          <button type="button" data-t="84" class="on">7년</button>
+      <!-- 즉시신청 전용: 약정 + 프로모션 (한 줄) -->
+      <div class="mfield mrow2" id="mTermWrap">
+        <div class="mcol">
+          <label>약정</label>
+          <select id="mTerm">
+            <option value="36">3년</option>
+            <option value="60">5년</option>
+            <option value="72">6년</option>
+            <option value="84">7년</option>
+          </select>
         </div>
-        <p class="mhint" id="mTermHint">6년 이상이면 혜택을 전액 받으실 수 있어요</p>
+        <div class="mcol">
+          <label>프로모션</label>
+          <select id="mPromo">
+            <option value="none">선택 안 함</option>
+            <option value="half">반값할인</option>
+            <option value="tasa">타사보상</option>
+          </select>
+        </div>
       </div>
+      <p class="mhint" id="mTermHint">6년 이상이면 혜택을 전액 받으실 수 있어요</p>
 
       <!-- 제품 문의 전용: 남기신 제품명 확인 -->
       <div class="mfield" id="mAskWrap" style="display:none">
@@ -839,19 +889,14 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
           사용 인원·설치 위치만 들으면 상담사가 맞는 모델을 찾아드립니다.</p>
       </div>
 
-      <!-- 즉시신청 전용: 프로모션 (계산기와 동일) -->
-      <div class="mfield" id="mPromoWrap">
-        <label>프로모션 <span class="lb2">중복 적용 불가</span></label>
-        <div class="pills p3" id="mPromo">
-          <button type="button" data-v="none" class="on">선택 안 함</button>
-          <button type="button" data-v="half">반값할인</button>
-          <button type="button" data-v="tasa">타사보상</button>
-        </div>
+      <div id="mPromoWrap">
         <label class="chkrow">
           <input type="checkbox" id="mCard" checked>
           <span>제휴카드 할인 적용 (매월 −24,000원)</span>
         </label>
-        <p class="mhint" id="mPromoHint"></p>
+        <!-- select 가 배타 선택을 이미 강제하므로 화면에는 띄우지 않는다.
+             JS 가 값을 쓰므로 요소는 남긴다. -->
+        <p class="mhint" id="mPromoHint" hidden></p>
       </div>
 
       <div class="mfield">
@@ -1684,9 +1729,7 @@ function sendLead(payload, onOk, onFail) {
 
   /* 프로모션 pill ↔ 계산기 체크박스 동기화 */
   var syncPromoPills = function (promo) {
-    Array.prototype.forEach.call(elx("mPromo").children, function (b) {
-      b.classList.toggle("on", b.dataset.v === promo);
-    });
+    elx("mPromo").value = promo;
     elx("mCard").checked = elx("calcCard").checked;
     elx("mPromoHint").innerHTML = promo === "half"
       ? "반값할인은 렌탈료가 절반이 되는 대신 <b>혜택이 조정</b>됩니다"
@@ -1696,9 +1739,7 @@ function sendLead(payload, onOk, onFail) {
   };
 
   var syncTermPills = function (t) {
-    Array.prototype.forEach.call(elx("mTerm").children, function (b) {
-      b.classList.toggle("on", b.dataset.t === String(t));
-    });
+    elx("mTerm").value = String(t);
     var c = PRODUCTS[+elx("calcProd").value];
     var hf = elx("calcHalf").checked;
     var cy = elx("calcCycle").value;
@@ -1746,7 +1787,7 @@ function sendLead(payload, onOk, onFail) {
     elx("mKicker").textContent = instant ? "즉시신청 · 네이버페이 30,000원"
                                : (ask ? "제품 문의" : "이벤트 신청");
     elx("mTitle").innerHTML    = instant
-      ? "이 조건으로 신청하고<br>네이버페이 받기"
+      ? "이 조건으로 신청하고 <em>네이버페이</em> 받기"
       : (ask ? "원하시는 제품<br>조건을 확인해 드릴게요" : "30초면 끝나요");
     var btn = elx("mSubmit");
     btn.textContent = instant ? "즉시신청하고 30,000원 받기"
@@ -1793,19 +1834,15 @@ function sendLead(payload, onOk, onFail) {
   });
 
   /* 약정 pill → 계산기에도 반영 */
-  elx("mTerm").addEventListener("click", function (e) {
-    var b = e.target.closest("button[data-t]");
-    if (!b) return;
-    elx("calcTerm").value = b.dataset.t;
+  elx("mTerm").addEventListener("change", function () {
+    elx("calcTerm").value = this.value;
     elx("calcTerm").dispatchEvent(new Event("change"));
     fillSummary();
   });
 
   /* 프로모션 pill → 계산기 체크박스에 반영 (반값 ↔ 타사보상 배타) */
-  elx("mPromo").addEventListener("click", function (e) {
-    var b = e.target.closest("button[data-v]");
-    if (!b) return;
-    var v = b.dataset.v;
+  elx("mPromo").addEventListener("change", function () {
+    var v = this.value;
     elx("calcHalf").checked = v === "half";
     elx("calcTasa").checked = v === "tasa";
     elx("calcHalf").dispatchEvent(new Event("change"));
