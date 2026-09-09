@@ -1259,7 +1259,15 @@ var won = function (n) { return n.toLocaleString("ko-KR"); };
       colorSel.appendChild(o);
     });
     colorRow.style.display = list.length ? "" : "none";
-    colorSel.value = list.indexOf(prev) > -1 ? prev : (list[0] || "");
+    /* 기본은 화이트. 아이콘3 냉온·냉정은 목록 첫 항목이 "블룸 핑크" 라
+       인기 1위 제품의 첫 화면이 분홍으로 뜨고 있었다. 화이트를 가장 많이
+       고르므로 목록 순서와 상관없이 화이트가 든 항목을 먼저 잡는다.
+       고르던 색이 새 제품에도 있으면 그건 그대로 둔다. */
+    var white = "";
+    for (var wi = 0; wi < list.length; wi++) {
+      if (list[wi].indexOf("화이트") > -1) { white = list[wi]; break; }
+    }
+    colorSel.value = list.indexOf(prev) > -1 ? prev : (white || list[0] || "");
   };
 
   var buildCycles = function () {
