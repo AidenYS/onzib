@@ -597,6 +597,14 @@
        두 곳이 다른 박자로 깜박이면 산만하므로 같은 keyframes 를 쓴다. */
     .viewbar #viewN{animation:cbblink 1s ease-in-out infinite}
     @media (prefers-reduced-motion:reduce){.viewbar #viewN{animation:none}}
+      /* 제출 버튼 — 뱃지를 얹으려면 기준점이 필요하다 */
+    .msubmit{position:relative;overflow:visible}
+    /* 문구가 길어졌다. 좁은 화면에서는 줄여서라도 한 줄을 지킨다. */
+    #mSubTxt{display:block;font-size:clamp(14px,4.2vw,17px);white-space:nowrap}
+    .sbdg{position:absolute;top:-9px;right:12px;z-index:2;font-style:normal;
+      background:var(--deep);color:#4ade80;font-size:10px;font-weight:900;
+      letter-spacing:-.2px;padding:3px 9px;border-radius:999px;
+      box-shadow:0 3px 8px rgba(0,0,0,.22)}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -945,7 +953,7 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
         </div>
       </div>
 
-      <button type="button" class="msubmit" id="mSubmit">신청하기</button>
+      <button type="button" class="msubmit" id="mSubmit"><i class="sbdg" id="mSubBdg" hidden></i><span id="mSubTxt">신청하기</span></button>
       <p class="merr" id="mErr"></p>
       <p class="mfoot">
         코웨이 제품을 취급하는 판매점입니다.<br>
@@ -1761,6 +1769,17 @@ function sendLead(payload, onOk, onFail) {
 
   var fillSummary = function () {
     var c = readCalc();
+    /* 버튼 문구에 지금 조건의 월 납부액을 넣는다. 조건을 바꾸면 같이 움직인다.
+       뱃지의 잔여 수는 상단 바·카운트 박스와 같은 값을 그대로 가져온다 —
+       한 화면에서 숫자가 갈리면 안 된다. */
+    if (mode === "instant") {
+      elx("mSubTxt").textContent = "월 " + c.pay + "원에 신청하고 혜택 가져가기";
+      var bd = elx("mSubBdg");
+      var rm = (document.getElementById("cntRemain") || {}).textContent;
+      if (rm) { bd.textContent = rm + "자리 남음"; bd.hidden = false; }
+    } else {
+      elx("mSubBdg").hidden = true;
+    }
     elx("sProd").textContent  = c.name + (c.color ? " · " + c.color : "");
     elx("sCycle").textContent = (c.term / 12) + "년 · " + c.cycleLabel;
     elx("sPromo").textContent = c.promoLabel;
@@ -1800,7 +1819,8 @@ function sendLead(payload, onOk, onFail) {
       ? "이 조건으로 신청하고 <em>네이버페이</em> 받기"
       : (ask ? "원하시는 제품<br>조건을 확인해 드릴게요" : "30초면 끝나요");
     var btn = elx("mSubmit");
-    btn.textContent = instant ? "즉시신청하고 30,000원 받기"
+    /* 즉시신청 문구는 fillSummary 가 월 납부액을 넣어 다시 쓴다. */
+    elx("mSubTxt").textContent = instant ? "신청하고 혜택 가져가기"
                     : (ask ? "조건 확인 요청하기" : "이벤트 신청하기");
     btn.classList.toggle("plain", !instant);
     if (instant) fillSummary();
@@ -2003,12 +2023,12 @@ function sendLead(payload, onOk, onFail) {
       기기정보: navigator.userAgent
     };
 
-    var btn = elx("mSubmit");
-    var label = btn.textContent;
-    btn.disabled = true; btn.textContent = "접수 중...";
+    var btn = elx("mSubmit"), txt = elx("mSubTxt");
+    var label = txt.textContent;
+    btn.disabled = true; txt.textContent = "접수 중...";
 
     sendLead(payload, function () {
-      btn.disabled = false; btn.textContent = label;
+      btn.disabled = false; txt.textContent = label;
       step("6_접수완료");
       /* 메타 전환 — 리드 접수 */
       if (window.fbq) fbq('track', 'Lead', {
@@ -2022,7 +2042,7 @@ function sendLead(payload, onOk, onFail) {
          되돌릴 수 있게 남겨 두되 이 경로로는 가지 않는다. */
       showDone();
     }, function () {
-      btn.disabled = false; btn.textContent = label;
+      btn.disabled = false; txt.textContent = label;
       step("X_전송실패");
       err.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
     });
