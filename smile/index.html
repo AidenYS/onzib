@@ -132,7 +132,6 @@
   .live .t0{background:#ffe9ef;color:var(--red)}       /* 신청 완료 */
   .live .t1{background:#e6f0ff;color:#1d5fd0}          /* 수술 완료 */
   .live .who{font-weight:800}
-  .live .at{color:var(--muted)}
   .live .ago{margin-left:auto;flex:0 0 auto;font-size:11.5px;font-weight:700;
              color:#22a35a}
   .live .note{margin-top:12px;text-align:center;font-size:11px;color:#9aa1ac;
@@ -295,11 +294,11 @@
   /* ── 실시간 신청 현황 ──────────────────────────────────
      내보낼 줄은 아래 목록이 전부다. 15초에 한 줄씩 올라오고
      네 줄만 남는다. 탭이 가려진 동안에는 넘기지 않는다. */
+  /* 지역은 빼기로 했다(26.09.09) — 어디 사는지까지 띄울 이유가 없다.
+     [성씨, 종류] 만 남긴다. */
   var FEED = [
-    ["김", "서초구", 0], ["박", "강남구", 1], ["이", "송파구", 0],
-    ["최", "분당구", 0], ["정", "마포구", 1], ["강", "용산구", 0],
-    ["조", "동작구", 0], ["윤", "성남시", 1], ["장", "관악구", 0],
-    ["임", "광진구", 0], ["한", "수원시", 1], ["오", "영등포구", 0]
+    ["김", 0], ["박", 1], ["이", 0], ["최", 0], ["정", 1], ["강", 0],
+    ["조", 0], ["윤", 1], ["장", 0], ["임", 0], ["한", 1], ["오", 0]
   ];
   var KIND = ["신청 완료", "수술 완료"];
   var feed = document.getElementById("feed"), fi = 0;
@@ -307,9 +306,8 @@
   function row(d, fresh) {
     var li = document.createElement("li");
     li.innerHTML =
-      '<span class="tag t' + d[2] + '">' + KIND[d[2]] + "</span>" +
+      '<span class="tag t' + d[1] + '">' + KIND[d[1]] + "</span>" +
       '<span class="who">' + d[0] + "○○님</span>" +
-      '<span class="at">' + d[1] + "</span>" +
       (fresh ? '<span class="ago">방금 전</span>' : "");
     if (fresh) li.className = "in";
     return li;
