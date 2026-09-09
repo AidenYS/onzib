@@ -593,6 +593,10 @@
     .agd{margin:1px 0 4px 26px;padding:9px 11px}
     .mfoot{margin-top:8px;font-size:9px;line-height:1.5}
     .msheet{max-height:94vh}
+      /* 상단 바의 남은 자리 숫자도 깜박인다 — 버튼 위 카운트 박스와 같은 주기(1초).
+       두 곳이 다른 박자로 깜박이면 산만하므로 같은 keyframes 를 쓴다. */
+    .viewbar #viewN{animation:cbblink 1s ease-in-out infinite}
+    @media (prefers-reduced-motion:reduce){.viewbar #viewN{animation:none}}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -767,8 +771,6 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
           <span class="cta-sub" id="ctaSub">혜택 34만원 상당 · 성함·연락처만 30초</span>
         </a>
       </div>
-      <p class="ctanote">혜택은 조건과 무관하게 제공됩니다</p>
-      <a class="cta-plain link" href="#apply">조건 없이 이벤트만 신청하기 ›</a>
     </div>
   </div>
 
