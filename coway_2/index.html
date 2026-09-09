@@ -2006,8 +2006,11 @@ function sendLead(payload, onOk, onFail) {
         content_category: '정수기 렌탈',
         content_ids: [VARIANT]
       });
-      /* 즉시신청만 추가정보 단계로, 나머지는 바로 완료 */
-      if (instant) { step("7_추가정보화면"); goStep(2); } else showDone();
+      /* 26.09.09 — 2차 입력(주소·생년월일·성별)을 받지 않는다.
+         이름·연락처까지 넣은 사람을 거기서 더 붙잡으면 이탈이 난다.
+         나머지는 확인 전화에서 받는다. STEP2 마크업과 mSubmit2 핸들러는
+         되돌릴 수 있게 남겨 두되 이 경로로는 가지 않는다. */
+      showDone();
     }, function () {
       btn.disabled = false; btn.textContent = label;
       step("X_전송실패");
