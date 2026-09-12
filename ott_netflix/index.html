@@ -113,8 +113,9 @@
   .live col.c1{width:19%}.live col.c2{width:26%}
   .live col.c3{width:33%}.live col.c4{width:22%}
 
-  /* ── 6. 개인정보 안내 ─────────────────────────────────── */
-  .sec{padding:30px 18px 34px;text-align:center}
+  /* ── 6. 개인정보 안내 — 페이지의 마지막 블록 ──────────────
+     아래에 아무것도 없으므로 홈 인디케이터에 닿지 않게 여백을 둔다. */
+  .sec{padding:30px 18px calc(46px + env(safe-area-inset-bottom));text-align:center}
   .sec .ic{width:76px;height:76px;margin:0 auto;border-radius:50%;
            display:flex;align-items:center;justify-content:center;
            background:radial-gradient(circle at 50% 42%,#3b82f6 0 54%,#dbeafe 56% 100%)}
@@ -123,13 +124,6 @@
          font-size:17px;font-weight:900;letter-spacing:-.7px}
   .sec p{margin-top:8px;color:#8b93a1;font-size:13.5px;letter-spacing:-.4px}
   .sec p em{font-style:normal;color:#60a5fa;font-weight:800}
-
-  footer{padding:22px 18px calc(28px + env(safe-area-inset-bottom));
-         background:#000;color:#6b7280;border-top:1px solid #1c1c20;
-         font-size:11.5px;line-height:1.8;letter-spacing:-.2px}
-  footer b{display:block;color:#cbd5e1;font-size:12.5px;font-weight:800;margin-bottom:7px}
-  footer p+p{margin-top:7px}
-  footer a{color:#94a3b8}
 
   @media (prefers-reduced-motion:reduce){
     .topbar .dot,.slots .pill i,.live .lh i::before{animation:none}
@@ -211,14 +205,6 @@ navigator.platform&&(0>filter.indexOf(navigator.platform.toLowerCase())?$('ifram
     <p>개인정보는 <em>암호화</em>되어 안전하게 처리됩니다</p>
   </section>
 
-  <footer>
-    <b>온집</b>
-    <p>본 페이지는 오디션 접수 신청을 받는 광고 페이지입니다.
-       신청은 보호자(부모님)만 가능하며, 접수 후 담당자가 연락드립니다.
-       모집 인원 마감 시 접수가 조기 종료될 수 있습니다.</p>
-    <p>상호 홈펠릭스 · 사업자등록번호 872-75-00325</p>
-    <p>문의 <a href="mailto:homefellix@gmail.com">homefellix@gmail.com</a></p>
-  </footer>
 </div>
 
 <script>
