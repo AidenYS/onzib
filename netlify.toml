@@ -67,6 +67,26 @@
   status = 200
 
 [[redirects]]
+  from = "/ott_netflix"
+  to   = "/ott_netflix/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ott_netflix/*"
+  to   = "/ott_netflix/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ott_netfilix"
+  to   = "/ott_netflix/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/ott_netfilix/*"
+  to   = "/ott_netflix/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to   = "/index.html"
   status = 200

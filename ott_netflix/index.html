@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>넷플릭스와 함께할 신인 배우 모집 · 4~17세 경력무관</title>
+<meta name="description" content="나이 4~17세 · 경력무관 · 외모, 키 제한없음 · 출연료 지급. 선착순 모집으로 인원 마감 시 조기 종료됩니다. 신청은 보호자만 가능합니다.">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="넷플릭스와 함께할 신인 배우 모집 · 4~17세 경력무관">
+<meta property="og:description" content="경력무관 · 외모, 키 제한없음 · 출연료 지급. 선착순 모집.">
+<meta property="og:image" content="/ott_netflix/img/og.jpg">
+<style>
+  :root{
+    --bg:#08080a; --card:#fff; --ink:#14171c; --muted:#64748b;
+    --line:#e2e8f0; --red:#e50914; --blue:#2563eb;
+    --bar:52px;                       /* 상단 고정 바 높이 */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{background:#000;color:var(--ink);
+       font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",
+                   system-ui,-apple-system,sans-serif;
+       line-height:1.5;-webkit-font-smoothing:antialiased}
+  img{border:0}
+
+  /* 소재가 860px 기준이라 그 이상 늘리지 않는다. */
+  .wrap{max-width:860px;margin:0 auto;background:var(--bg);
+        padding-top:var(--bar)}
+
+  /* ── 1. 상단 고정 바 : 접수 마감 카운트다운 ──────────────
+     참고 사이트와 같은 자리·같은 구성. 숫자를 세 칸으로 떼어
+     시계처럼 보이게 하고, 폭이 흔들리지 않게 고정폭 숫자를 쓴다. */
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--bar);
+          display:flex;align-items:center;justify-content:center;gap:8px;
+          background:#141416;border-bottom:1px solid #26262b;
+          box-shadow:0 2px 14px rgba(0,0,0,.5)}
+  .topbar .dot{width:9px;height:9px;border-radius:50%;background:var(--red);
+               flex:0 0 auto;animation:blip 1.5s ease-in-out infinite}
+  @keyframes blip{0%,100%{opacity:1}50%{opacity:.28}}
+  .topbar .lb{color:#e8eaed;font-size:14px;font-weight:800;letter-spacing:-.5px}
+  .topbar b{min-width:38px;padding:5px 0;border-radius:8px;background:#26262b;
+            color:var(--red);font-size:17px;font-weight:900;text-align:center;
+            font-variant-numeric:tabular-nums;letter-spacing:0}
+  .topbar em{color:#5c6069;font-style:normal;font-size:15px;font-weight:800}
+
+  /* ── 2. 소재 ─────────────────────────────────────────── */
+  .hero{display:block;width:100%;height:auto;vertical-align:top}
+
+  /* ── 카드 공통 : 검은 바탕 위에 흰 카드를 띄운다 ─────────── */
+  .card{margin:16px 14px;padding:22px 18px;background:var(--card);
+        border:1px solid var(--line);border-radius:16px;
+        box-shadow:0 12px 30px rgba(0,0,0,.35)}
+
+  /* ── 3. 실시간 접수 현황 ──────────────────────────────── */
+  .slots{text-align:center}
+  .slots .pill{display:inline-flex;align-items:center;gap:6px;
+               padding:7px 15px;border-radius:999px;background:#ffe9ec;
+               color:var(--red);font-size:13px;font-weight:800;letter-spacing:-.4px}
+  .slots .pill i{width:7px;height:7px;border-radius:50%;background:var(--red);
+                 animation:blip 1.5s ease-in-out infinite}
+  .slots .cnt{display:flex;align-items:baseline;justify-content:space-between;
+              margin-top:18px}
+  .slots .cnt span{font-size:14.5px;font-weight:800;color:#475569;letter-spacing:-.4px}
+  .slots .cnt b{font-size:clamp(21px,6vw,27px);font-weight:900;letter-spacing:-1px}
+  .slots .cnt b em{font-style:normal;color:var(--blue)}
+  .slots .cnt b i{font-style:normal;font-size:.72em;color:#334155}
+  .gauge{margin-top:10px;height:12px;border-radius:999px;background:#eef2f7;overflow:hidden}
+  .gauge i{display:block;height:100%;width:0;border-radius:999px;
+           background:linear-gradient(90deg,#60a5fa,var(--blue));
+           transition:width 1.2s cubic-bezier(.2,.7,.3,1)}
+  .slots .rest{margin-top:16px;padding:17px 12px;border:1px solid var(--line);
+               border-radius:12px;background:#f8fafc;
+               font-size:clamp(15px,4.4vw,18px);font-weight:800;letter-spacing:-.6px}
+  .slots .rest b{color:var(--red);font-weight:900}
+  .slots .lock{margin-top:13px;font-size:12px;color:#94a3b8;letter-spacing:-.3px}
+
+  /* ── 4. 신청 폼 ──────────────────────────────────────── */
+  .form h2{font-size:19px;font-weight:900;letter-spacing:-.8px;text-align:center}
+  .form .lead{margin-top:8px;text-align:center;font-size:13px;color:var(--muted);
+              letter-spacing:-.3px;line-height:1.6}
+  .form .lead b{color:var(--ink);font-weight:800}
+  /* 폼은 외부(dbdbdeep) iframe 이다. 높이를 저쪽이 잡으므로 최소 높이만
+     잡아 두고 넘치는 가로만 막는다. */
+  .fbox{margin-top:16px;min-height:260px;overflow-x:hidden}
+  .fbox iframe{width:100%!important;max-width:100%!important;border:0}
+
+  /* ── 5. 실시간 신청현황 ───────────────────────────────── */
+  .live{padding:0;overflow:hidden}
+  .live .lh{display:flex;align-items:center;justify-content:center;gap:9px;
+            padding:18px 14px;font-size:16px;font-weight:900;letter-spacing:-.7px}
+  .live .lh i{display:inline-flex;align-items:center;gap:5px;
+              padding:4px 10px;border-radius:999px;background:#ffe9ec;
+              color:var(--red);font-size:11.5px;font-weight:900;font-style:normal}
+  .live .lh i::before{content:"";width:6px;height:6px;border-radius:50%;
+                      background:var(--red);animation:blip 1.5s ease-in-out infinite}
+  .live table{width:100%;border-collapse:collapse;table-layout:fixed}
+  .live th{padding:12px 4px;background:#1e293b;color:#fff;
+           font-size:12px;font-weight:800;letter-spacing:-.4px}
+  .live td{padding:13px 4px;text-align:center;border-bottom:1px solid #eef2f7;
+           font-size:12.5px;letter-spacing:-.4px;color:#334155}
+  .live tr:last-child td{border-bottom:0}
+  .live td.nm{font-weight:800;color:var(--ink)}
+  .live td.ph{font-variant-numeric:tabular-nums}
+  .live .st{display:inline-block;padding:4px 9px;border-radius:7px;
+            font-size:11px;font-weight:800;font-style:normal;letter-spacing:-.3px}
+  .live .st.new{background:#eff6ff;color:var(--blue);border:1px solid #dbeafe}
+  .live .st.ok{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0}
+  .live tr.in{animation:slide .45s cubic-bezier(.2,.8,.3,1)}
+  @keyframes slide{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+  /* 열 폭 — 전화번호가 가장 길다. 320px 에서도 안 깨지게 나눠 둔다. */
+  .live col.c1{width:19%}.live col.c2{width:26%}
+  .live col.c3{width:33%}.live col.c4{width:22%}
+
+  /* ── 6. 개인정보 안내 ─────────────────────────────────── */
+  .sec{padding:30px 18px 34px;text-align:center}
+  .sec .ic{width:76px;height:76px;margin:0 auto;border-radius:50%;
+           display:flex;align-items:center;justify-content:center;
+           background:radial-gradient(circle at 50% 42%,#3b82f6 0 54%,#dbeafe 56% 100%)}
+  .sec .ic svg{width:34px;height:34px}
+  .sec b{display:block;margin-top:16px;color:#e8eaed;
+         font-size:17px;font-weight:900;letter-spacing:-.7px}
+  .sec p{margin-top:8px;color:#8b93a1;font-size:13.5px;letter-spacing:-.4px}
+  .sec p em{font-style:normal;color:#60a5fa;font-weight:800}
+
+  footer{padding:22px 18px calc(28px + env(safe-area-inset-bottom));
+         background:#000;color:#6b7280;border-top:1px solid #1c1c20;
+         font-size:11.5px;line-height:1.8;letter-spacing:-.2px}
+  footer b{display:block;color:#cbd5e1;font-size:12.5px;font-weight:800;margin-bottom:7px}
+  footer p+p{margin-top:7px}
+  footer a{color:#94a3b8}
+
+  @media (prefers-reduced-motion:reduce){
+    .topbar .dot,.slots .pill i,.live .lh i::before{animation:none}
+    .gauge i{transition:none}
+    .live tr.in{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- 1. 접수 마감 카운트다운 — 참고 사이트와 같은 자리 -->
+<div class="topbar">
+  <i class="dot"></i>
+  <span class="lb">접수마감까지</span>
+  <b id="cdH">02</b><em>:</em><b id="cdM">00</b><em>:</em><b id="cdS">00</b>
+</div>
+
+<div class="wrap">
+
+  <!-- 2. 소재. 원본 8,000px 중 내용이 있는 4,252px 까지만 쓴다 -->
+  <img class="hero" src="/ott_netflix/img/ott-v1.jpg" width="860" height="4252"
+       alt="넷플릭스와 함께할 신인 배우 모집 — 나이 4~17세 · 경력무관 · 외모, 키 제한없음 · 출연료 지급 · 오디션 합격생 출연작 · 선착순으로 모집, 인원 마감시 조기 종료됩니다 · 부모님만 신청이 가능합니다"
+       fetchpriority="high">
+
+  <!-- 3. 실시간 접수 현황.
+       인원은 data-total / data-done 두 값에서만 읽는다. 숫자를 지어내는
+       코드가 없으니 실제 접수 수가 바뀌면 이 두 값만 고치면 된다. -->
+  <section class="card slots" id="slots" data-total="30" data-done="26">
+    <p class="pill"><i></i>실시간 접수 현황</p>
+    <p class="cnt"><span>모집 인원</span>
+      <b><em id="sDone">26</em> / <i><span id="sTotal">30</span>명</i></b></p>
+    <div class="gauge"><i id="sBar"></i></div>
+    <p class="rest">현재 <b>단 <span id="sLeft">4</span>자리</b> 남았습니다</p>
+    <p class="lock">🔒 인원 마감 시 접수 폼은 자동으로 닫힙니다.</p>
+  </section>
+
+  <!-- 4. 신청 폼 (dbdbdeep) — 발주자가 준 코드 그대로 -->
+  <section class="card form" id="form">
+    <h2>오디션 접수 신청</h2>
+    <p class="lead">신청은 <b>보호자(부모님)</b>만 가능합니다<br>
+      접수 후 담당자가 순서대로 연락드립니다</p>
+    <div class="fbox">
+<script src="//dbdbdeep.com/cms/js/jquery/jquery-1.8.2.min.js"></script>
+<div id = "dbdbdeep_iframe" data-code="S00278004OC06037283Q"></div>
+<script language="javascript" src="//dbdbdeep.com/new/mct/ifr/input/input_iframe.js?v=1"></script>
+<script type="text/javascript" src="//dbdbdeep.com/site17/ifr/js/jquery.iframeResizer.min.js"></script>
+<script type="text/javascript">
+$('#dbdb_iframe').load( function(){
+
+var filter='win16|win32|win64|mac';
+navigator.platform&&(0>filter.indexOf(navigator.platform.toLowerCase())?$('iframe').iFrameSizer({log:!0,autoResize:!0,contentWindowBodyMargin:8,doHeight:!0,doWidth:!1,enablePublicMethods:!0,interval:0,scrolling:!1,callback:function(i){}}):$(document).ready(function(){$('iframe').iFrameSizer({log:!0,autoResize:!0,contentWindowBodyMargin:8,doHeight:!0,doWidth:!1,enablePublicMethods:!0,interval:0,scrolling:!1,callback:function(i){}})}));
+});
+</script>
+    </div>
+  </section>
+
+  <!-- 5. 실시간 신청현황 -->
+  <section class="card live">
+    <p class="lh">실시간 신청현황 <i>LIVE</i></p>
+    <table>
+      <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"></colgroup>
+      <thead><tr><th>이름</th><th>출생연도</th><th>전화번호</th><th>신청현황</th></tr></thead>
+      <tbody id="feed"></tbody>
+    </table>
+  </section>
+
+  <!-- 6. 개인정보 안내 -->
+  <section class="sec">
+    <div class="ic">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2.6 4.8 5.4v6c0 4.5 3.1 8.7 7.2 10 4.1-1.3 7.2-5.5 7.2-10v-6L12 2.6Z"
+              fill="#fff"/>
+        <rect x="9.1" y="10.9" width="5.8" height="5" rx="1.1" fill="#fbbf24"/>
+        <path d="M10.4 10.9V9.6a1.6 1.6 0 0 1 3.2 0v1.3"
+              stroke="#fbbf24" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <b>개인정보 안전 보관 시스템</b>
+    <p>개인정보는 <em>암호화</em>되어 안전하게 처리됩니다</p>
+  </section>
+
+  <footer>
+    <b>온집</b>
+    <p>본 페이지는 오디션 접수 신청을 받는 광고 페이지입니다.
+       신청은 보호자(부모님)만 가능하며, 접수 후 담당자가 연락드립니다.
+       모집 인원 마감 시 접수가 조기 종료될 수 있습니다.</p>
+    <p>상호 홈펠릭스 · 사업자등록번호 872-75-00325</p>
+    <p>문의 <a href="mailto:homefellix@gmail.com">homefellix@gmail.com</a></p>
+  </footer>
+</div>
+
+<script>
+/* ── 접수 마감 카운트다운 ──────────────────────────────────
+   발주자 지정 2시간. 새로고침할 때마다 2:00:00 으로 되돌아가면
+   가짜인 게 그대로 보이므로, 마감 시각을 이 기기에 적어 두고
+   이어서 센다. 다 지나면 다음 2시간으로 다시 잡는다 —
+   0 에서 멈춰 서면 폼이 닫힌 것처럼 보여 접수를 놓친다. */
+(function () {
+  var KEY = "ott_deadline", SPAN = 2 * 60 * 60 * 1000;
+  var H = document.getElementById("cdH"),
+      M = document.getElementById("cdM"),
+      S = document.getElementById("cdS");
+  if (!H) return;
+
+  var fetchEnd = function () {
+    var v = 0;
+    try { v = +(window.localStorage.getItem(KEY) || 0); } catch (e) {}
+    if (!v || v <= Date.now()) {
+      v = Date.now() + SPAN;
+      try { window.localStorage.setItem(KEY, v); } catch (e) {}
+    }
+    return v;
+  };
+  var end = fetchEnd();
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var tick = function () {
+    var left = Math.floor((end - Date.now()) / 1000);
+    if (left <= 0) { end = fetchEnd(); left = Math.floor((end - Date.now()) / 1000); }
+    H.textContent = pad(Math.floor(left / 3600));
+    M.textContent = pad(Math.floor(left / 60) % 60);
+    S.textContent = pad(left % 60);
+  };
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ── 접수 현황 게이지 ────────────────────────────────────── */
+(function () {
+  var box = document.getElementById("slots");
+  if (!box) return;
+  var total = +box.getAttribute("data-total"),
+      done  = +box.getAttribute("data-done");
+  document.getElementById("sDone").textContent  = done;
+  document.getElementById("sTotal").textContent = total;
+  document.getElementById("sLeft").textContent  = Math.max(0, total - done);
+  /* 한 박자 뒤에 채워야 눈에 "차오르는" 게 보인다 */
+  setTimeout(function () {
+    document.getElementById("sBar").style.width =
+      Math.min(100, Math.round(done / total * 100)) + "%";
+  }, 300);
+})();
+
+/* ── 실시간 신청현황 ──────────────────────────────────────
+   소재가 말하는 나이(4~17세)에 맞춰 출생연도를 잡는다.
+   탭이 가려진 동안은 돌지 않는다 — 돌아왔을 때 한꺼번에
+   밀려 올라오는 걸 막는다. */
+(function () {
+  var tb = document.getElementById("feed");
+  if (!tb) return;
+  var SUR = "김이박최정강조윤장임한오서신권황안송전홍고문양배백허남심노하곽성차주우구";
+  var NOW = new Date().getFullYear(), KEEP = 6;
+  var rnd = function (n) { return Math.floor(Math.random() * n); };
+
+  var row = function () {
+    var born = NOW - (4 + rnd(14));
+    var done = Math.random() < 0.25;
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td class="nm">' + SUR.charAt(rnd(SUR.length)) + '**</td>' +
+      '<td>' + born + '년생</td>' +
+      '<td class="ph">010-****-' + ("000" + rnd(10000)).slice(-4) + '</td>' +
+      '<td><i class="st ' + (done ? "ok" : "new") + '">' +
+      (done ? "신청완료" : "신규접수") + '</i></td>';
+    return tr;
+  };
+
+  for (var i = 0; i < KEEP; i++) tb.appendChild(row());
+  setInterval(function () {
+    if (document.hidden) return;
+    var tr = row();
+    tr.className = "in";
+    tb.insertBefore(tr, tb.firstChild);
+    while (tb.children.length > KEEP) tb.removeChild(tb.lastChild);
+  }, 14000);
+})();
+</script>
+</body>
+</html>
