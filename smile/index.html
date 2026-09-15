@@ -14,6 +14,7 @@
   :root{
     --ink:#111418; --muted:#6b7280; --line:#e5e7eb;
     --red:#e8194b; --deep:#12161c; --bg:#fff;
+    --bar:40px;                      /* 고정된 상단 바 높이 */
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -27,13 +28,19 @@
   /* 본문 폭. 소재가 860px 기준이라 그 이상은 늘리지 않는다. */
   .wrap{max-width:860px;margin:0 auto;background:var(--bg);
         box-shadow:0 0 40px rgba(0,0,0,.06);
+        padding-top:var(--bar);
         padding-bottom:calc(74px + env(safe-area-inset-bottom))}
 
   /* ── 상단 고지 바 ────────────────────────────────────────
      "몇 명이 보고 있습니다" 자리를 혜택 한정 고지로 바꿨다.
      사람 수를 지어내지 않으면서도 이 페이지에서 끝내야 할 이유가 된다. */
-  .topbar{display:flex;align-items:center;justify-content:center;gap:7px;
-          background:var(--deep);color:#fff;padding:10px 14px;
+  /* 스크롤해도 따라오게 고정했다(26.09.15). 본문이 860px 기둥이라
+     바도 같은 폭으로 묶어 둔다 — 넓은 화면에서 바만 끝까지 늘어나면
+     본문과 어긋나 보인다. 아래 .wrap 이 이 높이만큼 자리를 비운다. */
+  .topbar{position:fixed;top:0;left:50%;transform:translateX(-50%);
+          width:100%;max-width:860px;z-index:60;height:var(--bar);
+          display:flex;align-items:center;justify-content:center;gap:7px;
+          background:var(--deep);color:#fff;padding:0 14px;
           font-size:12.5px;font-weight:700;letter-spacing:-.4px;text-align:center}
   .topbar i{width:6px;height:6px;border-radius:50%;background:#ff5b7f;
             flex:0 0 auto;animation:blip 2.4s ease-in-out infinite}
@@ -166,18 +173,10 @@
 
   <p class="topbar"><i></i><span>본 혜택은 <b>이 페이지에만</b> 적용됩니다</span></p>
 
-  <!-- 1. 히어로 : 헤드라인 뒤에서 시야가 흐림 ↔ 선명 으로 천천히 오간다 -->
-  <section class="hero">
-    <div class="eyes">
-      <img src="/smile/img/e3.jpg" width="860" height="1097"
-           alt="시력이 흐려 잘 보이지 않는 시야" fetchpriority="high">
-      <img class="l2" src="/smile/img/e2.jpg" width="860" height="1097" alt="" aria-hidden="true">
-      <img class="l1" src="/smile/img/e1.jpg" width="860" height="1097" alt="" aria-hidden="true">
-    </div>
-    <span class="scrim"></span>
-    <img class="head" src="/smile/img/headline.png" width="620" height="220"
-         alt="눈 앞에 신세계가 펼쳐질 것입니다">
-  </section>
+  <!-- 1. 히어로(흐림↔선명 안과 사진 + 헤드라인)는 26.09.15 제거.
+       랜딩을 줄이라는 지시라 본문 첫 장(n1)부터 바로 시작한다.
+       e1~e3·headline.png 는 되돌릴 수 있게 남겨 둔다 — og:image 도
+       아직 e1.jpg 를 쓴다. -->
 
   <!-- 2. 본문 — 26.09.12 발주자 새 소재로 전면 교체.
        순서가 뒤집혔다. 전에는 수술 설명(5세대·2mm·장점)이 앞이고 할인이
@@ -185,11 +184,11 @@
        병원 신뢰(POINT 1·2·3)와 수술 설명이 뒤로 갔다.
        n1·n2 는 원본 한 장을 예약 버튼 자리 때문에 흰 띠에서 나눈 것이다. -->
   <div class="strip">
-    <img src="/smile/img/n1.png" width="860" height="3893" alt="안경 없는 일상, 나도 가능할까요? — 마스크 쓰면 김이 서려요 · 렌즈착용 번거롭고 피로해요 · 운동할때 불편해요 · 아침마다 안경부터 찾아요 · 라식 특별 할인 이벤트 · 무료검진으로 시력교정 가능여부를 빠르게 확인하세요 · 수술비 할인은 이 페이지에서만 제공(우대가 적용) · 상담 후 수술 진행시 추가 할인">
+    <img src="/smile/img/n1.png" width="860" height="3893" fetchpriority="high" alt="안경 없는 일상, 나도 가능할까요? — 마스크 쓰면 김이 서려요 · 렌즈착용 번거롭고 피로해요 · 운동할때 불편해요 · 아침마다 안경부터 찾아요 · 라식 특별 할인 이벤트 · 무료검진으로 시력교정 가능여부를 빠르게 확인하세요 · 수술비 할인은 이 페이지에서만 제공(우대가 적용) · 상담 후 수술 진행시 추가 할인">
     <a class="jump" href="#form"><img src="/smile/img/b1.jpg" width="860" height="470"
        alt="본 예약링크 특별혜택 : 70여가지 정밀검사 지원 · 우대가 최대적용 · 당일수술 추가할인 · ATOS 정품 인증 카드 — 눌러서 바로 예약 신청" loading="lazy"></a>
-    <img src="/smile/img/n2.jpg" width="860" height="4034" alt="소중한 나의 눈, 검증된 전문 안과에서 — POINT 1 검증된 의료진 · POINT 2 고급 첨단 장비 SCHWIND ATOS · POINT 3 목표 시력 달성(근시교정 98%, 난시교정 99%) · 5세대 시력교정술 차세대 스마일라식" loading="lazy">
-    <img src="/smile/img/n3.jpg" width="860" height="2273" alt="단 2mm 각막 미세절개 — 빠른 회복, 적은통증 · 각막손상 최소화 · 안구건조증 최소화 · 외부충격에 강함 · 빛번짐 최소화 · 해당 특별가격 이벤트는 모집이 완료되면 종료됩니다" loading="lazy">
+    <img src="/smile/img/n2b.jpg" width="860" height="3500" alt="소중한 나의 눈, 검증된 전문 안과에서 — POINT 1 검증된 의료진 · POINT 2 고급 첨단 장비 SCHWIND ATOS · POINT 3 목표 시력 달성(근시교정 98%, 난시교정 99%)" loading="lazy">
+    <img src="/smile/img/n3b.jpg" width="860" height="653" alt="해당 특별가격 이벤트는 모집이 완료되면 종료됩니다 · 안경, 렌즈 없는 새로운 삶의 시작 · 눈 검사부터 시작하세요" loading="lazy">
     <a class="jump" href="#form"><img src="/smile/img/b2.jpg" width="860" height="480"
        alt="본 예약링크 특별혜택 4가지 — 눌러서 바로 예약 신청" loading="lazy"></a>
   </div>
