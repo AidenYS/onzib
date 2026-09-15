@@ -56,160 +56,6 @@
   .intro p + p{margin-top:3px}
   .intro b{font-weight:900;color:var(--orange)}
 
-  /* ── 3. 계산기 ── */
-  .calcwrap{padding:26px 18px 40px;background:#fff}
-  .calc{
-    background:#fff; border:2px solid var(--deep); border-radius:16px;
-    padding:20px 17px 18px; box-shadow:0 10px 26px rgba(15,23,42,.10);
-  }
-  .calc>h3{
-    font-size:19px;font-weight:900;letter-spacing:-.7px;text-align:center;line-height:1.35;
-  }
-  .calc>h3 em{font-style:normal;color:var(--orange)}
-  .calc>.lead{
-    text-align:center;font-size:12.5px;color:var(--muted);font-weight:600;
-    margin-top:6px;margin-bottom:16px;letter-spacing:-.2px
-  }
-
-  .row{margin-bottom:11px}
-  .row>label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:6px;letter-spacing:-.2px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  select{
-    width:100%;padding:11px 30px 11px 11px;font-size:14px;font-weight:700;
-    font-family:inherit;color:var(--ink);
-    border:1.5px solid var(--line);border-radius:10px;background:#fff;
-    appearance:none;-webkit-appearance:none;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
-    background-repeat:no-repeat;background-position:right 11px center;
-    text-overflow:ellipsis;white-space:nowrap;overflow:hidden;
-  }
-  select:focus{outline:none;border-color:var(--deep)}
-  select option:disabled{color:#b6bcc6}
-
-  .cycledesc{font-size:11.5px;color:var(--muted);font-weight:600;margin:7px 0 13px;padding-left:2px;min-height:16px}
-
-  /* 인기 2종 픽커 */
-  /* 안내를 오른쪽 끝에 두되 float 은 쓰지 않는다. float 을 쓰면 바로 아래
-     카드 줄(flex 컨테이너 = 새 BFC)이 그 float 을 피하려고 폭을 줄여서,
-     320px 에서 줄 폭이 246 → 158px, 카드가 72px 까지 쪼그라들었다. */
-  .pickttl{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
-           font-size:13px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
-  .pickttl span{flex:0 0 auto;font-size:11px;font-weight:700;color:var(--muted)}
-  .pickttl b{color:var(--orange)}
-  /* 옆으로 미는 줄. 한 화면에 두 장 + 다음 장이 걸쳐 보여야
-     "더 있다" 가 전달된다. mandatory 로 잡으면 튀어서 proximity 로 둔다. */
-  .picks{display:flex;gap:9px;overflow-x:auto;padding:2px 1px 7px;
-         scroll-snap-type:x proximity;overscroll-behavior-x:contain;
-         -webkit-overflow-scrolling:touch}
-  .picks::-webkit-scrollbar{height:0}
-  .picks::after{content:"";flex:0 0 1px}
-
-  /* 카드 안 "상세보기" — 카드를 누르면 제품 선택, 이 글자를 누르면 상세 */
-  /* 카드 아래 전폭. 위(top:8px right:8px)에 두면 가운데 정렬인 "인기 N위"
-     뱃지와 겹쳐서, 360px 에서는 뱃지를 눌러도 상세가 열렸다. */
-  .pick .dbtn{display:block;width:100%;margin-top:7px;padding:7px 4px;
-              font-size:11px;font-weight:800;color:#4b5563;letter-spacing:-.3px;
-              background:#f3f4f6;border-radius:8px;min-height:30px}
-  .pick.on .dbtn{background:#fff1ec;color:var(--orange)}
-
-  /* ── 제품 상세 팝업 ─────────────────────────────────────
-     전체 화면. 위는 제품명·닫기, 가운데만 스크롤, 아래는 신청 버튼 고정.
-     상세를 다 보고 마음먹었을 때 닫고 다시 찾아 내려갈 일이 없게 한다. */
-  .dtl{position:fixed;inset:0;z-index:950;background:#fff;display:flex;flex-direction:column}
-  /* 하단 고정 CTA 가 z-index 900 이라 그 위여야 팝업 버튼이 눌린다.
-     신청 모달(1000) 보다는 아래로 둬서 모달이 뜨면 그게 위로 온다. */
-  .dtl[hidden]{display:none}
-  .dtl-hd{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
-          gap:10px;padding:13px 14px;border-bottom:1px solid var(--line);background:#fff}
-  .dtl-hd b{font-size:15px;font-weight:900;letter-spacing:-.5px}
-  .dtl-x{width:34px;height:34px;border:0;background:#f3f4f6;border-radius:50%;
-         font-size:15px;color:#4b5563;line-height:1;cursor:pointer}
-  .dtl-body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff}
-  .dtl-body img{display:block;width:100%;height:auto;vertical-align:top}
-  .dtl-body .load{padding:60px 20px;text-align:center;font-size:13px;
-                  color:var(--muted);font-weight:700}
-  .dtl-ft{flex:0 0 auto;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
-          border-top:1px solid var(--line);background:#fff}
-  .dtl-cta{width:100%;height:52px;border:0;border-radius:12px;background:var(--orange);
-           color:#fff;font-size:16px;font-weight:900;letter-spacing:-.5px;cursor:pointer}
-  .pick{
-    flex:0 0 46%;max-width:172px;scroll-snap-align:center;
-    position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;
-    padding:26px 8px 11px;background:#fff;border:2px solid var(--line);border-radius:13px;
-    font-family:inherit;cursor:pointer;text-align:center;transition:border-color .15s,box-shadow .15s;
-  }
-  .pick img{width:100%;max-width:88px;height:auto;display:block;margin-bottom:3px}
-  .pick b{font-size:13.5px;font-weight:900;letter-spacing:-.4px;color:var(--ink)}
-  .pick .ds{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:-.3px}
-  .pick .ds em{font-style:normal;color:#0ea5e9;font-weight:800}
-  .pick .ds{min-height:2.6em}                    /* 한 줄이든 두 줄이든 같은 자리 */
-
-  /* 카드 금액 — 아래 결과 줄과 같은 순서·같은 라벨(월 납부액 → 현금지원).
-     "월 최저 렌탈료" 를 보여 주던 자리다. 광고에서 0원을 보고 들어온 사람이
-     카드에서 28,900원을 만나던 것을 없앤다. 금액을 오른쪽에 세로로 떨어뜨려
-     카드끼리 눈으로 훑을 수 있게 했다. */
-  .pick .amt{margin-top:auto;padding-top:7px;width:100%;
-             border-top:1px dashed var(--line)}
-  .pick .r{display:flex;align-items:baseline;justify-content:space-between;gap:4px}
-  .pick .r + .r{margin-top:2px}
-  .pick .r span{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:-.3px}
-  /* 제품마다 갈리는 값은 현금지원 쪽이다. 월 납부액은 11장 중 10장이 0원인
-     상수라 크게 둘 이유가 없다. 결과 줄과 같은 위계로 맞춘다. */
-  .pick .r b{font-size:13px;font-weight:800;letter-spacing:-.4px;color:#4b5563;
-             font-variant-numeric:tabular-nums}
-  .pick .r.s b{font-size:16px;font-weight:900;color:var(--orange);letter-spacing:-.6px}
-  .pick .rk{
-    position:absolute;top:8px;left:50%;transform:translateX(-50%);
-    background:var(--deep);color:#fff;font-size:10px;font-weight:800;
-    padding:3px 9px;border-radius:20px;letter-spacing:-.2px;white-space:nowrap;
-  }
-  .pick.on{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,77,23,.13)}
-  .pick.on .rk{background:var(--orange)}
-  .pickfoot{font-size:10.5px;color:#9aa1ac;font-weight:600;margin:7px 0 14px;letter-spacing:-.2px}
-
-  .tgl{display:flex;align-items:center;gap:8px;margin-top:9px}
-  .tgl input{width:17px;height:17px;flex:none;accent-color:var(--orange);cursor:pointer}
-  .tgl label{font-size:13px;font-weight:700;letter-spacing:-.3px;cursor:pointer}
-  .tglnote{font-size:11px;color:var(--muted);font-weight:600;margin-top:3px;padding-left:25px;letter-spacing:-.2px}
-
-  /* 결과 한 줄 — 왼쪽 월 납부액(어둡게) / 오른쪽 현금지원금(주황).
-     세로로 쌓여 있던 것을 좌우로 놓았다. 조건을 바꾸면 둘 다 움직인다. */
-  .outrow{display:flex;gap:8px;margin-top:16px}
-  .oc{flex:1 1 0;min-width:0;padding:13px 12px;border-radius:12px;
-      display:flex;flex-direction:column;gap:6px}
-  .oc .k{font-size:12px;font-weight:800;letter-spacing:-.4px;white-space:nowrap}
-  .oc b{font-size:27px;font-weight:900;letter-spacing:-1.3px;line-height:1;
-        font-variant-numeric:tabular-nums}
-  .oc b span{font-size:14px;font-weight:800;margin-left:1px;letter-spacing:-.3px}
-  .oc.pay{background:linear-gradient(135deg,#111827,#1f2937);color:#fff}
-  .oc.pay .k{opacity:.85}
-  .oc.sup{background:#fff5f2;border:1.5px solid #ffd4c6}
-  .oc.sup .k{color:#9a3412}
-  .oc.sup b{color:var(--orange)}
-  .outnote{margin-top:7px;font-size:11px;font-weight:700;color:#c2703f;
-           letter-spacing:-.2px;line-height:1.5}
-  .outnote i{font-style:normal}
-  .outnote.card{margin-top:4px;color:#8a6d3b}
-  .outnote.card b{color:#8a6d3b;font-weight:900}
-  @media (max-width:340px){
-    .oc b{font-size:23px}
-    .oc .k{font-size:11px}
-  }
-
-  .nf-s b{color:var(--orange);font-weight:800}
-  .nf-row{display:grid;grid-template-columns:1fr 88px;gap:7px;margin-top:10px}
-  .nf-row input{height:44px;border:1.5px solid var(--line);border-radius:10px;padding:0 11px;
-                font-size:13.5px;font-weight:600;font-family:inherit;background:#fff;color:var(--ink);min-width:0}
-  .nf-row input:focus{outline:none;border-color:var(--orange)}
-  .nf-row button{height:44px;border:0;border-radius:10px;background:var(--deep);color:#fff;
-                 font-family:inherit;font-size:13.5px;font-weight:800;letter-spacing:-.3px;cursor:pointer}
-  .nf-row button:active{opacity:.85}
-  .nf-alt{display:block;width:100%;margin-top:9px;padding:8px;border:0;background:none;
-          color:var(--muted);font-family:inherit;font-size:12px;font-weight:700;
-          text-decoration:underline;cursor:pointer;letter-spacing:-.3px}
-
-  .note{font-size:10.5px;color:#9aa1ac;font-weight:600;line-height:1.6;margin-top:12px;letter-spacing:-.2px}
-
   /* ── 4. 즉시신청 추가혜택 ── */
   .bonus{background:#fff}
   .bonus-img{display:block;width:100%;height:auto;vertical-align:top}
@@ -607,6 +453,21 @@
       box-shadow:0 3px 8px rgba(0,0,0,.22)}
     /* 상단 바의 시계 — 숫자가 흔들리지 않게 고정폭 */
     .viewbar #vClock{font-variant-numeric:tabular-nums;letter-spacing:0}
+      /* 신청 카드 — 계산기가 있던 자리 (26.09.15).
+       입력칸·동의·버튼은 모달이 쓰던 규칙(.mfield/.telrow/.magree/.msubmit)을
+       그대로 쓴다. 모달은 없앴지만 그 규칙들은 스코프가 없어 그대로 먹는다. */
+    .applybox{margin:18px 14px 4px;padding:24px 18px 20px;background:#fff;
+      border:1px solid var(--line);border-radius:18px;
+      box-shadow:0 10px 26px rgba(17,24,39,.07)}
+    .aptitle{font-size:clamp(19px,5.4vw,22px);font-weight:900;
+      letter-spacing:-.9px;text-align:center;line-height:1.3}
+    .aplead{margin-top:9px;text-align:center;font-size:13px;color:var(--muted);
+      font-weight:700;line-height:1.65;letter-spacing:-.3px}
+    .aplead b{color:var(--ink);font-weight:800}
+    .applybox .magree{margin-top:16px}
+    .applybox .tl,.applybox .dbox{margin-top:16px}
+    .applybox .mkicker{text-align:center;font-size:12px;font-weight:900;
+      letter-spacing:-.4px;margin-bottom:4px}
   </style>
 <!-- Meta Pixel (정수기) -->
 <script>
@@ -664,88 +525,87 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   <img class="hero-top" src="/coway_2/img/hero-v5.jpg" width="860" height="2783"
        alt="9월 한정 정수기 프로모션 · 깨끗한 물, 더 좋은 혜택으로 시작하세요 · 이번 달 특별한 렌탈 혜택 최대 34만원 상당 + 네이버페이 포인트 3만원 · 월 요금 이제 0원 · 오늘이 기회입니다, 12시에 사라지는 혜택 · 현재 링크에서만 정수기 설치비 무상지원">
 
-  <div class="calcwrap">
-    <div class="calc" id="calc">
-      <h3>⚡ 내 조건으로 <em>월 렌탈료</em> 확인</h3>
-      <p class="lead">제품 · 약정 · 관리방식만 고르면 바로 계산됩니다</p>
 
-      <!-- 결과 한 줄. 조건을 바꾸면 왼쪽 월 납부액과 오른쪽 지원금이 같이
-           움직이므로 나란히 둔다. 지원금은 만원 단위로 줄였다 — 340,000원은
-           옆에 붙이기엔 길고, 값이 만원 절사라 줄여도 금액이 깎이지 않는다. -->
-      <div class="outrow">
-        <div class="oc pay">
-          <span class="k">예상 월 납부액</span>
-          <b id="calcOut">--<span>원</span></b>
-        </div>
-        <div class="oc sup">
-          <span class="k">💰 혜택</span>
-          <b id="calcSup">--</b>
-        </div>
+  <!-- 3. 신청 — 26.09.15. 계산기·제품카드·제휴카드가 있던 자리다.
+       조건을 고르게 하면 고를 게 많아져서 그냥 나가 버린다. 성함·연락처만
+       받고 제품·약정·관리방식·카드는 확인 전화에서 듣는다.
+       모달을 안 쓴다 — 버튼을 한 번 더 누르게 하면 거기서 또 빠진다. -->
+  <section class="applybox" id="apply">
+    <div id="apForm">
+      <h3 class="aptitle">30초면 끝나요</h3>
+      <p class="aplead">성함과 연락처만 남겨주시면<br>
+        <b>조건에 맞는 제품과 받으실 수 있는 최대 혜택</b>을 확인해 안내드립니다</p>
+
+      <div class="mfield">
+        <label>성함</label>
+        <input type="text" id="fName" placeholder="성함을 입력해주세요" autocomplete="name">
       </div>
-      <p class="outnote"><i id="supNote"></i> · 설치 확인 후 제공</p>
-      <p class="outnote card" id="payCard" style="display:none">월 납부액은
-        제휴카드 할인 적용 기준입니다 · 카드 없이는 월 <b id="payNoCard">--</b>원
-        <i class="c60">· 60개월 후 카드 할인 확인 필요</i></p>
-
-      <p class="pickttl">🔥 가장 많이 선택한 순서 · <b>전체 11종</b>
-        <span>옆으로 밀어보세요</span></p>
-      <div class="picks" id="picks"></div>
-      <p class="pickfoot">코웨이 누적 판매 순위 기준 · 눌러서 바로 계산해 보세요</p>
-
-      <div class="row">
-        <label>제품 선택</label>
-        <select id="calcProd"></select>
-      </div>
-
-      <div class="row2">
-        <div class="row">
-          <label>약정기간</label>
-          <select id="calcTerm">
-            <option value="36">3년</option>
-            <option value="60">5년</option>
-            <option value="72">6년</option>
-            <option value="84" selected>7년 · 최저가</option>
-          </select>
-        </div>
-        <div class="row">
-          <label>관리방식</label>
-          <select id="calcCycle"></select>
+      <div class="mfield">
+        <label>연락처</label>
+        <div class="telrow">
+          <span class="fixed">010</span>
+          <input type="tel" id="fT2" placeholder="0000" maxlength="4"
+                 inputmode="numeric" autocomplete="tel-national">
+          <input type="tel" id="fT3" placeholder="0000" maxlength="4" inputmode="numeric">
         </div>
       </div>
 
-      <div class="row" id="colorRow">
-        <label>색상</label>
-        <select id="calcColor"></select>
+      <div class="magree">
+        <label class="ag"><input type="checkbox" id="agA">
+          <span><b>[필수]</b> 개인정보 수집·이용 동의</span>
+          <button type="button" class="agv" data-d="dA">보기</button></label>
+        <div class="agd" id="dA">
+          수집항목: <b>성명, 연락처</b><br>
+          <b>주민등록번호 등 고유식별정보는 수집하지 않습니다.</b><br>
+          이용목적: 정수기 렌탈 상담 및 신청 처리<br>
+          보유기간: <b>상담 종료 후 즉시 파기</b> (계약 성립 시 관계 법령에 따라 보관)<br>
+          동의를 거부하실 수 있으며, 거부 시 상담 신청이 제한됩니다.
+        </div>
+
+        <label class="ag"><input type="checkbox" id="agB">
+          <span><b>[필수]</b> 제3자 제공 동의</span>
+          <button type="button" class="agv" data-d="dB">보기</button></label>
+        <div class="agd" id="dB">
+          제공받는 자: <b>코웨이(주)</b> 및 설치·상담 위탁 판매점<br>
+          제공목적: 렌탈 계약 체결, 제품 설치 및 사후관리<br>
+          제공항목: <b>성명, 연락처</b><br>
+          보유기간: 제공목적 달성 시까지<br>
+          동의를 거부하실 수 있으며, 거부 시 신청 처리가 제한됩니다.
+        </div>
+
+        <label class="ag"><input type="checkbox" id="agC">
+          <span>[선택] 광고성 정보 수신 동의</span>
+          <button type="button" class="agv" data-d="dC">보기</button></label>
+        <div class="agd" id="dC">
+          혜택·프로모션 안내를 문자로 보내드립니다. <b>동의하지 않아도 신청에는 영향이 없습니다.</b>
+        </div>
       </div>
-      <p class="cycledesc" id="cycleDesc"></p>
 
-      <div class="tgl">
-        <input type="checkbox" id="calcCard" checked>
-        <label for="calcCard">제휴카드 할인 적용 <b>(카드사·실적 구간별)</b></label>
-      </div>
-      <p class="tglnote">신한·우리카드 신규발급 · 전월실적 30만원 이상 기준</p>
-
-      <div class="tgl">
-        <input type="checkbox" id="calcHalf" checked>
-        <label for="calcHalf">반값할인 프로모션 (렌탈료 50%)</label>
-      </div>
-      <p class="tglnote" id="halfNote" style="display:none">첫 <span id="halfM">18</span>개월 적용 · 이후 월 <span id="halfAfter">--</span>원 <i class="c60">· 60개월 후 카드 할인 확인 필요</i></p>
-
-      <div class="tgl">
-        <input type="checkbox" id="calcTasa">
-        <label for="calcTasa">타사보상 할인 (약 10% · 타사 렌탈 이용 중)</label>
-      </div>
-      <p class="tglnote">※ 반값할인·타사보상은 중복 적용 불가, 제휴카드와는 중복 가능</p>
-
-
-      <p class="note">
-        ※ 카드 할인액은 카드사·전월실적 구간에 따라 달라질 수 있습니다.<br>
-        ※ 반값할인은 적용기간 종료 후 정상 렌탈료로 전환됩니다.<br>
-        ※ 일부 얼음정수기는 위생 관리를 위해 방문관리로만 운영됩니다.<br>
-        ※ 혜택은 설치 확인 후 제공되며, 제품·약정에 따라 차등 적용됩니다.
+      <button type="button" class="msubmit" id="mSubmit"><i class="sbdg" id="mSubBdg" hidden></i><span id="mSubTxt">월 0원에 신청하고 혜택 가져가기</span></button>
+      <p class="merr" id="mErr"></p>
+      <p class="mfoot">
+        코웨이 제품을 취급하는 판매점입니다.<br>
+        상호 <b>홈펠릭스</b> · 사업자등록번호 872-75-00325 · 대표번호 <b>010-2606-6052</b>
       </p>
     </div>
-  </div>
+
+    <!-- 접수 완료 — 모달 STEP3 에 있던 내용을 그대로 옮겼다 -->
+    <div id="apDone" hidden>
+      <p class="mkicker" style="color:#03c75a">접수 완료</p>
+      <h3 class="aptitle">신청이 접수됐습니다</h3>
+      <p class="aplead">순서대로 연락드립니다. <b>확인 전화는 1회</b>면 끝나요.</p>
+      <ol class="tl">
+        <li class="on"><b>신청 접수</b><span>방금 완료</span></li>
+        <li><b>전화 상담</b><span>조건·모델 최종 확인 (1회)</span></li>
+        <li><b>설치일 지정</b><span>원하시는 날짜로</span></li>
+        <li><b>설치 &amp; 혜택 제공</b><span>설치 확인 후 제공</span></li>
+      </ol>
+      <div class="dbox">
+        <b>네이버페이 30,000원</b>
+        <span>설치 완료 후 혜택과 함께 문자로 보내드립니다.</span>
+      </div>
+    </div>
+  </section>
 
   <!-- 4. 혜택 상세 — 계산기와 제휴카드 사이에 있던 네이버페이 이미지는
        26.09.09 제거. 새 히어로가 이미 "+ 네이버페이 3만" 을 말한다.
@@ -753,18 +613,6 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   <div class="bonus">
     <div class="bonuswrap">
 
-      <!-- 제휴카드 -->
-      <div class="cardbox">
-        <p class="cbt">💳 제휴카드로 <b>매월 최대 24,000원</b> 더 할인</p>
-        <p class="cbs">전월실적 30만원 기준 · 카드를 누르면 상세 조건을 볼 수 있어요</p>
-        <div class="cardlist" id="cardList"></div>
-        <button type="button" class="cardmore" id="cardMore">제휴카드 6개 더보기 ▼</button>
-        <p class="cbn">
-          ※ 표시 금액은 <b>전월실적 30만원</b> 기준이며, 실적 구간이 높아지면 할인액도 커집니다(카드를 눌러 확인).<br>
-          ※ 카드 발급 후 코웨이 고객센터에 제품 자동이체를 등록해야 청구할인이 적용됩니다.<br>
-        ※ 표시 금액에는 <b>신규발급 프로모션(60개월)</b>이 포함되어 있습니다. 60개월 이후 할인액은 카드사 조건에 따라 달라질 수 있어, 시점이 되기 전에 따로 안내드립니다.
-        </p>
-      </div>
 
       <!-- 선착순 카운트 — /merits 에서 쓰던 장치. 버튼 바로 위에 둔다.
            숫자는 상단 바와 같은 값을 쓴다 (한 곳에서 정해 두 군데에 뿌림). -->
@@ -829,211 +677,6 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
 
 </div>
 
-<!-- 제품 상세 팝업 (인기 2종 샘플) -->
-  <div class="dtl" id="dtl" hidden>
-    <div class="dtl-hd">
-      <b id="dtlName">제품 상세</b>
-      <button type="button" class="dtl-x" id="dtlX" aria-label="닫기">✕</button>
-    </div>
-    <div class="dtl-body" id="dtlBody"></div>
-    <div class="dtl-ft">
-      <button type="button" class="dtl-cta" id="dtlCta">이 조건으로 상담 신청하기</button>
-    </div>
-  </div>
-
-<!-- ══════════ 신청 모달 ══════════ -->
-<div class="modal" id="modal" aria-hidden="true">
-  <div class="mbg" data-close></div>
-  <div class="msheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-
-    <!-- STEP 1 : 입력 -->
-    <div class="mstep" id="step1">
-      <button type="button" class="mx" data-close aria-label="닫기">✕</button>
-      <p class="mkicker" id="mKicker" hidden>이벤트 신청</p>
-      <h3 class="mtitle" id="mTitle">30초면 끝나요</h3>
-
-      <!-- 즉시신청 전용: 선택 조건 요약 -->
-      <div class="msum" id="mSum">
-        <div class="msum-hd">
-          <b>선택하신 조건</b>
-          <button type="button" class="msum-edit" id="mEdit">다시 고르기</button>
-        </div>
-        <div class="msum-row"><span>제품</span><b id="sProd">-</b></div>
-        <div class="msum-row"><span>약정 · 관리방식</span><b id="sCycle">-</b></div>
-        <div class="msum-row sub"><span></span><b id="sPromo">-</b></div>
-        <div class="msum-row"><span>예상 월 납부액</span><b id="sPay">-</b></div>
-        <p class="msum-note" id="sPayNote"></p>
-        <div class="msum-tot">
-          <span>받으시는 혜택 합계
-            <i class="brk">혜택 <em id="sSup">-</em> + 네이버페이 <em id="sNpay">3만원</em> · 설치 후 지급</i>
-          </span>
-          <b id="sTotal">-</b>
-        </div>
-      </div>
-
-      <!-- 즉시신청 전용: 약정 + 프로모션 (한 줄) -->
-      <div class="mfield mrow2" id="mTermWrap">
-        <div class="mcol">
-          <label>약정</label>
-          <select id="mTerm">
-            <option value="36">3년</option>
-            <option value="60">5년</option>
-            <option value="72">6년</option>
-            <option value="84">7년</option>
-          </select>
-        </div>
-        <div class="mcol">
-          <label>프로모션</label>
-          <select id="mPromo">
-            <option value="none">선택 안 함</option>
-            <option value="half">반값할인</option>
-            <option value="tasa">타사보상</option>
-          </select>
-        </div>
-      </div>
-      <p class="mhint" id="mTermHint">6년 이상이면 혜택을 전액 받으실 수 있어요</p>
-
-      <!-- 제품 문의 전용: 남기신 제품명 확인 -->
-      <div class="mfield" id="mAskWrap" style="display:none">
-        <label>찾으시는 제품 <span class="lb2">선택 입력</span></label>
-        <input type="text" id="mAskProd" placeholder="예: 아이콘 얼음 맥스, 노블 스탠드…">
-        <p class="mhint">코웨이 <b>전 모델</b>을 취급합니다. 제품명을 모르시면 비워두셔도 돼요 —
-          사용 인원·설치 위치만 들으면 상담사가 맞는 모델을 찾아드립니다.</p>
-      </div>
-
-      <div id="mPromoWrap">
-        <label class="chkrow">
-          <input type="checkbox" id="mCard" checked>
-          <span>제휴카드 할인 적용 (매월 −24,000원)</span>
-        </label>
-        <!-- select 가 배타 선택을 이미 강제하므로 화면에는 띄우지 않는다.
-             JS 가 값을 쓰므로 요소는 남긴다. -->
-        <p class="mhint" id="mPromoHint" hidden></p>
-      </div>
-
-      <div class="mfield">
-        <label>성함</label>
-        <input type="text" id="fName" placeholder="성함을 입력해주세요" autocomplete="name">
-      </div>
-      <div class="mfield">
-        <label>연락처</label>
-        <div class="telrow">
-          <span class="fixed">010</span>
-          <input type="tel" id="fT2" placeholder="0000" maxlength="4" inputmode="numeric">
-          <input type="tel" id="fT3" placeholder="0000" maxlength="4" inputmode="numeric">
-        </div>
-      </div>
-
-      <div class="magree">
-        <label class="ag"><input type="checkbox" id="agA">
-          <span><b>[필수]</b> 개인정보 수집·이용 동의</span>
-          <button type="button" class="agv" data-d="dA">보기</button></label>
-        <div class="agd" id="dA">
-          수집항목: 성명, 연락처, 생년월일, 성별, 설치 주소, 신청 조건(제품·약정·관리방식)<br>
-          <b>주민등록번호 등 고유식별정보는 수집하지 않습니다.</b><br>
-          이용목적: 정수기 렌탈 상담 및 신청 처리<br>
-          보유기간: <b>상담 종료 후 즉시 파기</b> (계약 성립 시 관계 법령에 따라 보관)<br>
-          동의를 거부하실 수 있으며, 거부 시 상담 신청이 제한됩니다.
-        </div>
-
-        <label class="ag"><input type="checkbox" id="agB">
-          <span><b>[필수]</b> 제3자 제공 동의</span>
-          <button type="button" class="agv" data-d="dB">보기</button></label>
-        <div class="agd" id="dB">
-          제공받는 자: <b>코웨이(주)</b> 및 설치·상담 위탁 판매점<br>
-          제공목적: 렌탈 계약 체결, 제품 설치 및 사후관리 (설치 주소는 방문 설치에 이용)<br>
-          제공항목: 성명, 연락처, 생년월일, 성별, 설치 주소, 신청 조건<br>
-          보유기간: 제공목적 달성 시까지<br>
-          동의를 거부하실 수 있으며, 거부 시 신청 처리가 제한됩니다.
-        </div>
-
-        <label class="ag"><input type="checkbox" id="agC">
-          <span>[선택] 광고성 정보 수신 동의</span>
-          <button type="button" class="agv" data-d="dC">보기</button></label>
-        <div class="agd" id="dC">
-          혜택·프로모션 안내를 문자로 보내드립니다. <b>동의하지 않아도 신청에는 영향이 없습니다.</b>
-        </div>
-      </div>
-
-      <button type="button" class="msubmit" id="mSubmit"><i class="sbdg" id="mSubBdg" hidden></i><span id="mSubTxt">신청하기</span></button>
-      <p class="merr" id="mErr"></p>
-      <p class="mfoot">
-        코웨이 제품을 취급하는 판매점입니다.<br>
-        상호 <b>홈펠릭스</b> · 사업자등록번호 872-75-00325 · 대표번호 <b>010-2606-6052</b>
-      </p>
-    </div>
-
-    <!-- STEP 2 : 접수 후 추가정보 (즉시신청 전용) -->
-    <div class="mstep" id="step2" hidden>
-      <div class="prog">
-        <span class="done">✓ 신청 접수</span>
-        <i></i>
-        <span class="now">추가 정보</span>
-      </div>
-      <p class="mkicker" style="color:#03c75a">거의 다 됐어요</p>
-      <h3 class="mtitle">네이버페이 <em>30,000원</em><br>받으실 정보만 남았어요</h3>
-      <p class="mlead">신청은 이미 접수됐습니다. 아래 3가지는 <b>설치 가능 지역 확인</b>과 <b>포인트 지급 안내</b>에만 사용됩니다.<br>포인트는 <b>설치 완료 후</b> 문자로 보내드립니다.</p>
-
-      <div class="mfield">
-        <label>설치 주소</label>
-        <div class="addrtop">
-          <input type="text" id="fZip" placeholder="우편번호" readonly>
-          <button type="button" class="addrbtn" id="btnAddr">주소 검색</button>
-        </div>
-        <input type="text" id="fAddr1" class="addrin" placeholder="주소 검색 버튼을 눌러주세요" readonly>
-        <input type="text" id="fAddr2" class="addrin" placeholder="상세주소 (동·호수)">
-        <p class="mhint" id="addrHint">설치 가능 지역 확인과 방문 일정 조율에 사용됩니다</p>
-
-        <!-- 카카오(다음) 우편번호 embed 레이어 -->
-        <div class="addrlayer" id="addrLayer">
-          <div class="albar">
-            <b>주소 검색</b>
-            <button type="button" class="alx" id="addrClose" aria-label="닫기">✕</button>
-          </div>
-          <div class="albody" id="addrBody"></div>
-        </div>
-      </div>
-
-      <div class="mfield">
-        <label>생년월일 · 성별</label>
-        <div class="bdrow">
-          <input type="tel" id="fBirth" placeholder="19900101" maxlength="8" inputmode="numeric">
-          <div class="pills p2" id="mSex">
-            <button type="button" data-v="남">남</button>
-            <button type="button" data-v="여">여</button>
-          </div>
-        </div>
-        <p class="mhint">렌탈 접수 시 필요한 정보입니다 · <b>주민등록번호는 받지 않습니다</b></p>
-      </div>
-
-      <button type="button" class="msubmit" id="mSubmit2">입력 완료하고 30,000원 받기</button>
-      <p class="merr" id="mErr2"></p>
-      <button type="button" class="mskip" id="mSkip">나중에 상담원에게 알려줄게요 →</button>
-    </div>
-
-    <!-- STEP 3 : 완료 -->
-    <div class="mstep" id="step3" hidden>
-      <div class="done">
-        <div class="dchk">✓</div>
-        <h3>신청이 접수되었습니다</h3>
-        <p class="dsub" id="dSub">담당자가 곧 연락드릴게요</p>
-      </div>
-      <ol class="tl">
-        <li class="on"><b>신청 접수</b><span>방금 완료</span></li>
-        <li><b>전화 상담</b><span>조건·모델 최종 확인 (1회)</span></li>
-        <li><b>설치일 지정</b><span>원하시는 날짜로</span></li>
-        <li><b>설치 &amp; 혜택 제공</b><span>설치 확인 후 제공</span></li>
-      </ol>
-      <div class="dbox" id="dNpay">
-        <b>💚 네이버페이 30,000원</b>
-        <span><b>확인 전화는 1회</b>면 끝납니다.<br>설치 완료 후 혜택과 함께 문자로 보내드립니다.</span>
-      </div>
-      <button type="button" class="msubmit ghost" data-close>확인</button>
-    </div>
-
-  </div>
-</div>
-
 <script>
 /* ── 실시간 열람 수 ── */
 (function () {
@@ -1070,591 +713,6 @@ src="https://www.facebook.com/tr?id=1585655816688828&ev=PageView&noscript=1"/></
   put("cntDone", TOTAL - remain);
 })();
 
-/* ── 제품 데이터 (빌리고 26.09 코웨이 시트 · 7년 약정 기준) ── */
-/* 정렬 = 코웨이 누적구매 순위 우선 (coway-shop 기준: 아이콘3 냉온 1위, 얼음 미니 2위) */
-var PRODUCTS = [
-  { code:"CHP-7220N",  name:"아이콘3 냉온정수기", short:"아이콘3 냉온", tag:"인기 1위" },
-  { code:"CHPI-7430N", name:"아이콘 얼음 미니 냉온정수기", short:"얼음 미니 냉온", tag:"인기 2위" },
-  { code:"CHP-7212N",  name:"아이콘 프로 냉온정수기", short:"아이콘 프로 냉온" },
-  { code:"CHPI-7400N", name:"아이콘 얼음 냉온정수기", short:"얼음 냉온" },
-  { code:"CP-7220N",   name:"아이콘3 냉정수기", short:"아이콘3 냉정" },
-  { code:"CHPI-7420N", name:"아이콘 얼음 맥스 냉온정수기", short:"얼음 맥스 냉온" },
-  { code:"CHPI-7410N", name:"아이콘 스탠다드 얼음 냉온정수기", short:"스탠다드 얼음 냉온" },
-  { code:"CPI-7400N",  name:"아이콘 얼음 냉정수기", short:"얼음 냉정" },
-  { code:"CPI-7410N",  name:"아이콘 스탠다드 얼음 냉정수기", short:"스탠다드 얼음 냉정" },
-  { code:"CHP-7211N",  name:"아이콘2 냉온정수기", short:"아이콘2 냉온" },
-  { code:"CP-7211N",   name:"아이콘2 냉정수기", short:"아이콘2 냉정" },
-
-  /* ── 사무실·매장용 대형 스탠드. 가정용과 성격이 달라 목록 맨 뒤에 둔다.
-        넷 다 반값할인·자가관리가 없고 약정도 3/5/6년뿐이다. ── */
-  { code:"CHP-5720L",  name:"프라임 스탠드 냉온정수기", short:"프라임 스탠드", big:true },
-  { code:"CHPI-5820L", name:"아이스 스탠드 3.0 얼음 냉온정수기", short:"아이스 스탠드", big:true },
-  { code:"CHPI-5801L", name:"듀얼냉각 대용량 얼음 냉온정수기", short:"듀얼냉각 대용량", big:true },
-  { code:"CHP-700L",   name:"물탱크 냉온정수기", short:"물탱크 냉온", big:true }
-];
-
-/* 제품 상세 이미지 — onzib.com 상품상세정보 원본을 그대로 부른다.
-   제품마다 한두 장이 앞·뒤로 이어지는 한 벌이고, 페이지에 놓인 순서다.
-   복사본을 두지 않는 이유: 11종이 24.2MB 라 배포가 3.4배로 뛴다.
-   onzib.com 이 우리 사이트이고 CDN 이 8시간 캐시로 바로 주므로 그대로 쓴다.
-   대신 못 불러오는 경우를 대비해 팝업에 안내와 원본 링크를 둔다. */
-var DETAIL = {
-  "CHP-5720L": ["https://storage.bilrigo.com/data/editor/2301/740c493aa65b1911080c01192469ba29_1672634382_1151.jpg", "https://storage.bilrigo.com/data/editor/2301/740c493aa65b1911080c01192469ba29_1672634382_1918.jpg"],
-  "CHP-700L": ["https://storage.bilrigo.com/data/editor/2012/b13e917131d9071021efaafd3c3973f2_1609117174_1725.jpg"],
-  "CHPI-5820L": ["https://storage.bilrigo.com/data/editor/2603/b03ae815254496be8cee459e7d125a52_1774585380_454.jpg"],
-  "CHPI-5801L": ["https://storage.bilrigo.com/data/editor/2511/e1f64bcd864cc14f1a498b01337e9408_1764203775_752.jpg"],
-  "CHP-7220N": ["https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863722_274.jpg", "https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863722_8019.jpg"],
-  "CHPI-7430N": ["https://storage.bilrigo.com/data/editor/2507/11d561a208dda6754723f5896d0ee30d_1753334475_1731.jpg", "https://storage.bilrigo.com/data/editor/2507/11d561a208dda6754723f5896d0ee30d_1753334475_3739.jpg"],
-  "CHP-7212N": ["https://storage.bilrigo.com/data/editor/2505/f9bc1e294565bb87736b6b128ca41176_1747269436_782.jpg"],
-  "CHPI-7400N": ["https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716509_2337.jpg", "https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716509_7706.jpg"],
-  "CP-7220N": ["https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863403_743.jpg", "https://storage.bilrigo.com/data/editor/2602/70bb5da94ac44a03e2b670708f08c71e_1770863403_9516.jpg"],
-  "CHPI-7420N": ["https://storage.bilrigo.com/data/editor/2508/f8260eea14af6ff4bb7a5b664742dfa7_1755735549_4385.jpg", "https://storage.bilrigo.com/data/editor/2508/f8260eea14af6ff4bb7a5b664742dfa7_1755735549_9934.jpg"],
-  "CHPI-7410N": ["https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047419_8137.jpg", "https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047422_3899.jpg"],
-  "CPI-7400N": ["https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716345_6904.jpg", "https://storage.bilrigo.com/data/editor/2505/2fa3fe34bd2b771a7e9127ea66cd8d64_1747716346_2201.jpg"],
-  "CPI-7410N": ["https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047552_558.jpg", "https://storage.bilrigo.com/data/editor/2507/13a36a4fb3a0dffc9265cbe473cc1937_1752047555_4645.jpg"],
-  "CHP-7211N": ["https://storage.bilrigo.com/data/editor/2605/5f8874aa11c05f67dcf867db8f74e39e_1779071004_2895.jpg"],
-  "CP-7211N": ["https://storage.bilrigo.com/data/editor/2606/b8b2fe9ac224ddf81deb89e88fac2c8e_1780288605_0802.jpg"]
-};
-
-/* 약정 × 관리방식별 월 렌탈료 (hm = 반값 적용 개월수)
-   hm 이 없으면 그 제품은 반값할인 대상이 아니다. */
-var PLANS = {
-  /* 사무실용 대형 스탠드 — onzib.com 상세에서 조합별로 읽은 값. 7년 약정 없음. */
-  "CHP-5720L":  { "36":{v2:51900, v4:48900}, "60":{v2:49400, v4:46400}, "72":{v2:47900, v4:44900} },
-  "CHPI-5820L": { "36":{v2:61400, v4:58400}, "60":{v2:58400, v4:55400}, "72":{v2:56400, v4:53400} },
-  "CHPI-5801L": { "36":{v2:59900}, "60":{v2:57400}, "72":{v2:55900} },
-  "CHP-700L":   { "36":{v2:64100}, "60":{v2:61600}, "72":{v2:60100} },
-
-  "CP-7211N":  { "36":{v4:35900,self:32900,hm:6},  "60":{v4:32900,self:29900,hm:6},  "72":{v4:30900,self:27900,hm:18}, "84":{v4:28900,self:25900,hm:18} },
-  "CP-7220N":  { "36":{v4:36900,self:33900,hm:6},  "60":{v4:33900,self:30900,hm:6},  "72":{v4:31900,self:28900,hm:18}, "84":{v4:29900,self:26900,hm:18} },
-  "CHP-7220N": { "36":{v4:38900,self:35900,hm:6},  "60":{v4:35900,self:32900,hm:6},  "72":{v4:33900,self:30900,hm:18}, "84":{v4:31900,self:28900,hm:18} },
-  "CHP-7211N": { "36":{v4:37900,self:34900,hm:6},  "60":{v4:34900,self:31900,hm:6},  "72":{v4:32900,self:29900,hm:18}, "84":{v4:30900,self:27900,hm:18} },
-  "CHP-7212N": { "36":{v4:39900,self:36900,hm:6},  "60":{v4:36900,self:33900,hm:6},  "72":{v4:34900,self:31900,hm:12}, "84":{v4:32900,self:29900,hm:12} },
-  "CHPI-7430N":{ "36":{v2:52900,v4:49900,self:47900,hm:3}, "60":{v2:49900,v4:46900,self:44900,hm:6}, "72":{v2:47900,v4:44900,self:42900,hm:18}, "84":{v2:45900,v4:42900,self:40900,hm:18} },
-  "CPI-7400N": { "36":{v2:50900,v4:47900,hm:3},    "60":{v2:47400,v4:44400,hm:6},    "72":{v2:45900,v4:42900,hm:18},   "84":{v2:44400,v4:41400,hm:18} },
-  "CPI-7410N": { "36":{v2:52900,v4:49900,hm:3},    "60":{v2:48900,v4:45900,hm:6},    "72":{v2:46900,v4:43900,hm:18},   "84":{v2:44900,v4:41900,hm:18} },
-  "CHPI-7400N":{ "36":{v2:54900,v4:51900,hm:3},    "60":{v2:51400,v4:48400,hm:6},    "72":{v2:49900,v4:46900,hm:18},   "84":{v2:48400,v4:45400,hm:18} },
-  "CHPI-7410N":{ "36":{v2:56900,v4:53900,hm:3},    "60":{v2:52900,v4:49900,hm:6},    "72":{v2:50900,v4:47900,hm:18},   "84":{v2:48900,v4:45900,hm:18} },
-  "CHPI-7420N":{ "36":{v2:60900,v4:57900,hm:3},    "60":{v2:56900,v4:53900,hm:6},    "72":{v2:53900,v4:50900,hm:18},   "84":{v2:51900,v4:48900,hm:18} }
-};
-/* 약정 × 관리방식별 현금 지원금 (반값 미적용)
-   = 수수료 ÷ 1.1 − 리드 100,000 − 네이버페이 30,000 − 목표이익 70,000, 만원 절사
-   ※ 상한 300,000. 방문관리는 수수료가 커서 지원금도 1~2만원 높다. */
-var SUP_TERM = {
-  "CHP-5720L": { 36:{v2:210000, v4:210000}, 60:{v2:230000, v4:230000}, 72:{v2:300000, v4:300000} },
-  "CHPI-5820L": { 36:{v2:230000, v4:230000}, 60:{v2:260000, v4:260000}, 72:{v2:300000, v4:300000} },
-  "CHPI-5801L": { 36:{v2:230000}, 60:{v2:260000}, 72:{v2:300000} },
-  "CHP-700L": { 36:{v2:240000}, 60:{v2:260000}, 72:{v2:300000} },
-  "CHP-7220N":   { 36:{self:170000, v4:190000}, 60:{self:240000, v4:260000}, 72:{self:290000, v4:300000}, 84:{self:290000, v4:300000} },
-  "CHPI-7430N":  { 36:{self:200000, v4:210000, v2:210000}, 60:{self:230000, v4:240000, v2:240000}, 72:{self:300000, v4:300000, v2:300000}, 84:{self:300000, v4:300000, v2:300000} },
-  "CHP-7212N":   { 36:{self:180000, v4:190000}, 60:{self:200000, v4:210000}, 72:{self:260000, v4:270000}, 84:{self:260000, v4:270000} },
-  "CHPI-7400N":  { 36:{v4:210000, v2:220000}, 60:{v4:240000, v2:250000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
-  "CP-7220N":    { 36:{self:170000, v4:180000}, 60:{self:240000, v4:250000}, 72:{self:290000, v4:300000}, 84:{self:290000, v4:300000} },
-  "CHPI-7420N":  { 36:{v4:220000, v2:230000}, 60:{v4:250000, v2:260000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
-  "CHPI-7410N":  { 36:{v4:210000, v2:220000}, 60:{v4:240000, v2:250000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
-  "CPI-7400N":   { 36:{v4:200000, v2:210000}, 60:{v4:230000, v2:240000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
-  "CPI-7410N":   { 36:{v4:210000, v2:210000}, 60:{v4:240000, v2:240000}, 72:{v4:300000, v2:300000}, 84:{v4:300000, v2:300000} },
-  "CHP-7211N":   { 36:{self:170000, v4:180000}, 60:{self:190000, v4:200000}, 72:{self:240000, v4:260000}, 84:{self:240000, v4:260000} },
-  "CP-7211N":    { 36:{self:160000, v4:170000}, 60:{self:180000, v4:190000}, 72:{self:230000, v4:240000}, 84:{self:230000, v4:240000} }
-};
-/* 반값할인을 함께 적용했을 때. 아이콘 계열은 반값 시 수수료가 줄어 지원금도 낮아지지만,
-   아이콘3(전략상품)만 반대로 커진다.
-   ※ 상한 340,000 — 히어로 이미지의 "최대 34만원"과 맞춘 값이다.
-     산식상으로는 아이콘3 방문관리가 36만원까지 나오지만 광고 문구를 넘지 않게 자른다. */
-var SUP_TERM_HALF = {
-  "CHP-7220N":   { 36:{self:120000, v4:140000}, 60:{self:290000, v4:310000}, 72:{self:340000, v4:340000}, 84:{self:340000, v4:340000} },
-  "CHPI-7430N":  { 36:{self:150000, v4:150000, v2:150000}, 60:{self:180000, v4:180000, v2:180000}, 72:{self:230000, v4:240000, v2:240000}, 84:{self:230000, v4:240000, v2:240000} },
-  "CHP-7212N":   { 36:{self:130000, v4:140000}, 60:{self:150000, v4:160000}, 72:{self:200000, v4:210000}, 84:{self:200000, v4:210000} },
-  "CHPI-7400N":  { 36:{v4:150000, v2:160000}, 60:{v4:180000, v2:190000}, 72:{v4:240000, v2:250000}, 84:{v4:240000, v2:250000} },
-  "CP-7220N":    { 36:{self:120000, v4:130000}, 60:{self:290000, v4:300000}, 72:{self:340000, v4:340000}, 84:{self:340000, v4:340000} },
-  "CHPI-7420N":  { 36:{v4:160000, v2:170000}, 60:{v4:190000, v2:200000}, 72:{v4:250000, v2:260000}, 84:{v4:250000, v2:260000} },
-  "CHPI-7410N":  { 36:{v4:150000, v2:160000}, 60:{v4:180000, v2:190000}, 72:{v4:240000, v2:250000}, 84:{v4:240000, v2:250000} },
-  "CPI-7400N":   { 36:{v4:150000, v2:150000}, 60:{v4:180000, v2:180000}, 72:{v4:230000, v2:240000}, 84:{v4:230000, v2:240000} },
-  "CPI-7410N":   { 36:{v4:150000, v2:150000}, 60:{v4:180000, v2:180000}, 72:{v4:240000, v2:240000}, 84:{v4:240000, v2:240000} },
-  "CHP-7211N":   { 36:{self:120000, v4:130000}, 60:{self:140000, v4:150000}, 72:{self:190000, v4:200000}, 84:{self:190000, v4:200000} },
-  "CP-7211N":    { 36:{self:110000, v4:120000}, 60:{self:130000, v4:140000}, 72:{self:180000, v4:190000}, 84:{self:180000, v4:190000} }
-};
-var supOf = function (code, term, cyc, half) {
-  var t = (half ? SUP_TERM_HALF : SUP_TERM)[code];
-  if (!t) return 0;
-  var row = t[term];
-  if (!row) {                        /* 그 약정이 없으면 가장 긴 약정으로 */
-    var ks = Object.keys(t).sort(function (a, b) { return +b - +a; });
-    row = t[ks[0]];
-  }
-  if (!row) return 0;
-  /* 그 제품에 없는 관리방식이면 가능한 것 중 가장 낮은 쪽으로 (과다 안내 방지) */
-  if (row[cyc] != null) return row[cyc];
-  var av = ['self', 'v4', 'v2'].filter(function (k) { return row[k] != null; });
-  return av.length ? row[av[0]] : 0;
-};
-
-/* 제품별 색상. 가격에는 영향이 없어 계산에는 쓰지 않고, 고른 값만
-   상담에 넘긴다 — 전화에서 색을 다시 묻지 않아도 되게. */
-var COLORS = {
-  "CP-7220N": ["블룸 핑크", "씨엘 블루", "크림 베이지", "페블 그레이", "퓨어 화이트", "플래티넘 실버"],
-  "CHP-7220N": ["블룸 핑크", "씨엘 블루", "크림 베이지", "페블 그레이", "퓨어 화이트", "플래티넘 실버"],
-  "CHP-7212N": ["포슬린 화이트", "아이언 실버", "페블 블랙", "브론즈 베이지", "아이시 블루"],
-  "CHPI-7430N": ["아이스 화이트", "아이스 블루", "아이스 핑크", "아이스 그레이", "아이스 베이지"],
-  "CPI-7400N": ["아이스 화이트", "아이스 블루", "아이스 핑크", "아이스 그레이"],
-  "CPI-7410N": ["아이스 화이트", "아이스 그레이", "아이스 블루", "아이스 핑크"],
-  "CHPI-7400N": ["아이스 화이트", "아이스 블루", "아이스 핑크", "아이스 그레이"],
-  "CHPI-7410N": ["아이스 화이트", "아이스 그레이", "아이스 블루", "아이스 핑크"],
-  "CHPI-7420N": ["아이스 화이트", "아이스 그레이", "아이스 블루"],
-  "CHP-7211N": ["퓨어 화이트", "플래티넘 실버", "페블 그레이", "블룸 핑크", "크림 베이지", "씨엘 블루"],
-  "CP-7211N": ["퓨어 화이트", "블룸 핑크", "크림 베이지", "플래티넘 실버", "씨엘 블루"],
-  "CHPI-5820L": ["포슬린 화이트", "페블 그레이"],
-  "CHPI-5801L": ["화이트", "블랙"]
-};
-
-var CYCLE_LABEL = { v2:"방문관리 · 2개월", v4:"방문관리 · 4개월", self:"자가관리" };
-var CYCLE_DESC = {
-  v2:"전문 매니저가 2개월마다 방문해 점검·관리해요",
-  v4:"전문 매니저가 4개월마다 방문해 점검·관리해요",
-  self:"필터를 배송받아 직접 교체 · 렌탈료가 가장 저렴해요"
-};
-var won = function (n) { return n.toLocaleString("ko-KR"); };
-
-(function () {
-  var sel     = document.getElementById("calcProd");
-  var termSel = document.getElementById("calcTerm");
-  var cycleSel= document.getElementById("calcCycle");
-  var chk     = document.getElementById("calcCard");
-  var half    = document.getElementById("calcHalf");
-  var tasa    = document.getElementById("calcTasa");
-  var out     = document.getElementById("calcOut");
-  var supOut  = document.getElementById("calcSup");
-  var supNote = document.getElementById("supNote");
-  var halfNote= document.getElementById("halfNote");
-  var halfM   = document.getElementById("halfM");
-  var halfAfter=document.getElementById("halfAfter");
-  var CARD_DC = 24000;
-  var halfWanted = false;
-
-  /* 인기 상위 2종을 별도 그룹으로 올려 먼저 보이게 함 */
-  var gTop = document.createElement("optgroup");
-  gTop.label = "🔥 코웨이 누적 판매 상위";
-  var gRest = document.createElement("optgroup");
-  gRest.label = "그 외 전체 모델";
-  PRODUCTS.forEach(function (p, i) {
-    var o = document.createElement("option");
-    o.value = i;
-    o.textContent = p.name.replace(/^아이콘 /, "");
-    (p.tag ? gTop : gRest).appendChild(o);
-  });
-  sel.appendChild(gTop);
-  sel.appendChild(gRest);
-  /* 목록에 없는 제품 — 선택 시 문의 모달 */
-  var gAsk = document.createElement("optgroup");
-  gAsk.label = "─────────";
-  var oAsk = document.createElement("option");
-  oAsk.value = "ask";
-  oAsk.textContent = "＋ 찾는 제품이 없어요";
-  gAsk.appendChild(oAsk);
-  sel.appendChild(gAsk);
-  sel.value = 0; /* 아이콘3 냉온 — 코웨이 정수기 누적 판매 1위 */
-  var lastProd = "0";
-
-  /* 제품별 약정 옵션 구성. 대형 스탠드 4종은 7년 약정이 없어서,
-     셀렉트에 7년을 그대로 두면 없는 요금을 읽게 된다. */
-  var buildTerms = function () {
-    var rows = PLANS[PRODUCTS[+sel.value].code];
-    var avail = Object.keys(rows).sort(function (a, b) { return +a - +b; });
-    var prev = termSel.value, last = avail[avail.length - 1];
-    termSel.innerHTML = "";
-    avail.forEach(function (t) {
-      var o = document.createElement("option");
-      o.value = t;
-      o.textContent = (t / 12) + "년" + (t === last ? " · 최저가" : "");
-      termSel.appendChild(o);
-    });
-    termSel.value = avail.indexOf(prev) > -1 ? prev : last;
-  };
-
-  /* 제품별 관리방식 옵션 구성 (저렴한 순 → 첫 항목이 기본) */
-  /* 색상은 제품마다 가짓수가 달라 매번 다시 만든다. 없는 제품은 줄째로 감춘다
-     (프라임 스탠드·물탱크는 색상 선택이 없다). */
-  var colorSel = document.getElementById("calcColor");
-  var colorRow = document.getElementById("colorRow");
-  var buildColors = function () {
-    var list = COLORS[PRODUCTS[+sel.value].code] || [];
-    var prev = colorSel.value;
-    colorSel.innerHTML = "";
-    list.forEach(function (nm) {
-      var o = document.createElement("option");
-      o.value = nm; o.textContent = nm;
-      colorSel.appendChild(o);
-    });
-    colorRow.style.display = list.length ? "" : "none";
-    /* 기본은 화이트. 아이콘3 냉온·냉정은 목록 첫 항목이 "블룸 핑크" 라
-       인기 1위 제품의 첫 화면이 분홍으로 뜨고 있었다. 화이트를 가장 많이
-       고르므로 목록 순서와 상관없이 화이트가 든 항목을 먼저 잡는다.
-       고르던 색이 새 제품에도 있으면 그건 그대로 둔다. */
-    var white = "";
-    for (var wi = 0; wi < list.length; wi++) {
-      if (list[wi].indexOf("화이트") > -1) { white = list[wi]; break; }
-    }
-    colorSel.value = list.indexOf(prev) > -1 ? prev : (white || list[0] || "");
-  };
-
-  var buildCycles = function () {
-    var p = PRODUCTS[+sel.value], rows = PLANS[p.code];
-    var plan84 = rows[termSel.value] ||
-                 rows[Object.keys(rows).sort(function (a, b) { return +b - +a; })[0]];
-    var avail = Object.keys(plan84).filter(function (k) { return k !== "hm"; });
-    avail.sort(function (a, b) { return plan84[a] - plan84[b]; });
-    var prev = cycleSel.value;
-    cycleSel.innerHTML = "";
-    avail.forEach(function (k) {
-      var o = document.createElement("option");
-      o.value = k; o.textContent = CYCLE_LABEL[k];
-      cycleSel.appendChild(o);
-    });
-    ["self", "v4", "v2"].forEach(function (k) {
-      if (avail.indexOf(k) === -1) {
-        var o = document.createElement("option");
-        o.value = ""; o.disabled = true;
-        o.textContent = CYCLE_LABEL[k] + " (미지원)";
-        cycleSel.appendChild(o);
-      }
-    });
-    cycleSel.value = avail.indexOf(prev) > -1 ? prev : avail[0];
-  };
-
-  var update = function () {
-    var p = PRODUCTS[+sel.value];
-    var plan = PLANS[p.code][termSel.value];
-    var rent = plan[cycleSel.value];
-
-    /* 반값할인이 없는 제품(대형 스탠드 4종)은 체크를 끄고 잠근다.
-       켜 둔 채로 두면 있지도 않은 할인으로 절반 금액이 나온다. */
-    var canHalf = plan.hm != null;
-    if (!canHalf) {
-      if (half.checked) { halfWanted = true; half.checked = false; }
-    } else if (halfWanted) { half.checked = true; halfWanted = false; }
-    half.disabled = !canHalf;
-    var hl = document.querySelector('label[for="calcHalf"]');
-    if (hl) hl.style.opacity = canHalf ? "" : ".45";
-    /* 적용 순서: ① 반값 or 타사보상(렌탈료 자체를 깎음) → ② 제휴카드 청구할인
-       ※ 카드 청구할인은 그 달 청구액을 초과할 수 없다 (초과분은 이월·환급되지 않음) */
-    var base = rent;
-    if (half.checked) base = Math.round(rent / 2);
-    else if (tasa.checked) base = Math.round(rent * 0.9 / 10) * 10;
-    var cardUsed = chk.checked ? Math.min(CARD_DC, base) : 0;
-    var v = base - cardUsed;
-
-    out.innerHTML = won(v) + "<span>원</span>";
-    var sup = supOf(p.code, termSel.value, cycleSel.value, half.checked);
-    /* 옆에 나란히 두려고 만원 단위로 줄인다. 지원금은 만원 절사라
-       나머지가 없어 이 표기로 금액이 깎이지 않는다. */
-    supOut.innerHTML = !SUP_TERM[p.code] ? "상담 시 안내"
-      : (sup % 10000 === 0) ? (sup / 10000) + "<span>만원 상당</span>" : won(sup) + "<span>원 상당</span>";
-
-    /* "이후 월 ○○원" 은 제휴카드 할인을 이미 뺀 값이다. 카드가 없을 때 얼마인지
-       같은 자리에 적어 둔다 — 상담 전화에서 처음 듣게 하지 않는다. */
-    var pcNote = document.getElementById("payCard");
-    if (chk.checked && rent > 0) {
-      document.getElementById("payNoCard").textContent = won(rent);
-      pcNote.style.display = "";
-    } else { pcNote.style.display = "none"; }
-    var full = supOf(p.code, "84", cycleSel.value, half.checked);
-    supNote.textContent = (half.checked ? "반값할인 적용 기준 · " : "")
-      + (+termSel.value >= 72
-          ? "6년 이상 약정 · 최대 혜택"
-          : (termSel.value / 12) + "년 기준 · 6년 이상 시 " + won(full) + "원 상당");
-    document.getElementById("cycleDesc").textContent = CYCLE_DESC[cycleSel.value] || "";
-    syncPicks();
-    syncCardAmt();
-
-    /* 버튼에도 지금 조건의 숫자를 얹는다. 계산기와 버튼 사이가 멀어
-       "이 조건" 이 무슨 조건이었는지 흐려지고, 하단 고정 바로 들어온
-       사람은 계산 결과를 아예 못 본 채 버튼만 본다. */
-    var ctaPay = "월 " + won(v) + "원으로 시작하기";
-    var ctaSup = SUP_TERM[p.code]
-      ? "혜택 " + ((sup % 10000 === 0) ? (sup / 10000) + "만원" : won(sup) + "원") + " 상당"
-      : "";
-    [["ctaMain",  ctaPay],
-     ["ctaMainS", ctaPay],
-     ["ctaSub",   ctaSup ? ctaSup + " · 성함·연락처만 30초" : "성함·연락처만 · 약 30초"],
-     ["ctaSubS",  ctaSup]].forEach(function (r) {
-      var e = document.getElementById(r[0]);
-      if (e) e.textContent = r[1];
-    });
-
-    if (half.checked) {
-      var after = chk.checked ? Math.max(0, rent - CARD_DC) : rent;
-      halfM.textContent = plan.hm;
-      halfAfter.textContent = won(after);
-      halfNote.style.display = "";
-    } else {
-      halfNote.style.display = "none";
-    }
-  };
-
-  /* 제품 카드 — 전체 11종을 같은 모양으로 그린다.
-     기능(냉/온/얼음)은 코드 앞자리에서 읽는다. CHP=온수, 끝의 I=얼음.
-     금액은 비워 두고 syncCardAmt 가 조건에 맞춰 채운다. */
-  var strip = document.getElementById("picks");
-  strip.innerHTML = PRODUCTS.map(function (p, i) {
-    var pre = p.code.split("-")[0];
-    var ds = "정수 · 냉수" + (pre.indexOf("H") >= 0 ? " · 온수" : "")
-           + (pre.charAt(pre.length - 1) === "I" ? " · <em>얼음</em>" : "");
-    return '<button type="button" class="pick" data-i="' + i + '">'
-      + (p.tag ? '<span class="rk">' + p.tag + "</span>" : "")
-      + '<img src="/coway_2/img/' + p.code + '.png" alt="' + p.name + '" loading="lazy">'
-      + "<b>" + p.short + "</b>"
-      + '<span class="ds">' + ds + "</span>"
-      + '<div class="amt">'
-      +   '<div class="r"><span>월 납부액</span><b class="mp">–</b></div>'
-      +   '<div class="r s"><span>혜택</span><b class="ms">–</b></div>'
-      + "</div>"
-      + (DETAIL[p.code] ? '<span class="dbtn">상세보기 ›</span>' : "")
-      + "</button>";
-  }).join("");
-
-  /* 카드 한 장의 금액 — 지금 화면에 걸린 조건(약정·관리방식·할인) 그대로 계산한다.
-     계산식은 아래 결과 줄과 같은 것을 쓴다. 카드와 결과가 다른 식으로 돌면
-     같은 화면에서 두 숫자가 어긋난다.
-     그 제품이 지금 관리방식을 지원하지 않으면(얼음 계열은 자가관리가 없다)
-     그 제품에서 가능한 방식으로 대신 계산한다 — 셀렉트에서 고르면 어차피
-     buildCycles 가 같은 방식으로 보정한다. */
-  function cardAmt(code) {
-    var rows = PLANS[code];
-    var tkey = rows[termSel.value] ? termSel.value
-             : Object.keys(rows).sort(function (a, b) { return +b - +a; })[0];
-    var plan = rows[tkey];
-    var cyc = cycleSel.value;
-    if (plan[cyc] == null) {
-      cyc = ["self", "v4", "v2"].filter(function (k) { return plan[k] != null; })[0];
-    }
-    var rent = plan[cyc], base = rent;
-    /* 그 제품이 반값 대상일 때만 절반을 먹인다. hm 이 없으면 대상이 아니다. */
-    if (half.checked && plan.hm != null) base = Math.round(rent / 2);
-    else if (tasa.checked) base = Math.round(rent * 0.9 / 10) * 10;
-    return {
-      pay: base - (chk.checked ? Math.min(CARD_DC, base) : 0),
-      /* 반값이 없는 제품은 일반 표에서 찾는다. 반값 표를 뒤지면 0 이 나온다. */
-      sup: supOf(code, tkey, cyc, half.checked && plan.hm != null)
-    };
-  }
-  function syncCardAmt() {
-    if (!strip) return;
-    Array.prototype.forEach.call(strip.querySelectorAll(".pick"), function (b) {
-      var a = cardAmt(PRODUCTS[+b.dataset.i].code);
-      b.querySelector(".mp").textContent = won(a.pay) + "원";
-      /* 지원금은 만원 절사라 나머지가 없다. 카드 폭이 좁아 만원 단위로 줄인다. */
-      b.querySelector(".ms").innerHTML = !SUP_TERM[PRODUCTS[+b.dataset.i].code]
-        ? "상담 시"
-        : ((a.sup % 10000 === 0) ? (a.sup / 10000) + "만원" : won(a.sup) + "원") + "<i>상당</i>";
-    });
-  }
-
-  /* ── 제품 상세 팝업 ────────────────────────────────────
-     안드로이드에서는 팝업을 닫을 때 X 보다 뒤로가기를 먼저 누르는 사람이 많다.
-     열 때 이력을 하나 쌓고 popstate 에서 닫아, 뒤로가기가 "닫기" 가 되게 한다.
-     이 처리가 없으면 뒤로가기 한 번이 그대로 사이트 이탈이다. */
-  var dtl = document.getElementById("dtl"),
-      dtlBody = document.getElementById("dtlBody"), dtlOpen = false;
-  function openDetail(code) {
-    var list = DETAIL[code];
-    if (!list) return;
-    document.getElementById("dtlName").textContent = (prodByCode(code) || {}).name || "제품 상세";
-    dtlBody.innerHTML = '<p class="load">상세 정보를 불러오는 중…</p>';
-    dtlBody.scrollTop = 0;
-    dtlBody.innerHTML = "";
-    for (var i = 0; i < list.length; i++) {
-      var im = new Image();
-      im.alt = "";
-      /* 이미지는 onzib.com CDN 에서 온다. 못 받으면 화면이 비어 버리므로
-         그 자리에 안내와 원본 링크를 대신 세운다. */
-      im.onerror = (function (el) {
-        return function () {
-          var p = document.createElement("p");
-          p.className = "load";
-          p.innerHTML = '상세 이미지를 불러오지 못했습니다<br>'
-            + '<a href="https://onzib.com/" target="_blank" rel="noopener">onzib.com 에서 보기</a>';
-          if (el.parentNode) el.parentNode.replaceChild(p, el);
-        };
-      })(im);
-      im.src = list[i];                       /* 열 때 붙인다 = 안 열면 안 받는다 */
-      dtlBody.appendChild(im);
-    }
-    dtl.hidden = false;
-    document.documentElement.style.overflow = "hidden";
-    dtlOpen = true;
-    history.pushState({ dtl: 1 }, "");
-    step("3_상세보기");
-  }
-  function closeDetail(fromPop) {
-    if (!dtlOpen) return;
-    dtl.hidden = true;
-    dtlBody.innerHTML = "";                   /* 메모리도 같이 돌려준다 */
-    document.documentElement.style.overflow = "";
-    dtlOpen = false;
-    if (!fromPop) history.back();
-  }
-  function prodByCode(c) {
-    for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].code === c) return PRODUCTS[i];
-    return null;
-  }
-  document.getElementById("dtlX").addEventListener("click", function () { closeDetail(false); });
-  document.getElementById("dtlCta").addEventListener("click", function () {
-    closeDetail(false);                        /* 팝업을 겹치지 않고 넘긴다 */
-    /* 신청 모달을 여는 함수는 다른 스코프에 있다. 이미 바인딩된 버튼을
-       그대로 눌러 같은 경로로 보낸다 — 열리는 방식이 한 갈래로 유지된다. */
-    setTimeout(function () {
-      var t = document.querySelector(".cta-main") || document.querySelector(".cta-plain");
-      if (t) t.click();
-    }, 220);
-  });
-  window.addEventListener("popstate", function () {
-    if (dtlOpen) closeDetail(true);
-  });
-
-  /* 카드 ↔ 셀렉트 동기화 */
-  var picks = strip.querySelectorAll(".pick");
-  var syncPicks = function () {
-    var on = null;
-    Array.prototype.forEach.call(picks, function (b) {
-      var hit = +b.dataset.i === +sel.value;
-      b.classList.toggle("on", hit);
-      if (hit) on = b;
-    });
-    /* 셀렉트에서 제품을 바꿔도 그 사진이 보이게 줄을 옮긴다.
-       scrollIntoView 는 페이지까지 세로로 끌고 가므로 쓰지 않는다. */
-    if (on) strip.scrollTo({
-      left: Math.max(0, on.offsetLeft - (strip.clientWidth - on.offsetWidth) / 2),
-      behavior: "smooth"
-    });
-  };
-  Array.prototype.forEach.call(picks, function (b) {
-    b.addEventListener("click", function (ev) {
-      if (ev.target.closest && ev.target.closest(".dbtn")) {
-        openDetail(PRODUCTS[+b.dataset.i].code); return;
-      }
-      sel.value = b.dataset.i;
-      buildTerms(); buildCycles(); buildColors(); update();
-    });
-  });
-
-  /* 반값 ↔ 타사보상 중복 불가 (제휴카드와는 중복 가능) */
-  half.addEventListener("change", function () { if (half.checked) tasa.checked = false; update(); });
-  tasa.addEventListener("change", function () { if (tasa.checked) half.checked = false; update(); });
-  sel.addEventListener("change", function () {
-    step("1_계산기조작");
-    if (sel.value === "ask") {
-      sel.value = lastProd;                 /* 계산기는 직전 제품 유지 */
-      if (window.openAskModal) window.openAskModal();
-      return;
-    }
-    lastProd = sel.value;
-    buildTerms(); buildCycles(); buildColors(); update();
-  });
-  termSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
-  cycleSel.addEventListener("change", function () { step("1_계산기조작"); update(); });
-  chk.addEventListener("change", function () { step("1_계산기조작"); update(); });
-
-  buildTerms();
-  buildCycles();
-  buildColors();
-  update();
-})();
-
-/* ── 제휴카드 상세 데이터 (onzib.com 실데이터, 2026-08 기준) ── */
-var NOTE_A = "코웨이 렌탈료 면제 프로모션 고객은 면제 회차에 청구할인 혜택 미적용";
-var NOTE_B = "카드 발급 후 코웨이 고객센터 1588-5200 전화하여 제품 자동이체 등록 필수";
-var NOTE_C = "제휴카드 관련 문의는 해당 카드사 고객센터로 문의";
-/* base = 전월실적 30만원 기준 할인액 (목록 표시값) */
-var CARD_DATA = [
-  { img:"card_coway_12", name:"코웨이 신한카드", base:"24,000원", max:"30,000원",
-    tiers:[["전월실적 30만원 이상","24,000원","기본 13,000원 + 프로모션 11,000원"],["전월실적 70만원 이상","24,000원","기본 17,000원 + 프로모션 7,000원"],["전월실적 150만원 이상","30,000원",""]],
-    fee:"국내전용 27,000원 / 국내외겸용 30,000원", apply:"1833-6013 전화신청 또는 온라인신청",
-    promo:"60개월간 최대 1.1만원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
-  { img:"card_coway_13", name:"코웨이 ICON 우리카드", base:"24,000원", max:"30,000원",
-    tiers:[["전월실적 30만원 이상","24,000원","기본 13,000원 + 프로모션 11,000원"],["전월실적 80만원 이상","24,000원","기본 17,000원 + 프로모션 7,000원"],["전월실적 150만원 이상","30,000원","기본 23,000원 + 프로모션 7,000원"]],
-    fee:"국내외겸용 25,000원", apply:"1800-0859 전화신청",
-    promo:"60개월간 최대 11,000원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
-  { img:"card_coway_08", name:"코웨이 삼성카드", base:"22,000원", max:"26,000원",
-    tiers:[["전월실적 30만원 이상","22,000원","기본 7,000원 + 프로모션 15,000원"],["전월실적 70만원 이상","24,000원","기본 10,000원 + 프로모션 14,000원"],["전월실적 120만원 이상","26,000원","기본 13,000원 + 프로모션 13,000원"]],
-    fee:"국내외겸용 15,000원", apply:"1588-7540 전화신청 또는 온라인신청",
-    promo:"60개월간 최대 1만 5천원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
-  { img:"card_coway_09", name:"코웨이 X LOCA 롯데카드", base:"21,000원", max:"25,000원",
-    tiers:[["전월실적 30만원 이상","21,000원","기본 13,000원 + 프로모션 8,000원"],["전월실적 70만원 이상","22,000원","기본 16,000원 + 프로모션 6,000원"],["전월실적 150만원 이상","25,000원",""]],
-    fee:"국내외겸용 20,000원", apply:"",
-    promo:"", notes:[NOTE_B, NOTE_C] },
-  { img:"card_coway_02", name:"NH농협 올원카드", base:"20,000원", max:"40,000원",
-    tiers:[["전월실적 30만원 이상","20,000원","기본 10,000원 + 캐시백 10,000원"],["전월실적 100만원 이상","25,000원","기본 15,000원 + 캐시백 10,000원"],["전월실적 200만원 이상","40,000원","기본 30,000원 + 캐시백 10,000원"]],
-    fee:"국내전용 10,000원 / 국내외겸용 12,000원", apply:"1644-2866 전화신청 또는 온라인신청",
-    promo:"60개월간 최대 1만원 추가 청구할인", notes:[NOTE_B, NOTE_C] },
-  { img:"card_coway_11", name:"마이 코웨이 하나카드", base:"13,000원", max:"25,000원",
-    tiers:[["전월실적 30만원 이상","13,000원",""],["전월실적 80만원 이상","18,000원",""],["전월실적 150만원 이상","25,000원",""]],
-    fee:"국내외겸용 25,000원", apply:"1588-1771 전화신청",
-    promo:"", notes:[NOTE_B, NOTE_C] },
-  { img:"card_coway_04", name:"코웨이 IBK카드", base:"13,000원", max:"23,000원",
-    tiers:[["전월실적 30만원 이상","13,000원",""],["전월실적 70만원 이상","17,000원",""],["전월실적 120만원 이상","23,000원",""]],
-    fee:"국내전용 12,000원 / 국내외겸용 15,000원", apply:"1566-0088 전화신청 또는 온라인신청",
-    promo:"", notes:[NOTE_B, NOTE_C] },
-  { img:"card_coway_01", name:"KB국민 코웨이Ⅱ 카드", base:"26,000원", max:"30,000원", cond:"전월실적 40만원 기준",
-    tiers:[["전월실적 40만원 이상","26,000원","기본 15,000원 + 프로모션 11,000원"],["전월실적 80만원 이상","30,000원","기본 20,000원 + 프로모션 10,000원"]],
-    fee:"국내외겸용 30,000원", apply:"1644-8388 전화신청 또는 온라인신청",
-    promo:"36개월간 최대 1만 1천원 추가 청구할인", notes:[NOTE_B, NOTE_C] },
-  { img:"card_coway_05", name:"현대카드 M Edition3", base:"25,000원", max:"30,000원", cond:"전월실적 50만원 기준",
-    tiers:[["전월실적 50만원 이상","25,000원","기본 15,000원 + 프로모션 10,000원"],["전월실적 100만원 이상","30,000원","기본 20,000원 + 프로모션 10,000원"]],
-    fee:"국내외겸용 30,000원", apply:"02-2655-5003 전화신청 또는 온라인신청",
-    promo:"36개월간 월 1만원 추가 청구할인", notes:[NOTE_A, NOTE_B, NOTE_C] },
-  { img:"card_coway_14", name:"코웨이 현대카드", base:"8,000원", max:"16,000원", cond:"전월실적 40만원 기준",
-    tiers:[["전월실적 40만원 이상","8,000원",""],["전월실적 80만원 이상","12,000원",""],["전월실적 120만원 이상","16,000원",""]],
-    fee:"국내외겸용 20,000원", apply:"1670-0443 전화신청 또는 온라인신청",
-    promo:"", notes:[NOTE_A, NOTE_B, NOTE_C] }
-];
-
-/* 카드 리스트 + 클릭 상세 렌더 */
-(function () {
-  var list = document.getElementById("cardList");
-  if (!list) return;
-  var SHOW = 4;
-  list.innerHTML = CARD_DATA.map(function (c, i) {
-    var tiers = c.tiers.map(function (t) {
-      return '<div class="tier"><span>' + t[0] + (t[2] ? "<small>" + t[2] + "</small>" : "")
-        + '</span><span class="amt2">' + t[1] + " 할인</span></div>";
-    }).join("");
-    var dtl = '<p class="lead">렌탈료 자동이체 시 최대 월 ' + c.max + ' 할인</p>'
-      + "<h5>실적 구간별 할인</h5>" + tiers
-      + "<h5>연회비</h5><p class='kv'>" + c.fee + "</p>"
-      + (c.apply ? "<h5>발급 신청</h5><p class='kv'>" + c.apply.replace(/(\d[\d-]{7,})/, '<a href="tel:$1">$1</a>') + "</p>" : "")
-      + (c.promo ? "<h5>신규발급 프로모션</h5><p class='kv'>" + c.promo + "</p>" : "")
-      + '<div class="notes">' + c.notes.map(function (n) { return "※ " + n; }).join("<br>") + "</div>";
-    return '<div class="carditem' + (i >= SHOW ? " extra" : "") + '">'
-      + '<div class="cardrow">'
-      + '<div class="face"><img src="/coway_2/img/card/' + c.img + '.png" alt="' + c.name + '" loading="lazy"></div>'
-      + '<div class="cn"><b>' + c.name + "</b><span>" + (c.cond || "전월실적 30만원 기준") + "</span></div>"
-      + '<div class="amt">월<b>−' + c.base + '</b></div><span class="arr">▼</span></div>'
-      + '<div class="carddtl">' + dtl + "</div></div>";
-  }).join("");
-
-  list.addEventListener("click", function (ev) {
-    var row = ev.target.closest(".cardrow");
-    if (!row) return;
-    var item = row.parentElement;
-    var wasOpen = item.classList.contains("open");
-    Array.prototype.forEach.call(list.querySelectorAll(".carditem.open"), function (x) {
-      x.classList.remove("open");
-    });
-    if (!wasOpen) item.classList.add("open");
-  });
-
-  var moreBtn = document.getElementById("cardMore");
-  moreBtn.addEventListener("click", function () {
-    var opened = list.classList.toggle("open-all");
-    moreBtn.textContent = opened ? "접기 ▲" : "제휴카드 " + (CARD_DATA.length - SHOW) + "개 더보기 ▼";
-    if (!opened) {
-      Array.prototype.forEach.call(list.querySelectorAll(".carditem.extra.open"), function (x) {
-        x.classList.remove("open");
-      });
-    }
-  });
-})();
-
 /* ── 실시간 신청자 현황 (시안 9와 동일 방식) ── */
 (function () {
   var body = document.getElementById("feedBody");
@@ -1663,9 +721,13 @@ var CARD_DATA = [
   var S2 = "은민영수진아현경희연정호라주성훈지원재석빈미란숙옥동철순";
   var pick = function (s) { return s[Math.floor(Math.random() * s.length)]; };
   var maskName = function () { return pick(S1) + "*" + pick(S2); };
-  var prodName = function () {
-    return PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)].name;
-  };
+  /* 계산기를 걷어내면서 PRODUCTS 가 없어졌다. 피드는 이름만 쓰므로
+     여기서 따로 갖는다 — 많이 나가는 순서. */
+  var PRODS = ["아이콘3 냉온정수기", "아이콘 얼음 미니 냉온정수기",
+    "아이콘 프로 냉온정수기", "아이콘 얼음 냉온정수기", "아이콘3 냉정수기",
+    "아이콘 얼음 맥스 냉온정수기", "아이콘 스탠다드 얼음 냉온정수기",
+    "아이콘 얼음 냉정수기", "아이콘2 냉온정수기", "아이콘2 냉정수기"];
+  var prodName = function () { return pick(PRODS); };
   var today = (function () {
     var d = new Date();
     return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
@@ -1728,315 +790,68 @@ function sendLead(payload, onOk, onFail) {
     });
 }
 
-/* ══════════ 신청 모달 ══════════ */
+/* ══════════ 신청 (인라인 폼) ══════════
+   26.09.15 — 계산기와 모달을 함께 걷어냈다. 고를 게 많으면 고르다 나간다.
+   성함·연락처만 받고 나머지는 확인 전화에서 듣는다. 시트에 보내는 키는
+   예전 그대로 두고 값만 비운다 — 열 순서를 건드리면 기존 행이 어긋난다. */
 (function () {
-  var modal = document.getElementById("modal");
-  var step1 = document.getElementById("step1"), step2 = document.getElementById("step2"), step3 = document.getElementById("step3");
   var elx = function (id) { return document.getElementById(id); };
-  var mode = "quick";   /* quick = 이벤트만 · instant = 즉시신청 · ask = 제품 문의 */
-  var askProduct = "";
-  var NPAY = 30000;     /* 네이버페이 포인트 — 현금 지원금과 별도로 추가 지급 */
+  var form = elx("apForm"), done = elx("apDone");
+  if (!form) return;
 
-  /* 계산기 현재 상태 읽기 */
-  var readCalc = function () {
-    var sel = elx("calcProd"), term = elx("calcTerm"), cyc = elx("calcCycle");
-    var p = PRODUCTS[+sel.value];
-    var half = elx("calcHalf").checked, tasa = elx("calcTasa").checked, card = elx("calcCard").checked;
-    var promo = half ? "half" : (tasa ? "tasa" : "none");
-    /* 카드 청구할인은 청구액 한도 내에서만 적용 */
-    var plan0 = PLANS[p.code][term.value];
-    var rent0 = plan0[cyc.value];
-    var base0 = half ? Math.round(rent0 / 2) : (tasa ? Math.round(rent0 * 0.9 / 10) * 10 : rent0);
-    var cardUsed = card ? Math.min(24000, base0) : 0;
-    var labels = [];
-    if (half) labels.push("반값할인");
-    if (tasa) labels.push("타사보상");
-    if (card) labels.push("제휴카드 −" + won(cardUsed) + "원");
-    return {
-      prod: p, code: p.code, name: p.name,
-      color: (elx("calcColor").value || ""),
-      sup: supOf(p.code, term.value, cyc.value, half),
-      term: term.value, cycle: cyc.value,
-      cycleLabel: CYCLE_LABEL[cyc.value] || "-",
-      half: half, tasa: tasa, card: card, promo: promo,
-      promoLabel: labels.length ? labels.join(" + ") : "없음",
-      pay: elx("calcOut").textContent.replace(/[^0-9,]/g, "")
-    };
-  };
-
-  /* 프로모션 pill ↔ 계산기 체크박스 동기화 */
-  var syncPromoPills = function (promo) {
-    elx("mPromo").value = promo;
-    elx("mCard").checked = elx("calcCard").checked;
-    elx("mPromoHint").innerHTML = promo === "half"
-      ? "반값할인은 렌탈료가 절반이 되는 대신 <b>혜택이 조정</b>됩니다"
-      : (promo === "tasa"
-          ? "쓰던 타사 렌탈 제품이 <b>설치 현장에 있어야</b> 적용됩니다"
-          : "반값할인·타사보상은 <b>둘 중 하나만</b> 선택할 수 있어요");
-  };
-
-  var syncTermPills = function (t) {
-    elx("mTerm").value = String(t);
-    var c = PRODUCTS[+elx("calcProd").value];
-    var hf = elx("calcHalf").checked;
-    var cy = elx("calcCycle").value;
-    var full = supOf(c.code, "84", cy, hf), now = supOf(c.code, t, cy, hf);
-    elx("mTermHint").innerHTML = +t >= 72
-      ? "6년 이상이라 혜택을 <b>전액</b> 받으실 수 있어요"
-      : "6년 이상으로 하시면 혜택이 <b>" + won(full) + "원 상당</b>까지 올라가요 (현재 " + won(now) + "원)";
-  };
-
-  var fillSummary = function () {
-    var c = readCalc();
-    /* 버튼 문구에 지금 조건의 월 납부액을 넣는다. 조건을 바꾸면 같이 움직인다.
-       뱃지의 잔여 수는 상단 바·카운트 박스와 같은 값을 그대로 가져온다 —
-       한 화면에서 숫자가 갈리면 안 된다. */
-    if (mode === "instant") {
-      elx("mSubTxt").textContent = "월 " + c.pay + "원에 신청하고 혜택 가져가기";
-      var bd = elx("mSubBdg");
-      var rm = (document.getElementById("cntRemain") || {}).textContent;
-      if (rm) { bd.textContent = rm + "자리 남음"; bd.hidden = false; }
-    } else {
-      elx("mSubBdg").hidden = true;
-    }
-    elx("sProd").textContent  = c.name + (c.color ? " · " + c.color : "");
-    elx("sCycle").textContent = (c.term / 12) + "년 · " + c.cycleLabel;
-    elx("sPromo").textContent = c.promoLabel;
-    elx("sPay").textContent   = c.pay + "원";
-    elx("sSup").innerHTML     = won(c.sup) + "원<i>상당</i>";
-    elx("sTotal").innerHTML   = won(c.sup + NPAY) + "원<i>상당</i>";
-
-    /* 반값 적용 시 "첫 N개월" 조건을 요약에도 명시 */
-    var plan = PLANS[c.code][c.term];
-    if (c.half) {
-      var full = plan[c.cycle];
-      var after = full - (c.card ? Math.min(24000, full) : 0);
-      elx("sPayNote").textContent = "첫 " + plan.hm + "개월 · 이후 월 " + won(after) + "원";
-    } else {
-      elx("sPayNote").textContent = "";
-    }
-
-    syncTermPills(c.term);
-    syncPromoPills(c.promo);
-  };
-
-  var open = function (m, wanted) {
-    mode = m;
-    var instant = m === "instant";
-    var ask = m === "ask";               /* 목록에 없는 제품 문의 */
-    askProduct = wanted || "";
-
-    elx("mSum").style.display      = instant ? "" : "none";
-    elx("mTermWrap").style.display  = instant ? "" : "none";
-    elx("mPromoWrap").style.display = instant ? "" : "none";
-    elx("mAskWrap").style.display   = ask ? "" : "none";
-    if (ask) elx("mAskProd").value = askProduct || "";
-
-    elx("mKicker").textContent = instant ? "즉시신청 · 네이버페이 30,000원"
-                               : (ask ? "제품 문의" : "이벤트 신청");
-    elx("mTitle").innerHTML    = instant
-      ? "이 조건으로 신청하고 <em>네이버페이</em> 받기"
-      : (ask ? "원하시는 제품<br>조건을 확인해 드릴게요" : "30초면 끝나요");
-    var btn = elx("mSubmit");
-    /* 즉시신청 문구는 fillSummary 가 월 납부액을 넣어 다시 쓴다. */
-    elx("mSubTxt").textContent = instant ? "신청하고 혜택 가져가기"
-                    : (ask ? "조건 확인 요청하기" : "이벤트 신청하기");
-    btn.classList.toggle("plain", !instant);
-    if (instant) fillSummary();
-
-    step("2_모달열림");
-    step(instant ? "2a_즉시신청" : (ask ? "2c_제품문의" : "2b_이벤트만"));
-
-    step1.hidden = false; step2.hidden = true; step3.hidden = true;
-    elx("mErr").textContent = ""; elx("mErr2").textContent = "";
-    modal.classList.add("on");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-  };
-  var close = function () {
-    modal.classList.remove("on");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  };
-
-  /* 버튼 바인딩 — 본문·하단고정 모두 */
-  Array.prototype.forEach.call(document.querySelectorAll(".cta-plain"), function (a) {
-    a.addEventListener("click", function (e) { e.preventDefault(); open("quick"); });
-  });
-  Array.prototype.forEach.call(document.querySelectorAll(".cta-main"), function (a) {
-    a.addEventListener("click", function (e) { e.preventDefault(); open("instant"); });
-  });
-  /* 제품 선택 드롭다운의 "찾는 제품이 없어요"에서 호출 */
-  window.openAskModal = function () { open("ask", ""); };
-
-  Array.prototype.forEach.call(modal.querySelectorAll("[data-close]"), function (b) {
-    b.addEventListener("click", close);
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && modal.classList.contains("on")) close();
-  });
-
-  /* 조건 다시 고르기 → 계산기로 */
-  elx("mEdit").addEventListener("click", function () {
-    close();
-    document.getElementById("calc").scrollIntoView({ behavior: "smooth", block: "center" });
-  });
-
-  /* 약정 pill → 계산기에도 반영 */
-  elx("mTerm").addEventListener("change", function () {
-    elx("calcTerm").value = this.value;
-    elx("calcTerm").dispatchEvent(new Event("change"));
-    fillSummary();
-  });
-
-  /* 프로모션 pill → 계산기 체크박스에 반영 (반값 ↔ 타사보상 배타) */
-  elx("mPromo").addEventListener("change", function () {
-    var v = this.value;
-    elx("calcHalf").checked = v === "half";
-    elx("calcTasa").checked = v === "tasa";
-    elx("calcHalf").dispatchEvent(new Event("change"));
-    elx("calcTasa").dispatchEvent(new Event("change"));
-    fillSummary();
-  });
-
-  /* 제휴카드 체크 → 계산기에 반영 */
-  elx("mCard").addEventListener("change", function () {
-    elx("calcCard").checked = elx("mCard").checked;
-    elx("calcCard").dispatchEvent(new Event("change"));
-    fillSummary();
-  });
-
-  /* 성별 단일선택 */
-  var pickOne = function (wrapId) {
-    var wrap = elx(wrapId);
-    wrap.addEventListener("click", function (e) {
-      var b = e.target.closest("button[data-v]");
-      if (!b) return;
-      Array.prototype.forEach.call(wrap.children, function (x) { x.classList.remove("on"); });
-      b.classList.add("on");
-    });
-    return function () {
-      var on = wrap.querySelector("button.on");
-      return on ? on.dataset.v : "";
-    };
-  };
-  var getSex = pickOne("mSex");
-
-  /* ── 설치 주소: 카카오(다음) 우편번호 서비스 ── */
-  var layer = elx("addrLayer"), body = elx("addrBody");
-  var fZip = elx("fZip"), fA1 = elx("fAddr1"), fA2 = elx("fAddr2");
-  var bldType = "";              /* 아파트 여부 (다음 API가 알려줌) */
-  var pcLoaded = false;
-
-  var closeAddr = function () { layer.classList.remove("on"); body.innerHTML = ""; };
-  elx("addrClose").addEventListener("click", closeAddr);
-
-  /* 스크립트 로드 실패 대비 — 직접 입력으로 전환 */
-  var manualMode = function () {
-    fA1.readOnly = false;
-    fA1.placeholder = "주소를 직접 입력해주세요";
-    fZip.readOnly = false;
-    elx("addrHint").innerHTML = "주소 검색을 불러오지 못했습니다. <b>직접 입력</b>해주세요.";
-  };
-
-  elx("btnAddr").addEventListener("click", function () {
-    if (typeof daum === "undefined" || !daum.Postcode) { manualMode(); fA1.focus(); return; }
-    layer.classList.add("on");
-    new daum.Postcode({
-      oncomplete: function (data) {
-        var addr = data.userSelectedType === "R" ? data.roadAddress : data.jibunAddress;
-        var extra = "";
-        if (data.userSelectedType === "R") {
-          if (data.bname && /[동|로|가]$/.test(data.bname)) extra += data.bname;
-          if (data.buildingName && data.apartment === "Y") {
-            extra += (extra ? ", " + data.buildingName : data.buildingName);
-          }
-          if (extra) extra = " (" + extra + ")";
-        }
-        fZip.value = data.zonecode;
-        fA1.value = addr + extra;
-        bldType = data.apartment === "Y" ? "아파트·공동주택" : "일반건물";
-        closeAddr();
-        fA2.focus();
-      },
-      onresize: function (size) { body.style.height = size.height + "px"; },
-      width: "100%", height: "100%"
-    }).embed(body);
-    pcLoaded = true;
-  });
-
-  var getAddr = function () {
-    return { zip: fZip.value.trim(), a1: fA1.value.trim(), a2: fA2.value.trim(), bld: bldType };
-  };
-
-  /* 동의 상세 토글 */
-  Array.prototype.forEach.call(modal.querySelectorAll(".agv"), function (b) {
-    b.addEventListener("click", function (e) {
-      e.preventDefault(); e.stopPropagation();
-      elx(b.dataset.d).classList.toggle("open");
-    });
-  });
-
-  /* 연락처 자동 이동 */
   var t2 = elx("fT2"), t3 = elx("fT3");
-  t2.addEventListener("input", function () { if (t2.value.length === 4) t3.focus(); });
-
-  /* 어느 칸까지 갔는지 (값이 아니라 도달 여부만) */
-  elx("fName").addEventListener("input", function () { step("3_성함입력"); });
-  t2.addEventListener("input", function () { step("4_연락처입력"); });
-  elx("agA").addEventListener("change", function () { step("5_동의체크"); });
-
-  /* 제출 */
-  var leadId = "";   /* 1차 접수 식별자 — 2차(추가정보)에서 같은 행을 찾는 키 */
-
-  var goStep = function (n) {
-    step1.hidden = n !== 1;
-    step2.hidden = n !== 2;
-    step3.hidden = n !== 3;
-    modal.querySelector(".msheet").scrollTop = 0;
+  var onlyNum = function (el, next) {
+    el.addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9]/g, "");
+      if (next && this.value.length === 4) next.focus();
+    });
   };
+  onlyNum(t2, t3);
+  onlyNum(t3, null);
 
-  var showDone = function () {
-    elx("dSub").textContent = mode === "instant"
-      ? "선택하신 조건 그대로 안내드릴게요"
-      : (mode === "ask" ? "문의하신 제품 조건을 확인해 연락드릴게요" : "담당자가 곧 연락드릴게요");
-    elx("dNpay").style.display = mode === "instant" ? "" : "none";
-    goStep(3);
-  };
+  /* 동의 [보기] 토글 — label 안에 있어 클릭이 체크박스로 새지 않게 막는다 */
+  var vs = form.querySelectorAll(".agv");
+  for (var i = 0; i < vs.length; i++) {
+    vs[i].addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var d = elx(this.getAttribute("data-d"));
+      if (d) d.classList.toggle("open");
+    });
+  }
 
-  /* ── 1차 제출: 약정·프로모션·성함·연락처만 ── */
+  /* 버튼 위 잔여 뱃지 — 상단 바·카운트 박스와 같은 값을 그대로 가져온다 */
+  var bd = elx("mSubBdg"), rm = (elx("cntRemain") || {}).textContent;
+  if (bd && rm) { bd.textContent = rm + "자리 남음"; bd.hidden = false; }
+
+  elx("fName").addEventListener("focus", function () { step("2_입력시작"); });
+
   elx("mSubmit").addEventListener("click", function () {
     var err = elx("mErr");
     var name = elx("fName").value.trim();
-    var instant = mode === "instant";
 
     if (!name) return (err.textContent = "성함을 입력해주세요");
-    if (t2.value.length !== 4 || t3.value.length !== 4) return (err.textContent = "연락처를 정확히 입력해주세요");
-    if (!elx("agA").checked || !elx("agB").checked) return (err.textContent = "필수 동의 항목에 체크해주세요");
+    if (t2.value.length !== 4 || t3.value.length !== 4)
+      return (err.textContent = "연락처를 정확히 입력해주세요");
+    if (!elx("agA").checked || !elx("agB").checked)
+      return (err.textContent = "필수 동의 항목에 체크해주세요");
     err.textContent = "";
 
-    var c = readCalc();
-    leadId = String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8);
-
     var payload = {
-      접수ID: leadId,
+      접수ID: String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8),
       변형: VARIANT,
-      접수유형: instant ? "즉시신청(네이버페이)" : (mode === "ask" ? "제품 문의" : "이벤트 신청"),
+      접수유형: "간편신청(성함·연락처)",
       성명: name,
       연락처: "010-" + t2.value + "-" + t3.value,
-      /* 색상은 시트에 열을 새로 만들지 않고 희망제품 뒤에 붙인다. */
-      희망제품: instant ? c.name + " (" + c.code + ")" + (c.color ? " · " + c.color : "")
-                : (mode === "ask"
-                    ? (elx("mAskProd").value.trim() || "제품명 미정 · 상담사 안내 요청")
-                    : ""),
-      약정기간: instant ? (c.term / 12) + "년" : "",
-      관리방식: instant ? c.cycleLabel : "",
-      반값할인: instant ? (c.half ? "Y" : "N") : "",
-      타사보상: instant ? (c.tasa ? "Y" : "N") : "",
-      제휴카드할인: instant ? (c.card ? "Y" : "N") : "",
-      예상월납부액: instant ? c.pay : "",
-      현금지원금: instant ? c.sup : "",
-      네이버페이: instant ? 30000 : 0,
+      희망제품: "",
+      약정기간: "",
+      관리방식: "",
+      반값할인: "",
+      타사보상: "",
+      제휴카드할인: "",
+      예상월납부액: "",
+      현금지원금: "",
+      네이버페이: 30000,
       광고수신동의: elx("agC").checked ? "Y" : "N",
       유입경로: location.href,
       기기정보: navigator.userAgent
@@ -2044,79 +859,40 @@ function sendLead(payload, onOk, onFail) {
 
     var btn = elx("mSubmit"), txt = elx("mSubTxt");
     var label = txt.textContent;
-    btn.disabled = true; txt.textContent = "접수 중...";
+    btn.disabled = true;
+    txt.textContent = "접수 중...";
 
     sendLead(payload, function () {
-      btn.disabled = false; txt.textContent = label;
+      btn.disabled = false;
+      txt.textContent = label;
       step("6_접수완료");
-      /* 메타 전환 — 리드 접수 */
-      if (window.fbq) fbq('track', 'Lead', {
+      if (window.fbq) fbq("track", "Lead", {
         content_name: payload["접수유형"],
-        content_category: '정수기 렌탈',
+        content_category: "정수기 렌탈",
         content_ids: [VARIANT]
       });
-      /* 26.09.09 — 2차 입력(주소·생년월일·성별)을 받지 않는다.
-         이름·연락처까지 넣은 사람을 거기서 더 붙잡으면 이탈이 난다.
-         나머지는 확인 전화에서 받는다. STEP2 마크업과 mSubmit2 핸들러는
-         되돌릴 수 있게 남겨 두되 이 경로로는 가지 않는다. */
-      showDone();
+      form.hidden = true;
+      done.hidden = false;
+      done.scrollIntoView({ block: "center", behavior: "smooth" });
     }, function () {
-      btn.disabled = false; txt.textContent = label;
+      btn.disabled = false;
+      txt.textContent = label;
       step("X_전송실패");
       err.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
     });
   });
-
-  /* ── 2차 제출: 주소 · 생년월일 · 성별 (이미 접수된 행을 보완) ── */
-  elx("mSubmit2").addEventListener("click", function () {
-    var err = elx("mErr2");
-    var birth = elx("fBirth").value.trim();
-    var ad = getAddr();
-
-    if (!ad.a1) return (err.textContent = "설치 주소를 검색해주세요");
-    if (!ad.a2) return (err.textContent = "상세주소(동·호수)를 입력해주세요");
-    if (!/^(19|20)\d{6}$/.test(birth)) return (err.textContent = "생년월일 8자리를 정확히 입력해주세요 (예: 19900101)");
-    if (!getSex()) return (err.textContent = "성별을 선택해주세요");
-    err.textContent = "";
-
-    var btn = elx("mSubmit2");
-    var label = btn.textContent;
-    btn.disabled = true; btn.textContent = "저장 중...";
-
-    sendLead({
-      액션: "보완",
-      접수ID: leadId,
-      생년월일: birth,
-      성별: getSex(),
-      우편번호: ad.zip,
-      설치주소: ad.a1,
-      상세주소: ad.a2,
-      건물유형: ad.bld
-    }, function () {
-      btn.disabled = false; btn.textContent = label;
-      step("8_추가정보완료");
-      if (window.fbq) fbq('track', 'CompleteRegistration', {
-        content_name: '추가정보 입력 완료', content_category: '정수기 렌탈',
-        content_ids: [VARIANT]
-      });
-      showDone();
-    }, function () {
-      btn.disabled = false; btn.textContent = label;
-      /* 2차 실패해도 1차 접수는 이미 저장됨 — 막지 않는다 */
-      showDone();
-    });
-  });
-
-  /* 건너뛰기 — 1차 접수는 이미 저장되어 있으므로 그대로 완료 처리 */
-  elx("mSkip").addEventListener("click", function () { step("8x_추가정보건너뜀"); showDone(); });
 })();
 
 /* ── 하단 고정 CTA: 본문 버튼이 보이면 숨김 ── */
 (function () {
   var sticky = document.getElementById("sticky");
-  var inline = document.querySelector(".bonuswrap .ctas");
+  /* 신청 폼과 본문 버튼 — 둘 중 하나라도 화면에 있으면 하단 바를 숨긴다.
+     26.09.15 폼이 페이지에 들어오면서 하단 바가 그 위를 덮었다.
+     눌러야 할 것을 가리는 바는 도움이 아니라 방해다. */
+  var watch = [document.getElementById("apply"),
+               document.querySelector(".bonuswrap .ctas")].filter(Boolean);
   if (!sticky) return;
-  var inlineOn = false;
+  var onScreen = {}, inlineOn = false;
 
   /* 첫 화면에서는 감춰 둔다. 스크롤 0 에서 이 바가 떠 있으면 바로 아래
      할인 체크박스(제휴카드·반값)를 덮어서, 할인을 끄려는 탭이 신청 모달을
@@ -2127,11 +903,16 @@ function sendLead(payload, onOk, onFail) {
     sticky.classList.toggle("hidden", inlineOn || window.pageYOffset < 260);
   }
   window.addEventListener("scroll", syncSticky, { passive: true });
-  if (inline && "IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { inlineOn = e.isIntersecting; });
+  if (watch.length && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        onScreen[e.target.id || "ctas"] = e.isIntersecting;
+      });
+      inlineOn = false;
+      for (var k in onScreen) if (onScreen[k]) inlineOn = true;
       syncSticky();
-    }, { threshold: 0.35 }).observe(inline);
+    }, { threshold: 0.25 });
+    for (var w = 0; w < watch.length; w++) io.observe(watch[w]);
   }
   syncSticky();
 })();
