@@ -301,23 +301,45 @@
   var KIND = ["신청 완료", "수술 완료"];
   var feed = document.getElementById("feed"), fi = 0;
 
+  /* 수술 완료는 병원이 문을 연 시간에만 올린다 (26.09.15 발주자 지시).
+     밤 8시에 "수술 완료" 가 올라오면 그 시각에 수술이 끝났다는 말이 된다.
+     한 줄이 앞뒤가 안 맞으면 아래 숫자까지 같이 의심받는다.
+     새벽도 같은 이유로 뺀다. 보는 사람 기기 시각 기준이다.
+     시간대를 바꾸려면 이 두 값만 고치면 된다. */
+  var OPEN_FROM = 9, OPEN_TO = 19;
+  var openNow = function () {
+    var h = new Date().getHours();
+    return h >= OPEN_FROM && h < OPEN_TO;
+  };
+  /* 진료 시간이 아니면 수술 완료를 건너뛰고 다음 신청 완료를 집는다.
+     한 바퀴를 다 돌아도 못 찾으면(있을 수 없지만) 그냥 첫 줄을 쓴다. */
+  var nextItem = function () {
+    for (var k = 0; k < FEED.length; k++) {
+      var d = FEED[fi++ % FEED.length];
+      if (d[1] === 0 || openNow()) return d;
+    }
+    return FEED[0];
+  };
+
   function row(d, fresh) {
     var li = document.createElement("li");
     li.innerHTML =
       '<span class="tag t' + d[1] + '">' + KIND[d[1]] + "</span>" +
       '<span class="who">' + d[0] + "○○님</span>" +
-      (fresh ? '<span class="ago">방금 전</span>' : "");
+      /* "방금 전" 은 신청 완료에만 붙인다. 수술이 방금 끝났다고 하면
+         거짓말이 티가 난다 — 검사·예약을 거쳐야 하고 결과도 바로 안 나온다. */
+      (fresh && d[1] === 0 ? '<span class="ago">방금 전</span>' : "");
     if (fresh) li.className = "in";
     return li;
   }
 
-  for (var i = 0; i < 4; i++) feed.appendChild(row(FEED[fi++ % FEED.length], false));
+  for (var i = 0; i < 4; i++) feed.appendChild(row(nextItem(), false));
 
   setInterval(function () {
     if (document.hidden) return;
     var prev = feed.querySelector(".ago");
     if (prev) prev.remove();
-    feed.insertBefore(row(FEED[fi++ % FEED.length], true), feed.firstChild);
+    feed.insertBefore(row(nextItem(), true), feed.firstChild);
     while (feed.children.length > 4) feed.removeChild(feed.lastChild);
   }, 15000);
 })();
