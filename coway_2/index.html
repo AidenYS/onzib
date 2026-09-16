@@ -869,11 +869,19 @@ function sendLead(payload, onOk, onFail) {
       btn.disabled = false;
       txt.textContent = label;
       step("6_접수완료");
-      if (window.fbq) fbq("track", "Lead", {
-        content_name: payload["접수유형"],
-        content_category: "정수기 렌탈",
-        content_ids: [VARIANT]
-      });
+      /* 메타 전환 — 두 이벤트를 같이 쏜다.
+         캠페인이 "등록 완료"(CompleteRegistration)로 최적화 중이라 그게
+         없으면 메타가 학습할 신호를 못 받는다. Lead 는 리포트용으로 남긴다.
+         event_id 를 달지 않았으므로 둘은 서로 다른 전환으로 따로 잡힌다. */
+      if (window.fbq) {
+        var ev = {
+          content_name: payload["접수유형"],
+          content_category: "정수기 렌탈",
+          content_ids: [VARIANT]
+        };
+        fbq("track", "Lead", ev);
+        fbq("track", "CompleteRegistration", ev);
+      }
       form.hidden = true;
       done.hidden = false;
       done.scrollIntoView({ block: "center", behavior: "smooth" });
