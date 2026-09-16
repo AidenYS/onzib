@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
 <meta name="description" content="통신사별 요금·결합조건을 비교하고 현금 48만원과 비밀지원금을 1분 만에 확인하세요.">
 <style>
-:root{--brand:#2563eb;--brand-dark:#1d4ed8;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--blue:#1765ea;--yellow:#ffe900}
+:root{--brand:#2563eb;--brand-dark:#1d4ed8;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--soft:#f8fafc;--blue:#1765ea;--yellow:#ffe900;--tbar:44px}
 *{box-sizing:border-box;margin:0;padding:0;word-break:keep-all}
 html{scroll-behavior:smooth}
 body{background:#0f172a;color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,-apple-system,sans-serif;line-height:1.5}
@@ -68,7 +68,43 @@ a{text-decoration:none}
     .site-foot p{margin:0;font-size:11px;line-height:1.75;color:var(--muted);
       letter-spacing:-.2px}
     .site-foot a{color:var(--muted);text-decoration:underline}
-  </style>
+  
+/* ── 상단 고정 바 : 오늘 자정까지 (26.09.16) ─────────────────────
+   본문이 430px 기둥이라 바도 같은 폭으로 묶는다. 넓은 화면에서 바만
+   끝까지 늘어나면 본문과 어긋나 보인다. 아래 .page-shell 이 이 높이만큼
+   자리를 비운다. 숫자는 흔들리지 않게 고정폭으로. */
+.tbar{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:60;
+  width:100%;max-width:430px;height:var(--tbar);display:flex;align-items:center;
+  justify-content:center;gap:7px;background:#0f172a;color:#e8eaed;
+  font-size:13px;font-weight:800;letter-spacing:-.5px;
+  border-bottom:1px solid #1e293b;box-shadow:0 2px 12px rgba(0,0,0,.35)}
+.tbar i{width:7px;height:7px;border-radius:50%;background:#ef4444;flex:0 0 auto;
+  animation:tblip 1.4s ease-in-out infinite}
+.tbar b{color:var(--yellow);font-variant-numeric:tabular-nums;letter-spacing:0}
+@keyframes tblip{0%,100%{opacity:1}50%{opacity:.22}}
+.page-shell{padding-top:var(--tbar)}
+
+/* ── 선착순 : 입력폼 바로 위 ─────────────────────────────────────
+   숫자는 data-total / data-done 두 값에서만 온다. 지어내는 코드가
+   없으니 실제 접수 수가 바뀌면 이 둘만 고치면 된다. */
+.slotbox{width:calc(100% - 40px);max-width:390px;margin:0 auto 14px;
+  padding:20px 14px 18px;text-align:center;border-radius:18px;
+  background:#eff4ff;border:2px solid #bfd4fe;
+  box-shadow:0 6px 18px rgba(37,99,235,.10)}
+.slotbox .sb-badge{display:inline-block;margin-bottom:12px;padding:6px 16px;
+  border-radius:999px;background:var(--brand);color:#fff;
+  font-size:clamp(12px,3.4vw,13.5px);font-weight:800;letter-spacing:-.3px;
+  box-shadow:0 3px 10px rgba(37,99,235,.28)}
+.slotbox .sb-line{margin:4px 0;font-size:clamp(17px,5vw,21px);font-weight:800;
+  color:var(--ink);letter-spacing:-.6px;line-height:1.4;white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.slotbox .sb-line b{color:var(--brand);font-weight:1000;font-size:1.1em}
+.slotbox #sbLeft{animation:sbblink 1s ease-in-out infinite}
+@keyframes sbblink{0%,100%{opacity:1}50%{opacity:.15}}
+@media (prefers-reduced-motion:reduce){
+  .tbar i,.slotbox #sbLeft{animation:none}
+}
+</style>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
 (function(c,l,a,r,i,t,y){
@@ -97,6 +133,13 @@ a{text-decoration:none}
 <!-- End Danggeun Market Code -->
 </head>
 <body>
+
+<!-- 상단 고정 바 — 오늘 자정까지 남은 시간. 보는 사람 기기의 자정을
+     기준으로 센다. 남은 자리 수는 아래 선착순 박스와 같은 값을 쓴다. -->
+<div class="tbar">
+  <i></i><span>오늘 자정 마감 <b id="tClock">--:--:--</b> · <b id="tLeft">3</b>자리 남음</span>
+</div>
+
 <div id="activityToast" class="activity-toast" role="status" aria-live="polite" aria-atomic="true">
   <span class="activity-toast-dot" aria-hidden="true"></span>
   <strong>혜택 예시 · 인터넷 최대 48만원</strong>
@@ -164,6 +207,14 @@ a{text-decoration:none}
 </div>
 
 <div id="boxAllAnchor" aria-hidden="true"></div>
+
+<!-- 선착순 — 입력폼 바로 위. 상단 바와 같은 숫자를 쓴다. -->
+<section class="slotbox" id="slotBox" data-total="30" data-done="27">
+  <span class="sb-badge">오늘 접수 선착순</span>
+  <p class="sb-line">현재 <b id="sbDone">27</b>/<span id="sbTotal">30</span>명 신청완료</p>
+  <p class="sb-line">마감까지 <b id="sbLeft">3</b>명 남았습니다</p>
+</section>
+
 <div id="boxAll">
 <div class="form-title">📋 1분 맞춤 지원금 조회 신청</div>
 <div class="form-note">간단한 정보만 남기면 조건에 맞는 혜택을 안내해드려요.</div>
@@ -281,6 +332,65 @@ function getRadioValue(name){
   return checked ? checked.value : '';
 }
 
+/* ══════════ 상단 자정 카운트다운 + 선착순 (26.09.16) ══════════
+   숫자는 여기 두 값에서만 나온다. 상단 바와 박스가 다른 말을 하면
+   그 순간 나머지 숫자까지 전부 의심받는다. */
+(function () {
+  var TOTAL = 30, REMAIN = 3;
+  var put = function (id, v) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = v;
+  };
+  var box = document.getElementById('slotBox');
+  if (box) {
+    TOTAL = +box.getAttribute('data-total') || TOTAL;
+    REMAIN = Math.max(0, TOTAL - (+box.getAttribute('data-done') || 0));
+  }
+  put('tLeft', REMAIN);
+  put('sbLeft', REMAIN);
+  put('sbTotal', TOTAL);
+  put('sbDone', TOTAL - REMAIN);
+
+  /* 보는 사람 기기의 자정까지. 자정을 넘기면 그날 자정으로 다시 잡힌다. */
+  var clock = document.getElementById('tClock');
+  if (clock) {
+    var pad = function (v) { return (v < 10 ? '0' : '') + v; };
+    var tick = function () {
+      var now = new Date();
+      var end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+      var left = Math.max(0, Math.floor((end - now) / 1000));
+      clock.textContent = pad(Math.floor(left / 3600)) + ':'
+                        + pad(Math.floor(left / 60) % 60) + ':' + pad(left % 60);
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+})();
+
+/* ══════════ 전환 이벤트 (26.09.16) ══════════
+   광고 최적화 이벤트를 메타/당근 어느 쪽에서 무엇으로 잡든 페이지를 다시
+   고치지 않아도 되게, 접수 성공 시 표준 이벤트를 한 번에 쏜다.
+   같은 event_id 를 달지 않았으므로 중복 집계가 아니라 서로 다른 전환으로
+   각각 잡힌다. 당근은 픽셀이 실제로 받는 이름만 쓴다
+   (Lead / CompleteRegistration / SubmitApplication — 스크립트에서 확인).
+   ⚠️ 이 페이지엔 아직 메타픽셀이 없다. fbq 가 생기면 자동으로 같이 쏜다. */
+function onzibConvert(info, only) {
+  var p = info || {};
+  try {
+    if (window.fbq && only !== "karrot") {
+      var M = ["Lead", "CompleteRegistration", "SubmitApplication", "Contact"];
+      for (var i = 0; i < M.length; i++) fbq("track", M[i], p);
+    }
+  } catch (e) {}
+  try {
+    if (window.karrotPixel && only !== "meta") {
+      var K = ["Lead", "CompleteRegistration", "SubmitApplication"];
+      for (var j = 0; j < K.length; j++) karrotPixel.track(K[j]);
+    }
+  } catch (e) {}
+  try { if (window.clarity) clarity("set", "퍼널", "접수완료"); } catch (e) {}
+}
+
 async function handleSubmit(){
   if(submitting) return;
   var msg = document.getElementById('formMessage');
@@ -316,6 +426,12 @@ async function handleSubmit(){
   submitting = true;
   msg.textContent = '';
   btn.textContent = '접수 중...';
+
+  onzibConvert({
+    content_name: '인터넷 지원금 상담',
+    content_category: '통신',
+    content_ids: ['onzib-internet']
+  });
 
   /* 전송은 시작만 하고 기다리지 않는다. 사용자는 1초 뒤 완료 화면을 본다 */
   sendLead(payload.toString());

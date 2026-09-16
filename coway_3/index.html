@@ -2050,7 +2050,7 @@ function sendLead(payload, onOk, onFail) {
       btn.disabled = false; txt.textContent = label;
       step("6_접수완료");
       /* 메타 전환 — 리드 접수 */
-      if (window.fbq) fbq('track', 'Lead', {
+      onzibConvert({
         content_name: payload["접수유형"],
         content_category: '정수기 렌탈',
         content_ids: [VARIANT]
@@ -2135,6 +2135,28 @@ function sendLead(payload, onOk, onFail) {
   }
   syncSticky();
 })();
+
+/* ══════════ 전환 이벤트 (26.09.16) ══════════
+   최적화 이벤트를 메타/당근 어느 쪽에서 무엇으로 잡든 페이지를 다시
+   고치지 않아도 되게 표준 이벤트를 한 번에 쏜다. 같은 event_id 를 달지
+   않았으므로 중복 집계가 아니라 서로 다른 전환으로 각각 잡힌다.
+   당근은 픽셀 스크립트가 실제로 받는 이름만 쓴다. */
+function onzibConvert(info, only) {
+  var p = info || {};
+  try {
+    if (window.fbq && only !== "karrot") {
+      var M = ["Lead", "CompleteRegistration", "SubmitApplication", "Contact"];
+      for (var i = 0; i < M.length; i++) fbq("track", M[i], p);
+    }
+  } catch (e) {}
+  try {
+    if (window.karrotPixel && only !== "meta") {
+      var K = ["Lead", "CompleteRegistration", "SubmitApplication"];
+      for (var j = 0; j < K.length; j++) karrotPixel.track(K[j]);
+    }
+  } catch (e) {}
+  try { if (window.clarity) clarity("set", "퍼널", "접수완료"); } catch (e) {}
+}
 </script>
 </body>
 </html>

@@ -167,6 +167,32 @@
   footer b{display:block;color:#fff;font-size:13px;font-weight:800;margin-bottom:7px}
   footer p+p{margin-top:7px}
 </style>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "uryq9of2r0");
+</script>
+<!-- Danggeun Market Code -->
+<script>
+  (function (w, d) {
+    if (w.karrotPixel) return;
+    var k = { stub: true, queue: [] };
+    k.init = function () { k.queue.push(['init', arguments, Date.now()]); };
+    k.track = function () { k.queue.push(['track', arguments, Date.now()]); };
+    w.karrotPixel = k;
+    var s = d.createElement('script');
+    s.async = true;
+    s.src = 'https://karrot-pixel.business.daangn.com/karrot-pixel.js';
+    var f = d.getElementsByTagName('script')[0];
+    f && f.parentNode ? f.parentNode.insertBefore(s, f) : d.head.appendChild(s);
+  })(window, document);
+  window.karrotPixel.init('1788349571077983001');
+  window.karrotPixel.track('ViewPage');
+</script>
+<!-- End Danggeun Market Code -->
 </head>
 <body>
 <div class="wrap">
@@ -207,7 +233,50 @@
     <div class="box">
       <tenping class="adsbytenping" style="width:100%; margin:0 auto; display:block;" tenping-ad-type="CInmlFSNPJoo9rBMK%2brlTg%3d%3d" tenping-ad-client="76BNZr4AdyVbR8lA2elJ3UbAOk8Gj%2bWIBJ6%2fs0aulJwLP2AI0ArgSLS%2bnD8%2f7SRT" tenping-ad-campaign="2024052210500006" tenping-ad-distributionAddID="2026090512510004" tenping-ad-contain_image="false" tenping-ad-contain_logo="false" tenping-ad-contain_Plugin="false" tenping-ad-contain_TpCall="false" tenping-ad-theme="default" tenping-ad-contain_privacy="false"></tenping><script async src="//ads.tenping.kr/scripts/adsbytenping.min.js"></script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '2204522817139820');fbq('track', 'PageView');</script>
-<script>function conversionCallback(){fbq('track', 'CompleteRegistration');}</script>
+<script>
+
+/* ══════════ 전환 이벤트 (26.09.16) ══════════
+
+   최적화 이벤트를 메타/당근 어느 쪽에서 무엇으로 잡든 페이지를 다시
+
+   고치지 않아도 되게 표준 이벤트를 한 번에 쏜다. 같은 event_id 를 달지
+
+   않았으므로 중복 집계가 아니라 서로 다른 전환으로 각각 잡힌다.
+
+   당근은 픽셀이 실제로 받는 이름만 쓴다. */
+
+function onzibConvert(info, only) {
+  var p = info || {};
+  try {
+    if (window.fbq && only !== "karrot") {
+      var M = ["Lead", "CompleteRegistration", "SubmitApplication", "Contact"];
+      for (var i = 0; i < M.length; i++) fbq("track", M[i], p);
+    }
+  } catch (e) {}
+  try {
+    if (window.karrotPixel && only !== "meta") {
+      var K = ["Lead", "CompleteRegistration", "SubmitApplication"];
+      for (var j = 0; j < K.length; j++) karrotPixel.track(K[j]);
+    }
+  } catch (e) {}
+  try { if (window.clarity) clarity("set", "퍼널", "접수완료"); } catch (e) {}
+}
+
+
+
+/* 텐핑 폼이 접수를 끝내면 "[conversion]" postMessage 를 보내고
+
+   adsbytenping.min.js 가 이 함수를 부른다. 실제 접수 순간이다. */
+
+function conversionCallback(){
+
+  onzibConvert({ content_name: "스마일라식 예약", content_category: "안과",
+
+                 content_ids: ["smile"] });
+
+}
+
+</script>
     </div>
   </section>
 
